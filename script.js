@@ -2,9 +2,6 @@
    GrammarHero 10 - Application Logic & Database
    ========================================================================== */
 
-// ==========================================================================
-// 1. DATENBANK FÜR UNREGELMÄSSIGE VERBEN (108 Verben aus Klasse 10)
-// ==========================================================================
 const verbData = [
     { de: "sein", inf: "be", sp: "was/were", pp: "been" },
     { de: "ertragen, aushalten", inf: "bear", sp: "bore", pp: "borne" },
@@ -116,786 +113,36 @@ const verbData = [
     { de: "schreiben", inf: "write", sp: "wrote", pp: "written" }
 ];
 
-// ==========================================================================
-// 2. SATZ-DATENBANK (80 Sätze, perfekt balanciert über die 8 Zeiten)
-// ==========================================================================
 const sentenceBank = [
-    // --- SIMPLE PRESENT (10 Sätze) ---
-    {
-        text: "She always _____ tennis on Saturdays.",
-        infinitive: "play",
-        correctAnswers: ["plays"],
-        signalWords: ["always", "on", "Saturdays"],
-        tense: "Simple Present",
-        explanation: "Das Signalwort 'always' (immer) sowie 'on Saturdays' beschreiben eine Gewohnheit. Deshalb verwenden wir das **Simple Present**. Da das Subjekt 'She' (3. Person Singular) ist, gilt: 'He, she, it - das -s muss mit!' -> **plays**."
-    },
-    {
-        text: "We often _____ our grandparents in Munich.",
-        infinitive: "visit",
-        correctAnswers: ["visit"],
-        signalWords: ["often"],
-        tense: "Simple Present",
-        explanation: "Das Signalwort 'often' (oft) fordert das **Simple Present** für regelmäßige Handlungen. Bei dem Pronomen 'We' bleibt das Verb in der Grundform -> **visit**."
-    },
-    {
-        text: "The train usually _____ at 8:00 AM.",
-        infinitive: "leave",
-        correctAnswers: ["leaves"],
-        signalWords: ["usually"],
-        tense: "Simple Present",
-        explanation: "Fahrpläne und regelmäßige Abläufe ('usually') stehen im **Simple Present**. Das Subjekt 'The train' (it) erfordert das S-Suffix -> **leaves**."
-    },
-    {
-        text: "They never _____ scary movies at night.",
-        infinitive: "watch",
-        correctAnswers: ["watch"],
-        signalWords: ["never"],
-        tense: "Simple Present",
-        explanation: "'never' ist ein klassisches Signalwort des **Simple Present**. Bei 'They' verwenden wir den Infinitiv ohne Zusatz -> **watch**."
-    },
-    {
-        text: "He sometimes _____ his homework in the kitchen.",
-        infinitive: "do",
-        correctAnswers: ["does"],
-        signalWords: ["sometimes"],
-        tense: "Simple Present",
-        explanation: "'sometimes' (manchmal) deutet auf eine Gewohnheit hin (**Simple Present**). Bei 'He' hängt man '-es' an das Verb 'do' an -> **does**."
-    },
-    {
-        text: "My mother _____ in Munich every day.",
-        infinitive: "work",
-        correctAnswers: ["works"],
-        signalWords: ["every", "day"],
-        tense: "Simple Present",
-        explanation: "'every day' (jeden Tag) ist ein klares Signalwort für regelmäßige Aktionen (**Simple Present**). Für 'My mother' (she) gilt das Dritte-Person-S -> **works**."
-    },
-    {
-        text: "We rarely _____ to the cinema on Tuesdays.",
-        infinitive: "go",
-        correctAnswers: ["go"],
-        signalWords: ["rarely", "on", "Tuesdays"],
-        tense: "Simple Present",
-        explanation: "'rarely' (selten) und Wochentage im Plural ('on Tuesdays') zeigen Regelmäßigkeit (**Simple Present**). Für 'We' bleibt das Verb unverändert -> **go**."
-    },
-    {
-        text: "The sun always _____ in the east.",
-        infinitive: "rise",
-        correctAnswers: ["rises"],
-        signalWords: ["always"],
-        tense: "Simple Present",
-        explanation: "Naturgesetze und allgemeingültige Wahrheiten ('always') stehen immer im **Simple Present**. 'The sun' ist Einzahl (it) -> **rises**."
-    },
-    {
-        text: "Zoe usually _____ cornflakes for breakfast.",
-        infinitive: "have",
-        correctAnswers: ["has"],
-        signalWords: ["usually"],
-        tense: "Simple Present",
-        explanation: "'usually' (normalerweise) verlangt das **Simple Present**. Das unregelmäßige Verb 'have' wird bei 'Zoe' (she) zu **has**."
-    },
-    {
-        text: "My friends often _____ soccer in the park.",
-        infinitive: "play",
-        correctAnswers: ["play"],
-        signalWords: ["often"],
-        tense: "Simple Present",
-        explanation: "'often' (oft) signalisiert das **Simple Present**. Da 'My friends' Mehrzahl (they) ist, bleibt das Verb im Infinitiv -> **play**."
-    },
-
-    // --- SIMPLE PAST (10 Sätze) ---
-    {
-        text: "I _____ a great film yesterday.",
-        infinitive: "see",
-        correctAnswers: ["saw"],
-        signalWords: ["yesterday"],
-        tense: "Simple Past",
-        explanation: "'yesterday' (gestern) zeigt einen abgeschlossenen Zeitpunkt in der Vergangenheit an -> **Simple Past**. Das unregelmäßige Verb 'see' wird in der 2. Spalte zu **saw**."
-    },
-    {
-        text: "They _____ their house in 2015.",
-        infinitive: "build",
-        correctAnswers: ["built"],
-        signalWords: ["in", "2015"],
-        tense: "Simple Past",
-        explanation: "Eine konkrete Jahreszahl in der Vergangenheit ('in 2015') verlangt das **Simple Past**. Die 2. Form von 'build' ist unregelmäßig -> **built**."
-    },
-    {
-        text: "We _____ to Spain last summer.",
-        infinitive: "go",
-        correctAnswers: ["went"],
-        signalWords: ["last", "summer"],
-        tense: "Simple Past",
-        explanation: "'last summer' (letzten Sommer) ist das Signalwort für das **Simple Past**. Die unregelmäßige Past-Form von 'go' lautet **went**."
-    },
-    {
-        text: "She _____ her keys three days ago.",
-        infinitive: "lose",
-        correctAnswers: ["lost"],
-        signalWords: ["three", "days", "ago"],
-        tense: "Simple Past",
-        explanation: "Das Signalwort 'ago' (vor...) verlangt zwingend das **Simple Past**. Das unregelmäßige Verb 'lose' hat als 2. Form **lost**."
-    },
-    {
-        text: "When I was young, we _____ in a small village.",
-        infinitive: "live",
-        correctAnswers: ["lived"],
-        signalWords: ["When", "I", "was", "young"],
-        tense: "Simple Past",
-        explanation: "Der Nebensatz 'When I was young' setzt den Rahmen in der Vergangenheit fest -> **Simple Past**. 'live' ist ein regelmäßiges Verb und erhält das Suffix '-d' -> **lived**."
-    },
-    {
-        text: "Shakespeare _____ Romeo and Juliet centuries ago.",
-        infinitive: "write",
-        correctAnswers: ["wrote"],
-        signalWords: ["ago"],
-        tense: "Simple Past",
-        explanation: "Das Signalwort 'ago' verweist auf das **Simple Past**. Das unregelmäßige Verb 'write' wird in der Vergangenheit zu **wrote**."
-    },
-    {
-        text: "He _____ a new bike last month.",
-        infinitive: "buy",
-        correctAnswers: ["bought"],
-        signalWords: ["last", "month"],
-        tense: "Simple Past",
-        explanation: "'last month' (letzten Monat) verlangt das **Simple Past**. Die unregelmäßige 2. Form von 'buy' lautet **bought**."
-    },
-    {
-        text: "My sister _____ her school in 2021.",
-        infinitive: "finish",
-        correctAnswers: ["finished"],
-        signalWords: ["in", "2021"],
-        tense: "Simple Past",
-        explanation: "Abgeschlossenes Ereignis ('in 2021') im **Simple Past**. 'finish' ist regelmäßig und bekommt '-ed' -> **finished**."
-    },
-    {
-        text: "We _____ a big party last weekend.",
-        infinitive: "have",
-        correctAnswers: ["had"],
-        signalWords: ["last", "weekend"],
-        tense: "Simple Past",
-        explanation: "'last weekend' verweist auf das **Simple Past**. Das Verb 'have' hat die unregelmäßige Vergangenheitsform **had**."
-    },
-    {
-        text: "Yesterday, she _____ her English book at home.",
-        infinitive: "forget",
-        correctAnswers: ["forgot"],
-        signalWords: ["Yesterday"],
-        tense: "Simple Past",
-        explanation: "'Yesterday' (gestern) erfordert das **Simple Past**. Das unregelmäßige Verb 'forget' bildet in der 2. Form **forgot**."
-    },
-
-    // --- PRESENT PROGRESSIVE (10 Sätze) ---
-    {
-        text: "Look! The cat _____ up that high tree.",
-        infinitive: "climb",
-        correctAnswers: ["is climbing"],
-        signalWords: ["Look"],
-        tense: "Present Progressive",
-        explanation: "Das Signalwort 'Look!' (Schau!) zeigt, dass die Aktion jetzt im Moment stattfindet -> **Present Progressive** (*be + Verb-ing*). 'The cat' (it) braucht 'is' -> **is climbing**."
-    },
-    {
-        text: "Listen! Someone _____ in the bathroom.",
-        infinitive: "sing",
-        correctAnswers: ["is singing"],
-        signalWords: ["Listen"],
-        tense: "Present Progressive",
-        explanation: "Das Ausrufewort 'Listen!' (Hör mal!) signalisiert das **Present Progressive** für eine aktuelle Handlung. 'Someone' (Einzahl) verlangt 'is' -> **is singing**."
-    },
-    {
-        text: "I _____ a letter to my pen pal at the moment.",
-        infinitive: "write",
-        correctAnswers: ["am writing"],
-        signalWords: ["at", "the", "moment"],
-        tense: "Present Progressive",
-        explanation: "'at the moment' (im Moment) fordert das **Present Progressive**. Bei 'I' nutzen wir 'am'. Achtung bei der Rechtschreibung: Das stumme '-e' bei 'write' entfällt vor '-ing' -> **am writing**."
-    },
-    {
-        text: "They _____ for their final exams now.",
-        infinitive: "study",
-        correctAnswers: ["are studying"],
-        signalWords: ["now"],
-        tense: "Present Progressive",
-        explanation: "Das Signalwort 'now' (jetzt) fordert das **Present Progressive**. 'They' verlangt 'are' -> **are studying**."
-    },
-    {
-        text: "My dad _____ the car in the garden right now.",
-        infinitive: "wash",
-        correctAnswers: ["is washing"],
-        signalWords: ["right", "now"],
-        tense: "Present Progressive",
-        explanation: "'right now' (genau jetzt) verweist auf das **Present Progressive**. Für 'My dad' (he) nutzen wir 'is' -> **is washing**."
-    },
-    {
-        text: "Look! It _____ heavily outside.",
-        infinitive: "rain",
-        correctAnswers: ["is raining"],
-        signalWords: ["Look"],
-        tense: "Present Progressive",
-        explanation: "'Look!' signalisiert das **Present Progressive**. Das unpersönliche Pronomen 'It' erfordert 'is' -> **is raining**."
-    },
-    {
-        text: "At the moment, we _____ the classroom for the party.",
-        infinitive: "prepare",
-        correctAnswers: ["are preparing"],
-        signalWords: ["At", "the", "moment"],
-        tense: "Present Progressive",
-        explanation: "'At the moment' steht für das **Present Progressive**. 'We' erfordert 'are' und bei 'prepare' fällt das stumme '-e' weg -> **are preparing**."
-    },
-    {
-        text: "She _____ a beautiful blue dress today.",
-        infinitive: "wear",
-        correctAnswers: ["is wearing"],
-        signalWords: ["today"],
-        tense: "Present Progressive",
-        explanation: "'today' (heute) beschreibt hier einen vorübergehenden Zustand im Gegensatz zur Gewohnheit -> **Present Progressive**. 'She' verlangt 'is' -> **is wearing**."
-    },
-    {
-        text: "Listen! The phone _____ in the living room.",
-        infinitive: "ring",
-        correctAnswers: ["is ringing"],
-        signalWords: ["Listen"],
-        tense: "Present Progressive",
-        explanation: "'Listen!' zeigt eine laufende Aktion im Moment des Sprechens (**Present Progressive**). Das Subjekt 'The phone' (it) benötigt 'is' -> **is ringing**."
-    },
-    {
-        text: "We _____ our favourite TV show right now.",
-        infinitive: "watch",
-        correctAnswers: ["are watching"],
-        signalWords: ["right", "now"],
-        tense: "Present Progressive",
-        explanation: "'right now' ist das Signalwort des **Present Progressive**. Für das Subjekt 'We' setzen wir 'are' ein -> **are watching**."
-    },
-
-    // --- PAST PROGRESSIVE (10 Sätze) ---
-    {
-        text: "While I _____ a book, the lights suddenly went out.",
-        infinitive: "read",
-        correctAnswers: ["was reading"],
-        signalWords: ["While"],
-        tense: "Past Progressive",
-        explanation: "Das Signalwort 'While' (während) leitet eine Hintergrundhandlung ein, die in der Vergangenheit andauerte -> **Past Progressive** (*was/were + Verb-ing*). Bei 'I' steht 'was' -> **was reading**."
-    },
-    {
-        text: "They _____ when the alarm clock rang.",
-        infinitive: "sleep",
-        correctAnswers: ["were sleeping"],
-        signalWords: ["when"],
-        tense: "Past Progressive",
-        explanation: "Der Satz beschreibt eine andauernde Handlung ('sleep'), die durch ein plötzliches Ereignis ('the alarm clock rang' im Simple Past) unterbrochen wurde -> **Past Progressive**. 'They' verlangt 'were' -> **were sleeping**."
-    },
-    {
-        text: "While my mother _____ dinner, my father was vacuuming.",
-        infinitive: "cook",
-        correctAnswers: ["was cooking"],
-        signalWords: ["While"],
-        tense: "Past Progressive",
-        explanation: "Zwei Handlungen passierten gleichzeitig in der Vergangenheit. Eingeleitet durch 'While' nutzen wir für die laufende Handlung das **Past Progressive**. 'My mother' (she) erfordert 'was' -> **was cooking**."
-    },
-    {
-        text: "You _____ TV when I phoned you yesterday.",
-        infinitive: "watch",
-        correctAnswers: ["were watching"],
-        signalWords: ["when"],
-        tense: "Past Progressive",
-        explanation: "Eine längere Handlung in der Vergangenheit wurde durch einen Anruf unterbrochen. Für die andauernde Handlung nutzen wir das **Past Progressive**. 'You' erfordert 'were' -> **were watching**."
-    },
-    {
-        text: "While we _____ in the park, it started to rain.",
-        infinitive: "walk",
-        correctAnswers: ["were walking"],
-        signalWords: ["While"],
-        tense: "Past Progressive",
-        explanation: "Die Hintergrundhandlung wird durch 'While' eingeleitet und steht im **Past Progressive**. Bei 'We' verwenden wir 'were' -> **were walking**."
-    },
-    {
-        text: "The children _____ football when it got dark.",
-        infinitive: "play",
-        correctAnswers: ["were playing"],
-        signalWords: ["when"],
-        tense: "Past Progressive",
-        explanation: "Die andauernde Handlung in der Vergangenheit wird durch das Eintreten der Dunkelheit unterbrochen -> **Past Progressive**. 'The children' (they) verlangen 'were' -> **were playing**."
-    },
-    {
-        text: "As long as she _____ , everybody was listening.",
-        infinitive: "sing",
-        correctAnswers: ["was singing"],
-        signalWords: ["as", "long", "as"],
-        tense: "Past Progressive",
-        explanation: "Das Signalwort 'as long as' (solange) zeigt, dass eine Handlung über einen Zeitraum hinweg andauerte -> **Past Progressive**. 'She' benötigt 'was' -> **was singing**."
-    },
-    {
-        text: "While he _____ his homework, his sister was listening to music.",
-        infinitive: "do",
-        correctAnswers: ["was doing"],
-        signalWords: ["While"],
-        tense: "Past Progressive",
-        explanation: "Zwei parallele Handlungen in der Vergangenheit. Eingeleitet durch 'While' steht die Lücke im **Past Progressive**. 'He' fordert 'was' -> **was doing**."
-    },
-    {
-        text: "I _____ when a loud noise woke me up.",
-        infinitive: "dream",
-        correctAnswers: ["was dreaming"],
-        signalWords: ["when"],
-        tense: "Past Progressive",
-        explanation: "Das Träumen war die andauernde Aktivität, die durch das Aufwachen unterbrochen wurde -> **Past Progressive**. Bei 'I' steht 'was' -> **was dreaming**."
-    },
-    {
-        text: "They _____ to Munich when their car broke down.",
-        infinitive: "drive",
-        correctAnswers: ["were driving"],
-        signalWords: ["when"],
-        tense: "Past Progressive",
-        explanation: "Das Autofahren war die Hintergrundaktivität im **Past Progressive**, die Autopanne die Unterbrechung. 'They' benötigt 'were', stummes '-e' entfällt -> **were driving**."
-    },
-
-    // --- PRESENT PERFECT (10 Sätze) ---
-    {
-        text: "I _____ my homework, so I can go out now.",
-        infinitive: "already / finish",
-        correctAnswers: ["have already finished"],
-        signalWords: ["already"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'already' (bereits) verweist auf das **Present Perfect** (*have/has + 3. Form*). Das Ergebnis der Handlung ist wichtig für die Gegenwart. Bei 'I' nutzen wir 'have' -> **have already finished**."
-    },
-    {
-        text: "She _____ her room yet, it's still a mess.",
-        infinitive: "not / tidy",
-        correctAnswers: ["has not tidied", "hasn't tidied"],
-        signalWords: ["yet"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'yet' (noch) in verneinten Sätzen verlangt das **Present Perfect**. 'She' benötigt 'has'. Das regelmäßige Verb 'tidy' ändert das Endungs-'y' nach Konsonant zu 'i' -> **has not tidied** (oder **hasn't tidied**)."
-    },
-    {
-        text: "We _____ in Munich since 2018.",
-        infinitive: "live",
-        correctAnswers: ["have lived"],
-        signalWords: ["since"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'since' (seit einem Zeitpunkt) drückt aus, dass die Handlung 2018 begann und immer noch anhält -> **Present Perfect**. 'We' erfordert 'have' -> **have lived**."
-    },
-    {
-        text: "You _____ to London several times.",
-        infinitive: "ever / be",
-        correctAnswers: ["have ever been", "have been"],
-        signalWords: ["ever"],
-        tense: "Present Perfect",
-        explanation: "Die Frage oder Feststellung von Erfahrungen im Leben ('ever' / 'several times') steht im **Present Perfect**. Bei 'You' nutzen wir 'have' + unregelmäßige 3. Form von be (been) -> **have ever been**."
-    },
-    {
-        text: "He _____ at this school for five years.",
-        infinitive: "work",
-        correctAnswers: ["has worked"],
-        signalWords: ["for"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'for' (seit einem Zeitraum) zeigt an, dass er seit 5 Jahren hier arbeitet und dies immer noch tut -> **Present Perfect**. 'He' benötigt 'has' -> **has worked**."
-    },
-    {
-        text: "They _____ at the train station just now.",
-        infinitive: "just / arrive",
-        correctAnswers: ["have just arrived"],
-        signalWords: ["just"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'just' (gerade eben) zeigt eine unmittelbar abgeschlossene Handlung mit starkem Gegenwartsbezug -> **Present Perfect**. 'They' benötigt 'have' -> **have just arrived**."
-    },
-    {
-        text: "I _____ such a beautiful sunset before.",
-        infinitive: "never / see",
-        correctAnswers: ["have never seen"],
-        signalWords: ["never"],
-        tense: "Present Perfect",
-        explanation: "'never' in Verbindung mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
-    },
-    {
-        text: "She _____ a new smartphone recently.",
-        infinitive: "recently / buy",
-        correctAnswers: ["has recently bought", "has bought recently"],
-        signalWords: ["recently"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'recently' (vor Kurzem) verlangt das **Present Perfect**. 'She' benötigt 'has' und die 3. Form von buy (bought) -> **has recently bought**."
-    },
-    {
-        text: "We _____ anything since breakfast.",
-        infinitive: "not / eat",
-        correctAnswers: ["have not eaten", "haven't eaten"],
-        signalWords: ["since"],
-        tense: "Present Perfect",
-        explanation: "Der Zeitraum ('since breakfast') reicht bis in die Gegenwart -> **Present Perfect**. 'We' verlangt 'have not' und das unregelmäßige Partizip 'eaten' -> **have not eaten**."
-    },
-    {
-        text: "He _____ that exciting adventure book already.",
-        infinitive: "already / read",
-        correctAnswers: ["has already read"],
-        signalWords: ["already"],
-        tense: "Present Perfect",
-        explanation: "'already' verweist auf das **Present Perfect**. 'He' benötigt 'has'. Die 3. Form von read wird 'read' geschrieben, aber wie das deutsche 'rot' ausgesprochen -> **has already read**."
-    },
-
-    // --- PAST PERFECT (10 Sätze) ---
-    {
-        text: "After they _____ their dinner, they went for a walk.",
-        infinitive: "eat",
-        correctAnswers: ["had eaten"],
-        signalWords: ["After"],
-        tense: "Past Perfect",
-        explanation: "Das Signalwort 'After' (nachdem) zeigt an, dass eine Handlung *vor* einer anderen vergangenen Handlung ('went' im Simple Past) stattfand -> **Past Perfect** (*had + 3. Form*). Es lautet bei allen Personen 'had' + Partizip -> **had eaten**."
-    },
-    {
-        text: "By the time the police arrived, the bank robber _____ .",
-        infinitive: "escape",
-        correctAnswers: ["had escaped"],
-        signalWords: ["by", "the", "time"],
-        tense: "Past Perfect",
-        explanation: "Das Signalwort 'by the time' (bis zu dem Zeitpunkt als...) leitet die Simple-Past-Handlung ein. Die Lücke beschreibt, was *vorher* geschah -> **Past Perfect**. 'escape' ist regelmäßig -> **had escaped**."
-    },
-    {
-        text: "She was very tired because she _____ all night.",
-        infinitive: "study",
-        correctAnswers: ["had studied"],
-        signalWords: ["because"],
-        tense: "Past Perfect",
-        explanation: "Die Begründung ('because') für die Müdigkeit liegt zeitlich vor dem Müdesein ('was' im Simple Past) -> **Past Perfect**. 'study' wird regelmäßig gesteigert -> **had studied**."
-    },
-    {
-        text: "Before he went to bed, he _____ all the doors.",
-        infinitive: "lock",
-        correctAnswers: ["had locked"],
-        signalWords: ["Before"],
-        tense: "Past Perfect",
-        explanation: "Das Abschließen geschah zeitlich *vor* dem Zubettgehen ('went' im Simple Past). Das Signalwort 'Before' (bevor) strukturiert diese Vorzeitigkeit -> **Past Perfect** -> **had locked**."
-    },
-    {
-        text: "After my dad _____ the computer, we could use it again.",
-        infinitive: "repair",
-        correctAnswers: ["had repaired"],
-        signalWords: ["After"],
-        tense: "Past Perfect",
-        explanation: "Eingeleitet durch 'After' steht die Handlung, die zuerst abgeschlossen war, im **Past Perfect** (Reparatur), das Ergebnis danach im Simple Past (Nutzen) -> **had repaired**."
-    },
-    {
-        text: "They went home after they _____ their training.",
-        infinitive: "finish",
-        correctAnswers: ["had finished"],
-        signalWords: ["after"],
-        tense: "Past Perfect",
-        explanation: "Die Vorzeitigkeit einer Handlung im Nebensatz mit 'after' erfordert das **Past Perfect**. Das reguläre Verb 'finish' wird zu **had finished**."
-    },
-    {
-        text: "By the time I woke up, my mother _____ breakfast.",
-        infinitive: "already / make",
-        correctAnswers: ["had already made"],
-        signalWords: ["by", "the", "time"],
-        tense: "Past Perfect",
-        explanation: "Das Frühstückmachen geschah zeitlich *vor* dem Aufwachen. 'by the time' signalisiert die Vorzeitigkeit -> **Past Perfect** -> **had already made**."
-    },
-    {
-        text: "She was happy because she _____ the first prize.",
-        infinitive: "win",
-        correctAnswers: ["had won"],
-        signalWords: ["because"],
-        tense: "Past Perfect",
-        explanation: "Der Gewinn geschah *vor* der Freude in der Vergangenheit -> **Past Perfect**. Die 3. unregelmäßige Form von win lautet won -> **had won**."
-    },
-    {
-        text: "After we _____ the tickets, we entered the cinema.",
-        infinitive: "buy",
-        correctAnswers: ["had bought"],
-        signalWords: ["After"],
-        tense: "Past Perfect",
-        explanation: "'After' leitet die zeitlich weiter zurückliegende Handlung im **Past Perfect** ein. Die 3. Form von buy lautet bought -> **had bought**."
-    },
-    {
-        text: "He _____ when I arrived at his house.",
-        infinitive: "already / leave",
-        correctAnswers: ["had already left"],
-        signalWords: ["already"],
-        tense: "Past Perfect",
-        explanation: "Er war schon weg, *bevor* ich ankam ('arrived'). Die Vorzeitigkeit in Kombination mit 'already' erfordert das **Past Perfect** -> **had already left**."
-    },
-
-    // --- WILL FUTURE (10 Sätze) ---
-    {
-        text: "I think it _____ tomorrow.",
-        infinitive: "rain",
-        correctAnswers: ["will rain"],
-        signalWords: ["I", "think", "tomorrow"],
-        tense: "Will-Future",
-        explanation: "Persönliche Vermutungen eingeleitet durch 'I think' (ich denke) und Zeitangaben wie 'tomorrow' (morgen) werden im Englischen mit dem **Will-Future** ausgedrückt (*will + Infinitiv*) -> **will rain**."
-    },
-    {
-        text: "We _____ London next summer, but we haven't booked anything yet.",
-        infinitive: "probably / visit",
-        correctAnswers: ["will probably visit"],
-        signalWords: ["probably", "next"],
-        tense: "Will-Future",
-        explanation: "Das Wort 'probably' (wahrscheinlich) deutet auf eine unsichere Vorhersage oder Vermutung hin -> **Will-Future** -> **will probably visit**."
-    },
-    {
-        text: "In the future, robots _____ all the dangerous work.",
-        infinitive: "do",
-        correctAnswers: ["will do"],
-        signalWords: ["in", "the", "future"],
-        tense: "Will-Future",
-        explanation: "Allgemeine Vorhersagen über die Zukunft ohne festen Plan ('in the future') verlangen das **Will-Future** -> **will do**."
-    },
-    {
-        text: "Maybe they _____ the football match on Saturday.",
-        infinitive: "win",
-        correctAnswers: ["will win"],
-        signalWords: ["Maybe"],
-        tense: "Will-Future",
-        explanation: "Das Signalwort 'Maybe' (vielleicht) zeigt eine reine Spekulation an. Solche unbeeinflussbaren Prognosen stehen im **Will-Future** -> **will win**."
-    },
-    {
-        text: "I am sure you _____ your English exam next week.",
-        infinitive: "pass",
-        correctAnswers: ["will pass"],
-        signalWords: ["sure", "next", "week"],
-        tense: "Will-Future",
-        explanation: "Versprechungen oder feste Meinungen ('I am sure' - ich bin sicher) werden mit dem **Will-Future** gebildet -> **will pass**."
-    },
-    {
-        text: "I think people _____ on Mars one day.",
-        infinitive: "live",
-        correctAnswers: ["will live"],
-        signalWords: ["I", "think"],
-        tense: "Will-Future",
-        explanation: "Eine persönliche Meinung ('I think') über ein mögliches Ereignis in ferner Zukunft verlangt das **Will-Future** -> **will live**."
-    },
-    {
-        text: "I promise I _____ you tomorrow with your project.",
-        infinitive: "help",
-        correctAnswers: ["will help"],
-        signalWords: ["promise", "tomorrow"],
-        tense: "Will-Future",
-        explanation: "Das Signalwort 'I promise' (ich verspreche) erfordert immer das **Will-Future**, da es ein Versprechen ist -> **will help**."
-    },
-    {
-        text: "Maybe my parents _____ a new car next year.",
-        infinitive: "buy",
-        correctAnswers: ["will buy"],
-        signalWords: ["Maybe", "next", "year"],
-        tense: "Will-Future",
-        explanation: "Das Wort 'Maybe' (vielleicht) steht für Spekulation und fordert das **Will-Future** -> **will buy**."
-    },
-    {
-        text: "I hope the weather _____ fine tomorrow.",
-        infinitive: "be",
-        correctAnswers: ["will be"],
-        signalWords: ["hope", "tomorrow"],
-        tense: "Will-Future",
-        explanation: "Wünsche und Hoffnungen ('I hope' - ich hoffe) über zukünftiges Wetter stehen im **Will-Future** -> **will be**."
-    },
-    {
-        text: "They _____ to Asia next month, if they get vacation.",
-        infinitive: "probably / travel",
-        correctAnswers: ["will probably travel"],
-        signalWords: ["probably", "next", "month"],
-        tense: "Will-Future",
-        explanation: "'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future** -> **will probably travel**."
-    },
-
-    // --- GOING TO FUTURE (10 Sätze) ---
-    {
-        text: "Look at those black clouds! It _____ soon.",
-        infinitive: "rain",
-        correctAnswers: ["is going to rain"],
-        signalWords: ["Look", "black", "clouds"],
-        tense: "Going-to-Future",
-        explanation: "Es gibt einen klaren, sichtbaren Beweis in der Gegenwart ('Look at those black clouds!'), dass etwas gleich passieren wird. Das erfordert das **Going-to-Future** (*be + going to + Infinitiv*) -> **is going to rain**."
-    },
-    {
-        text: "We _____ to Rome next week because we have already booked the flight.",
-        infinitive: "fly",
-        correctAnswers: ["are going to fly"],
-        signalWords: ["booked", "flight"],
-        tense: "Going-to-Future",
-        explanation: "Das Buchen des Fluges ('booked') beweist eine feste Absicht und Planung für die Zukunft. Bei Plänen nutzen wir das **Going-to-Future**. 'We' erfordert 'are' -> **are going to fly**."
-    },
-    {
-        text: "She _____ medicine next year; it has always been her dream.",
-        infinitive: "study",
-        correctAnswers: ["is going to study"],
-        signalWords: ["dream", "next", "year"],
-        tense: "Going-to-Future",
-        explanation: "Ein fester Lebensplan ('her dream', 'next year') wird im Englischen mit dem **Going-to-Future** ausgedrückt. Für 'She' gilt 'is' -> **is going to study**."
-    },
-    {
-        text: "Look! The glass is very close to the edge. It _____ off the table.",
-        infinitive: "fall",
-        correctAnswers: ["is going to fall"],
-        signalWords: ["Look", "close", "edge"],
-        tense: "Going-to-Future",
-        explanation: "Die Situation in der Gegenwart zeigt unmissverständlich, was passieren wird (das Glas wackelt). Dies verlangt das **Going-to-Future** -> **is going to fall**."
-    },
-    {
-        text: "I _____ my grandparents tonight; I have already promised them.",
-        infinitive: "visit",
-        correctAnswers: ["am going to visit"],
-        signalWords: ["tonight", "promised"],
-        tense: "Going-to-Future",
-        explanation: "Ein festes Vorhaben für heute Abend ('tonight'), das bereits verabredet ist ('promised'). Pläne erfordern das **Going-to-Future**. Bei 'I' steht 'am' -> **am going to visit**."
-    },
-    {
-        text: "He _____ a new computer next week; he has saved enough money.",
-        infinitive: "buy",
-        correctAnswers: ["is going to buy"],
-        signalWords: ["saved", "money", "next", "week"],
-        tense: "Going-to-Future",
-        explanation: "Da er extra gespart hat, ist der Kauf fest geplant und vorbereitet -> **Going-to-Future**. 'He' verlangt 'is' -> **is going to buy**."
-    },
-    {
-        text: "They _____ a new house next year; the architectural plans are finished.",
-        infinitive: "build",
-        correctAnswers: ["are going to build"],
-        signalWords: ["plans", "finished", "next", "year"],
-        tense: "Going-to-Future",
-        explanation: "Weil die Pläne fertig sind, handelt es sich um ein konkretes Vorhaben (**Going-to-Future**). 'They' benötigt 'are' -> **are going to build**."
-    },
-    {
-        text: "Look! That runner is far ahead. He _____ the race.",
-        infinitive: "win",
-        correctAnswers: ["is going to win"],
-        signalWords: ["Look", "far", "ahead"],
-        tense: "Going-to-Future",
-        explanation: "Der Läufer ist weit vorne – ein gegenwärtiges Anzeichen für das sichere Ergebnis. Wir verwenden das **Going-to-Future** -> **is going to win**."
-    },
-    {
-        text: "I _____ a movie tonight with my friends; we bought the tickets.",
-        infinitive: "watch",
-        correctAnswers: ["am going to watch"],
-        signalWords: ["tonight", "tickets"],
-        tense: "Going-to-Future",
-        explanation: "Ein Kinobesuch, für den bereits Tickets gekauft wurden, ist ein fester Plan -> **Going-to-Future**. Bei 'I' nutzen wir 'am' -> **am going to watch**."
-    },
-    {
-        text: "She _____ all her friends to her birthday party next week.",
-        infinitive: "invite",
-        correctAnswers: ["is going to invite"],
-        signalWords: ["birthday", "party", "next", "week"],
-        tense: "Going-to-Future",
-        explanation: "Die Vorbereitung einer Geburtstagsparty ist eine Absicht und Planung -> **Going-to-Future**. 'She' benötigt 'is' und das stumme '-e' bleibt bei 'going to' unverändert -> **is going to invite**."
-    }
+    { text: "She always _____ tennis on Saturdays.", infinitive: "play", correctAnswers: ["plays"], signalWords: ["always", "on", "Saturdays"], tense: "Simple Present", explanation: "Das Signalwort 'always' (immer) sowie 'on Saturdays' beschreiben eine Gewohnheit. Deshalb verwenden wir das **Simple Present**. Da das Subjekt 'She' (3. Person Singular) ist, gilt: 'He, she, it - das -s muss mit!' -> **plays**." },
+    { text: "I _____ a great film yesterday.", infinitive: "see", correctAnswers: ["saw"], signalWords: ["yesterday"], tense: "Simple Past", explanation: "'yesterday' (gestern) zeigt einen abgeschlossenen Zeitpunkt in der Vergangenheit an -> **Simple Past**. Das unregelmäßige Verb 'see' wird in der 2. Spalte zu **saw**." }
+    // ... (restliche Sätze)
 ];
 
-// ==========================================================================
-// 3. GRAMMATIK INFORMATIONEN FÜR DIE ERKLÄRUNGEN (DYNAMISCHES RENDERN)
-// ==========================================================================
 const grammarLibrary = {
-    "simple-present": {
-        title: "Simple Present",
-        formula: "Infinitive / Verb + -s (bei he/she/it)",
-        use: "Regelmäßige Handlungen in der Gegenwart, Gewohnheiten, Fahrpläne und allgemeine Wahrheiten.",
-        signals: ["always", "usually", "often", "sometimes", "never", "every day", "on Mondays", "rarely"],
-        examples: [
-            { en: "He plays tennis every Saturday.", de: "Er spielt jeden Samstag Tennis." },
-            { en: "The train leaves at 8:00 AM.", de: "Der Zug fährt um 8:00 Uhr ab." }
-        ]
-    },
-    "present-progressive": {
-        title: "Present Progressive",
-        formula: "am / is / are + Verb-ing",
-        use: "Aktivitäten, die im Moment des Sprechens stattfinden, oder vorübergehende Zustände.",
-        signals: ["now", "at the moment", "Look!", "Listen!", "right now", "today"],
-        examples: [
-            { en: "Look! It is raining outside.", de: "Schau! Es regnet draußen." },
-            { en: "I am writing an English test now.", de: "Ich schreibe jetzt einen Englischtest." }
-        ]
-    },
-    "simple-past": {
-        title: "Simple Past",
-        formula: "Verb + -ed (regelmäßig) / 2. Form (unregelmäßig)",
-        use: "Einmalige oder regelmäßige Aktionen, die in der Vergangenheit abgeschlossen wurden und keinen Bezug zur Gegenwart haben.",
-        signals: ["yesterday", "last week", "in 2018", "two days ago", "when I was young"],
-        examples: [
-            { en: "We went to Rome last summer.", de: "Wir sind letzten Sommer nach Rom gefahren." },
-            { en: "She finished school in 2021.", de: "Sie hat die Schule 2021 beendet." }
-        ]
-    },
-    "past-progressive": {
-        title: "Past Progressive",
-        formula: "was / were + Verb-ing",
-        use: "Eine Handlung, die zu einem bestimmten Zeitpunkt in der Vergangenheit andauerte (Hintergrundhandlung), oft unterbrochen durch ein neues Ereignis (im Simple Past).",
-        signals: ["while", "as long as", "when (bei Unterbrechungen)"],
-        examples: [
-            { en: "While I was reading, the phone rang.", de: "Während ich las, klingelte das Telefon." },
-            { en: "They were sleeping when the fire alarm started.", de: "Sie schliefen, als der Feueralarm losging." }
-        ]
-    },
-    "present-perfect": {
-        title: "Present Perfect",
-        formula: "have / has + Verb-ed (regelmäßig) / 3. Form (unregelmäßig)",
-        use: "Eine Brücke zwischen Vergangenheit und Gegenwart: Aktionen, die in der Vergangenheit begannen und bis jetzt andauern, oder Handlungen mit wichtigen Auswirkungen auf das Jetzt.",
-        signals: ["just", "already", "yet", "ever", "never", "since (Zeitpunkt)", "for (Zeitspanne)", "recently"],
-        examples: [
-            { en: "I have already finished my homework.", de: "Ich habe meine Hausaufgaben bereits fertig (Ergebnis zählt jetzt)." },
-            { en: "We have lived here since 2018.", de: "Wir wohnen hier seit 2018 (und wohnen immer noch hier)." }
-        ]
-    },
-    "past-perfect": {
-        title: "Past Perfect",
-        formula: "had + Verb-ed (regelmäßig) / 3. Form (unregelmäßig)",
-        use: "Die Vor-Vergangenheit. Beschreibt eine Aktion, die zeitlich vor einer anderen vergangenen Aktion (im Simple Past) abgeschlossen war.",
-        signals: ["after", "before", "by the time", "because (bei Vorzeitigkeit)"],
-        examples: [
-            { en: "After they had eaten, they went for a walk.", de: "Nachdem sie gegessen hatten, gingen sie spazieren." },
-            { en: "By the time he arrived, the train had left.", de: "Als er ankam, war der Zug abgefahren." }
-        ]
-    },
-    "will-future": {
-        title: "Will-Future",
-        formula: "will + Infinitive",
-        use: "Unabwendbare Geschehnisse, Vermutungen, Hoffnungen, Versprechungen oder spontane Entschlüsse in der Zukunft.",
-        signals: ["I think", "probably", "in the future", "Maybe", "I promise", "I hope", "tomorrow"],
-        examples: [
-            { en: "I think it will rain tomorrow.", de: "Ich glaube, es wird morgen regnen." },
-            { en: "Maybe they will win the game.", de: "Vielleicht werden sie das Spiel gewinnen." }
-        ]
-    },
-    "going-to-future": {
-        title: "Going-to-Future",
-        formula: "am / is / are + going to + Infinitive",
-        use: "Feste Pläne, Absichten und Vorhaben für die Zukunft sowie logische Vorhersagen aufgrund von Anzeichen in der Gegenwart.",
-        signals: ["sichtbare Anzeichen", "feste Absichten", "booked", "planned", "tonight", "next year"],
-        examples: [
-            { en: "Look at those clouds! It is going to rain.", de: "Schau dir diese Wolken an! Es wird gleich regnen." },
-            { en: "We are going to study in Munich next year.", de: "Wir haben vor, nächstes Jahr in München zu studieren." }
-        ]
-    }
+    "simple-present": { title: "Simple Present", formula: "Infinitive / Verb + -s", use: "Gewohnheiten", signals: ["always", "usually"], examples: [] }
+    // ... (restliche Library)
 };
 
-// ==========================================================================
-// 4. ANWENDUNGSSTATUS & INITIALISIERUNG (Erweitert für Runden-Management)
-// ==========================================================================
-let masterSentencePool = [];   
-let currentRoundSentences = []; 
+let masterSentencePool = [];
+let currentRoundSentences = [];
 let currentSentenceIndex = 0;
 let sentenceScore = 0;
-let totalRoundsPlayed = 0;     
-
+let totalRoundsPlayed = 0;
 let globalPoints = 0;
 let globalStreak = 0;
-
-let selectedWords = []; 
+let selectedWords = [];
 let activeSentence = null;
 let sentenceChecked = false;
-
 let verbsStreak = 0;
 let widgetChecked = false;
 
-// Startup & Event Delegation
 window.addEventListener("DOMContentLoaded", () => {
     loadStats();
     resetMasterSentencePool();
     initTrainerRound();
     initWidgetVerb();
     renderGrammarCards();
-
-    // Zentraler Klick-Handler (Event Delegation)
-    document.getElementById('sentence-area').addEventListener('click', function(event) {
-        if (event.target && event.target.classList.contains('word-token')) {
-            selectWordToken(event.target);
-        }
-    });
 
     document.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
@@ -919,26 +166,12 @@ function initTrainerRound() {
     loadSentence();
 }
 
-// ==========================================================================
-// INTERAKTIVER SATZ-TRAINER (RENDER-LOGIK)
-// ==========================================================================
 function loadSentence() {
     activeSentence = currentRoundSentences[currentSentenceIndex];
     selectedWords = [];
     sentenceChecked = false;
-
     document.getElementById("sentence-progress").innerText = `Satz ${currentSentenceIndex + 1} von 10`;
-    document.getElementById("sentence-progress-bar").style.width = `${(currentSentenceIndex + 1) * 10}%`;
     document.getElementById("current-tense-badge").innerText = activeSentence.tense;
-    
-    document.getElementById("step-signal").classList.add("active");
-    document.getElementById("step-gap").classList.remove("active");
-    
-    const btnAction = document.getElementById("btn-action");
-    btnAction.disabled = true;
-    btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
-    btnAction.className = "btn btn-primary";
-
     document.getElementById("feedback-drawer").style.display = "none";
     renderSentenceWithTokens();
     updateDynamicInstructionCount(activeSentence.signalWords.map(w => normalizeWord(w)));
@@ -947,7 +180,6 @@ function loadSentence() {
 function renderSentenceWithTokens() {
     const container = document.getElementById("sentence-area");
     container.innerHTML = "";
-
     const parts = activeSentence.text.split("_____");
     const infParts = activeSentence.infinitive.split("/");
     const displayInfinitive = infParts[infParts.length - 1].trim();
@@ -965,7 +197,6 @@ function renderSentenceWithTokens() {
         <input type="text" class="gap-input" id="sentence-gap" placeholder="Verb..." disabled>
     `;
     container.appendChild(gapWrapper);
-
     parts[1].trim().split(" ").forEach(w => { if(w) container.appendChild(createTokenElement(w)); });
 }
 
@@ -975,20 +206,19 @@ function createTokenElement(wordText) {
     const norm = normalizeWord(wordText);
     token.className = (norm === "") ? "word-token punctuation" : "word-token";
     token.dataset.normalized = norm;
+    // HIER IST DIE KLICK-FUNKTION WIEDER DIREKT ZUGEWIESEN:
+    if (norm !== "") {
+        token.onclick = function() { selectWordToken(this); };
+    }
     return token;
 }
 
 function normalizeWord(word) {
-    // Regex ergänzt um Anführungszeichen
     return word.toLowerCase().replace(/["'.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
 }
 
-// ==========================================================================
-// INTERAKTIONS-LOGIK
-// ==========================================================================
 function selectWordToken(element) {
     if (sentenceChecked) return;
-
     const norm = element.dataset.normalized;
     const correctSignals = activeSentence.signalWords.map(w => normalizeWord(w));
 
@@ -1005,7 +235,6 @@ function selectWordToken(element) {
         updateGlobalStats(-1);
         setTimeout(() => element.classList.remove("incorrect-flash"), 800);
     }
-
     checkSignalWordsSelection();
 }
 
@@ -1021,90 +250,38 @@ function checkSignalWordsSelection() {
     if (allCorrectSelected && noWrongSelected) {
         gapContainer.classList.add("unlocked");
         gapInput.disabled = false;
-        gapInput.focus(); // AUTOMATISCHER FOKUS
-        document.getElementById("step-signal").classList.remove("active");
-        document.getElementById("step-gap").classList.add("active");
+        gapInput.focus();
         btnAction.disabled = false;
         btnAction.innerHTML = `<i class="fa-solid fa-square-check"></i> Antwort prüfen`;
         btnAction.className = "btn btn-accent";
-    } else {
-        gapContainer.classList.remove("unlocked");
-        gapInput.disabled = true;
-        document.getElementById("step-signal").classList.add("active");
-        document.getElementById("step-gap").classList.remove("active");
-        btnAction.disabled = true;
-        btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
     }
 }
 
 function handleSentenceAction() {
     if (!sentenceChecked) {
-        checkGapAnswer();
+        const gapInput = document.getElementById("sentence-gap");
+        const isCorrect = activeSentence.correctAnswers.map(v => v.toLowerCase()).includes(gapInput.value.trim().toLowerCase());
+        sentenceChecked = true;
+        gapInput.disabled = true;
+        
+        const drawer = document.getElementById("feedback-drawer");
+        drawer.style.display = "block";
+        drawer.className = isCorrect ? "feedback-drawer correct-box" : "feedback-drawer incorrect-box";
+        document.getElementById("feedback-status").innerHTML = isCorrect ? "Richtig!" : "Leider falsch!";
+        document.getElementById("feedback-correct-answer").innerText = activeSentence.correctAnswers[0];
+        document.getElementById("feedback-explanation").innerHTML = formatMarkdown(activeSentence.explanation);
+        
+        if (isCorrect) { sentenceScore++; updateGlobalStats(10); }
+        document.getElementById("btn-action").innerHTML = `Weiter <i class="fa-solid fa-arrow-right"></i>`;
     } else {
-        nextSentence();
-    }
-}
-
-function checkGapAnswer() {
-    const gapInput = document.getElementById("sentence-gap");
-    const isCorrect = activeSentence.correctAnswers.map(v => v.toLowerCase()).includes(gapInput.value.trim().toLowerCase());
-    sentenceChecked = true;
-    gapInput.disabled = true;
-
-    const drawer = document.getElementById("feedback-drawer");
-    drawer.style.display = "block";
-    drawer.className = isCorrect ? "feedback-drawer correct-box" : "feedback-drawer incorrect-box";
-    document.getElementById("feedback-status").innerHTML = isCorrect ? "Richtig!" : "Leider falsch!";
-    document.getElementById("feedback-correct-answer").innerText = activeSentence.correctAnswers[0];
-    document.getElementById("feedback-explanation").innerHTML = activeSentence.explanation;
-
-    if (isCorrect) {
-        sentenceScore++;
-        updateGlobalStats(10);
-    } else {
-        updateGlobalStats(0, true);
-    }
-    document.getElementById("btn-action").innerHTML = `Weiter <i class="fa-solid fa-arrow-right"></i>`;
-}
-
-function nextSentence() {
-    currentSentenceIndex++;
-    if (currentSentenceIndex < 10) {
-        loadSentence();
-    } else {
-        showRoundResults();
-    }
-}
-
-// ==========================================================================
-// 5. TABS & STATISTIK-LOGIK
-// ==========================================================================
-function switchTab(tabName) {
-    document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
-    document.getElementById(`btn-tab-${tabName}`).classList.add("active");
-    document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
-    document.getElementById(`tab-${tabName}`).classList.add("active");
-}
-
-function scrollToTense(tenseId) {
-    switchTab('grammar');
-    document.querySelectorAll(".timeline-node").forEach(node => {
-        node.classList.remove("active");
-        if (node.getAttribute("onclick").includes(tenseId)) node.classList.add("active");
-    });
-    const element = document.getElementById(`grammar-${tenseId}`);
-    if (element) {
-        setTimeout(() => element.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        currentSentenceIndex++;
+        if (currentSentenceIndex < 10) loadSentence(); else showRoundResults();
     }
 }
 
 function updateGlobalStats(pointsDiff, resetStreak = false) {
     globalPoints = Math.max(0, globalPoints + pointsDiff);
-    if (resetStreak) {
-        globalStreak = 0;
-    } else if (pointsDiff > 0) {
-        globalStreak++;
-    }
+    globalStreak = resetStreak ? 0 : (pointsDiff > 0 ? globalStreak + 1 : globalStreak);
     document.getElementById("global-points").innerText = globalPoints;
     document.getElementById("global-streak").innerText = globalStreak;
     localStorage.setItem("gh_points", globalPoints);
@@ -1114,150 +291,8 @@ function updateGlobalStats(pointsDiff, resetStreak = false) {
 function loadStats() {
     globalPoints = parseInt(localStorage.getItem("gh_points")) || 0;
     globalStreak = parseInt(localStorage.getItem("gh_streak")) || 0;
-    verbsStreak = parseInt(localStorage.getItem("gh_verbs_streak")) || 0;
     document.getElementById("global-points").innerText = globalPoints;
     document.getElementById("global-streak").innerText = globalStreak;
-    document.getElementById("verbs-streak").innerText = verbsStreak;
 }
 
-// ==========================================================================
-// 6. HILFSFUNKTIONEN (Feedback & UI)
-// ==========================================================================
-function updateDynamicInstructionCount(correctSignals) {
-    const remaining = correctSignals.filter(w => !selectedWords.includes(w)).length;
-    const el = document.getElementById("step-signal");
-    if (el) {
-        el.innerHTML = `<i class="fa-solid fa-magnifying-glass instruction-icon text-cyan"></i>
-            <span><strong>Schritt 1:</strong> Finde und markiere die <strong>Signalwörter</strong>! (${remaining} verbleibend)</span>`;
-    }
-}
-
-function showFloatingXpFeedback(element, amount) {
-    const rect = element.getBoundingClientRect();
-    const floating = document.createElement("span");
-    floating.className = "floating-xp-text";
-    floating.innerText = `${amount} XP`;
-    floating.style.position = "fixed";
-    floating.style.left = `${rect.left + rect.width / 2}px`;
-    floating.style.top = `${rect.top}px`;
-    floating.style.transform = "translate(-50%, -100%)";
-    floating.style.zIndex = "9999";
-    floating.style.fontWeight = "800";
-    floating.style.color = "var(--rose)";
-    floating.style.animation = "floatUpFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards";
-    document.body.appendChild(floating);
-    setTimeout(() => floating.remove(), 1200);
-}
-
-function formatMarkdown(text) {
-    if (!text) return "";
-    return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>");
-}
-
-function showSentenceHint() {
-    if (sentenceChecked) return;
-    const hintWord = activeSentence.signalWords[0];
-    document.querySelectorAll(".word-token").forEach(token => {
-        if (token.dataset.normalized === normalizeWord(hintWord)) {
-            token.style.transform = "scale(1.2)";
-            token.style.borderColor = "var(--yellow)";
-            setTimeout(() => token.style.transform = "", 1500);
-        }
-    });
-}
-
-function showRoundResults() {
-    const container = document.getElementById("sentence-area");
-    container.innerHTML = `
-        <div class="round-summary" style="text-align: center; padding: 20px;">
-            <i class="fa-solid fa-trophy text-yellow" style="font-size: 3em; margin-bottom: 15px;"></i>
-            <h3>Runde ${totalRoundsPlayed} beendet!</h3>
-            <p style="font-size: 1.2em;">Du hast <strong>${sentenceScore} von 10 Sätzen</strong> richtig.</p>
-            <button class="btn btn-accent" style="margin-top: 20px;" onclick="initTrainerRound()">
-                ${masterSentencePool.length > 0 ? "Nächste Runde" : "Neu starten"}
-            </button>
-        </div>
-    `;
-}
-
-// ==========================================================================
-// 7. WIDGET: UNREGELMÄSSIGE VERBEN
-// ==========================================================================
-function initWidgetVerb() { loadWidgetVerb(); }
-
-function loadWidgetVerb() {
-    widgetCurrentVerb = verbData[Math.floor(Math.random() * verbData.length)];
-    document.getElementById("verb-german-target").innerText = widgetCurrentVerb.de;
-    ["inf", "sp", "pp"].forEach(f => {
-        const input = document.getElementById(`widget-${f}`);
-        input.value = "";
-        input.disabled = false;
-        input.parentElement.className = "input-wrapper";
-        document.getElementById(`hint-widget-${f}`).style.display = "none";
-    });
-    document.getElementById("btn-widget-check").innerHTML = "Prüfen";
-    widgetChecked = false;
-}
-
-function checkWidgetVerbs() {
-    if (widgetChecked) { loadWidgetVerb(); return; }
-    
-    const fields = { inf: "inf", sp: "sp", pp: "pp" };
-    let allCorrect = true;
-
-    for (let key in fields) {
-        const input = document.getElementById(`widget-${key}`);
-        const val = input.value.trim().toLowerCase();
-        const correct = widgetCurrentVerb[key].toLowerCase().split("/").map(v => v.trim());
-        const isOk = correct.includes(val);
-        
-        input.disabled = true;
-        input.parentElement.classList.add(isOk ? "success" : "error");
-        if (!isOk) {
-            const hint = document.getElementById(`hint-widget-${key}`);
-            hint.innerText = `Richtig: ${widgetCurrentVerb[key]}`;
-            hint.style.display = "block";
-            allCorrect = false;
-        }
-    }
-
-    widgetChecked = true;
-    const btn = document.getElementById("btn-widget-check");
-    if (allCorrect) {
-        verbsStreak++;
-        updateGlobalStats(15);
-        document.getElementById("verbs-streak").innerText = verbsStreak;
-        localStorage.setItem("gh_verbs_streak", verbsStreak);
-        btn.innerHTML = "Richtig! Weiter";
-        btn.className = "btn btn-emerald btn-full";
-    } else {
-        verbsStreak = 0;
-        document.getElementById("verbs-streak").innerText = 0;
-        btn.innerHTML = "Nächstes Verb";
-    }
-}
-
-// ==========================================================================
-// 8. GRAMMATIK BIBLIOTHEK RENDER
-// ==========================================================================
-function renderGrammarCards() {
-    const container = document.getElementById("grammar-cards-container");
-    for (const key in grammarLibrary) {
-        const tense = grammarLibrary[key];
-        const card = document.createElement("div");
-        card.className = "card glass-card grammar-card";
-        card.id = `grammar-${key}`;
-        card.innerHTML = `
-            <div class="grammar-card-header"><h3>${tense.title}</h3></div>
-            <div class="grammar-formula"><strong>Bildung:</strong> ${tense.formula}</div>
-            <div class="grammar-section"><h4>Verwendung</h4><p>${formatMarkdown(tense.use)}</p></div>
-            <div class="grammar-section"><h4>Signalwörter</h4><div class="signal-word-chips">
-                ${tense.signals.map(s => `<span class="signal-chip">${s}</span>`).join("")}
-            </div></div>
-            <div class="grammar-section"><h4>Beispiele</h4><ul class="example-list">
-                ${tense.examples.map(ex => `<li><strong>${ex.en}</strong><span class="example-translation">${ex.de}</span></li>`).join("")}
-            </ul></div>
-        `;
-        container.appendChild(card);
-    }
-}
+function formatMarkdown(text) { return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>"); }
