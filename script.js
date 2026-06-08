@@ -866,82 +866,71 @@ const grammarLibrary = {
 // ==========================================================================
 // 4. ANWENDUNGSSTATUS & INITIALISIERUNG (Erweitert für Runden-Management)
 // ==========================================================================
-let masterSentencePool = [];   // Hält alle verbleibenden Sätze der Datenbank
-let currentRoundSentences = []; // Die 10 aktuellen Sätze der aktiven Runde
+let masterSentencePool = [];   
+let currentRoundSentences = []; 
 let currentSentenceIndex = 0;
 let sentenceScore = 0;
-let totalRoundsPlayed = 0;      // Zähler für die absolvierten Runden
+let totalRoundsPlayed = 0;     
 
 let globalPoints = 0;
 let globalStreak = 0;
 
-let selectedWords = []; // Aktuell angeklickte Tokens
+let selectedWords = []; 
 let activeSentence = null;
 let sentenceChecked = false;
 
-// Status für das unregelmäßige Verben Widget
-let widgetCurrentVerb = null;
 let verbsStreak = 0;
 let widgetChecked = false;
 
-// Startup
+// Startup & Event Delegation
 window.addEventListener("DOMContentLoaded", () => {
     loadStats();
-    
-    // Initialen Gesamtpool mischen
     resetMasterSentencePool();
-    
     initTrainerRound();
     initWidgetVerb();
     renderGrammarCards();
 
+    // Zentraler Klick-Handler (Event Delegation)
+    document.getElementById('sentence-area').addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('word-token')) {
+            selectWordToken(event.target);
+        }
+    });
+
     document.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
-            const activeTab = document.querySelector(".tab-content.active").id;
-            if (activeTab === "tab-trainer") {
-                const btnAction = document.getElementById("btn-action");
-                if (!btnAction.disabled) {
-                    handleSentenceAction();
-                }
-            }
+            const btnAction = document.getElementById("btn-action");
+            if (!btnAction.disabled) handleSentenceAction();
         }
     });
 });
 
-// Hilfsfunktion: Setzt den globalen Pool zurück und mischt ihn durch
 function resetMasterSentencePool() {
     masterSentencePool = [...sentenceBank].sort(() => Math.random() - 0.5);
     totalRoundsPlayed = 0;
 }
 
 function initTrainerRound() {
-    // Falls der Pool leer ist (alle 80 Sätze gespielt), von vorne beginnen
-    if (masterSentencePool.length === 0) {
-        resetMasterSentencePool();
-    }
-    
-    // Die nächsten 10 Sätze aus dem Master-Pool entnehmen
+    if (masterSentencePool.length === 0) resetMasterSentencePool();
     currentRoundSentences = masterSentencePool.splice(0, 10);
     currentSentenceIndex = 0;
     sentenceScore = 0;
     totalRoundsPlayed++;
-    
     loadSentence();
 }
 
 // ==========================================================================
-// INTERAKTIVER SATZ-TRAINER (KORRIGIERTES RENDERING)
+// INTERAKTIVER SATZ-TRAINER (RENDER-LOGIK)
 // ==========================================================================
 function loadSentence() {
     activeSentence = currentRoundSentences[currentSentenceIndex];
     selectedWords = [];
     sentenceChecked = false;
 
-    document.getElementById("sentence-progress").innerText = `Satz ${currentSentenceIndex + 1} von 10 (Runde ${totalRoundsPlayed})`;
+    document.getElementById("sentence-progress").innerText = `Satz ${currentSentenceIndex + 1} von 10`;
     document.getElementById("sentence-progress-bar").style.width = `${(currentSentenceIndex + 1) * 10}%`;
     document.getElementById("current-tense-badge").innerText = activeSentence.tense;
     
-    document.getElementById("instruction-box").style.background = "rgba(255, 255, 255, 0.02)";
     document.getElementById("step-signal").classList.add("active");
     document.getElementById("step-gap").classList.remove("active");
     
@@ -950,198 +939,60 @@ function loadSentence() {
     btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
     btnAction.className = "btn btn-primary";
 
-    const drawer = document.getElementById("feedback-drawer");
-    drawer.style.display = "none";
-    drawer.className = "feedback-drawer";
-
+    document.getElementById("feedback-drawer").style.display = "none";
     renderSentenceWithTokens();
-    if (activeSentence && activeSentence.signalWords) {
-        updateDynamicInstructionCount(activeSentence.signalWords.map(w => normalizeWord(w)));
-    }
+    updateDynamicInstructionCount(activeSentence.signalWords.map(w => normalizeWord(w)));
 }
 
 function renderSentenceWithTokens() {
     const container = document.getElementById("sentence-area");
     container.innerHTML = "";
 
-    // Satz an der Lücke "_____" aufsplitten
     const parts = activeSentence.text.split("_____");
-    
-    // --- KORREKTUR: Saubere Extraktion des Infinitivs ---
-    // Falls "already / finish" drin steht, isolieren wir das reine Verb ("finish")
-    let displayInfinitive = activeSentence.infinitive;
-    let extraTokenWord = "";
+    const infParts = activeSentence.infinitive.split("/");
+    const displayInfinitive = infParts[infParts.length - 1].trim();
+    const extraTokenWord = infParts.length > 1 ? infParts[0].trim() : "";
 
-    if (activeSentence.infinitive.includes("/")) {
-        const infParts = activeSentence.infinitive.split("/");
-        // Das letzte Element ist in der Regel das Hauptverb (z.B. "finish" oder "eat")
-        displayInfinitive = infParts[infParts.length - 1].trim();
-        // Das erste Element ist das störende Signalwort/Zusatzwort (z.B. "already" oder "not")
-        extraTokenWord = infParts[0].trim();
-    }
+    parts[0].trim().split(" ").forEach(w => { if(w) container.appendChild(createTokenElement(w)); });
+    if (extraTokenWord && extraTokenWord !== "not") container.appendChild(createTokenElement(extraTokenWord));
 
-    // 1. Text VOR der Lücke rendern
-    const wordsBefore = parts[0].trim().split(" ");
-    wordsBefore.forEach(word => {
-        if(word.length > 0) container.appendChild(createTokenElement(word));
-    });
-
-    // --- KORREKTUR: Dynamisches Zusatz-Token einfügen, falls es im Tipp versteckt war ---
-    // Wenn ein extra Wort (wie 'already') existiert und nicht 'not' lautet, erstellen wir einen klickbaren Chip direkt vor der Lücke
-    if (extraTokenWord && extraTokenWord !== "not") {
-        container.appendChild(createTokenElement(extraTokenWord));
-    }
-
-    // 2. Das Lücken-Eingabefeld (Gap-Input)
     const gapWrapper = document.createElement("div");
     gapWrapper.className = "gap-input-container";
     gapWrapper.id = "gap-container";
-
-    // Reiner Infinitiv-Tipp (z.B. "to finish")
-    const infTag = document.createElement("span");
-    infTag.className = "verb-infinitive-tag";
-    infTag.innerText = `to ${displayInfinitive}`;
-    gapWrapper.appendChild(infTag);
-
-    const lockOverlay = document.createElement("span");
-    lockOverlay.className = "lock-overlay";
-    lockOverlay.innerHTML = `<i class="fa-solid fa-lock"></i>`;
-    gapWrapper.appendChild(lockOverlay);
-
-    const gapInput = document.createElement("input");
-    gapInput.type = "text";
-    gapInput.className = "gap-input";
-    gapInput.id = "sentence-gap";
-    gapInput.placeholder = "Verb eingeben...";
-    gapInput.autocomplete = "off";
-    gapInput.disabled = true; 
-    
-    gapWrapper.appendChild(gapInput);
+    gapWrapper.innerHTML = `
+        <span class="verb-infinitive-tag">to ${displayInfinitive}</span>
+        <span class="lock-overlay"><i class="fa-solid fa-lock"></i></span>
+        <input type="text" class="gap-input" id="sentence-gap" placeholder="Verb..." disabled>
+    `;
     container.appendChild(gapWrapper);
 
-    // 3. Text NACH der Lücke rendern
-    const wordsAfter = parts[1].trim().split(" ");
-    wordsAfter.forEach(word => {
-        if(word.length > 0) container.appendChild(createTokenElement(word));
-    });
+    parts[1].trim().split(" ").forEach(w => { if(w) container.appendChild(createTokenElement(w)); });
 }
-
-function showRoundResults() {
-    const container = document.getElementById("sentence-area");
-    const dynamicButtonText = masterSentencePool.length > 0 ? 
-        `<i class="fa-solid fa-arrow-right-long"></i> Nächste Runde (noch ${masterSentencePool.length} Sätze)` : 
-        `<i class="fa-solid fa-arrows-rotate"></i> Alle Sätze geschafft! Neu starten`;
-
-    container.innerHTML = `
-        <div class="round-summary" style="text-align: center; padding: 20px; animation: popIn 0.5s ease;">
-            <i class="fa-solid fa-trophy text-yellow" style="font-size: 3em; margin-bottom: 15px;"></i>
-            <h3>Runde ${totalRoundsPlayed} beendet!</h3>
-            <p style="font-size: 1.2em; margin: 10px 0;">Du hast <strong>${sentenceScore} von 10 Sätzen</strong> richtig gelöst.</p>
-            <p style="color: var(--text-muted); font-size: 0.9em;">Insgesamt sind noch ${masterSentencePool.length} ungespielte Sätze im Pool.</p>
-            <button class="btn btn-accent" style="margin-top: 20px;" onclick="initTrainerRound()">
-                ${dynamicButtonText}
-            </button>
-        </div>
-    `;
-
-    const btnAction = document.getElementById("btn-action");
-    btnAction.disabled = true;
-    btnAction.innerHTML = `<i class="fa-solid fa-circle-check"></i> Runde abgeschlossen`;
-    btnAction.className = "btn btn-secondary";
-}// ==========================================================================
-// 5. TABS & STATISTIK-LOGIK
-// ==========================================================================
-function switchTab(tabName) {
-    // Buttons toggeln
-    document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
-    document.getElementById(`btn-tab-${tabName}`).classList.add("active");
-    
-    // Inhalt toggeln
-    document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
-    document.getElementById(`tab-${tabName}`).classList.add("active");
-}
-
-function scrollToTense(tenseId) {
-    // Falls in Trainer-Tab, wechsle zu Grammatik
-    switchTab('grammar');
-    
-    // Node-Status anpassen
-    document.querySelectorAll(".timeline-node").forEach(node => {
-        node.classList.remove("active");
-        if (node.getAttribute("onclick").includes(tenseId)) {
-            node.classList.add("active");
-        }
-    });
-
-    // Scrolle sanft zur gewählten Zeitkarte
-    const element = document.getElementById(`grammar-${tenseId}`);
-    if (element) {
-        setTimeout(() => {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-    }
-}
-
-function updateGlobalStats(pointsDiff, resetStreak = false) {
-    globalPoints += pointsDiff;
-    if (globalPoints < 0) globalPoints = 0;
-    if (resetStreak) {
-        globalStreak = 0;
-    } else if (pointsDiff > 0) {
-        globalStreak++;
-    }
-    
-    document.getElementById("global-points").innerText = globalPoints;
-    document.getElementById("global-streak").innerText = globalStreak;
-    
-    // Speichern
-    localStorage.setItem("gh_points", globalPoints);
-    localStorage.setItem("gh_streak", globalStreak);
-}
-
-function loadStats() {
-    globalPoints = parseInt(localStorage.getItem("gh_points")) || 0;
-    globalStreak = parseInt(localStorage.getItem("gh_streak")) || 0;
-    verbsStreak = parseInt(localStorage.getItem("gh_verbs_streak")) || 0;
-    
-    document.getElementById("global-points").innerText = globalPoints;
-    document.getElementById("global-streak").innerText = globalStreak;
-    document.getElementById("verbs-streak").innerText = verbsStreak;
-}
-
-// [Duplikate entfernt, die korrekten Versionen befinden sich oben]
 
 function createTokenElement(wordText) {
     const token = document.createElement("span");
     token.innerText = wordText;
-    
-    // Normalisiere das Wort für den Check (ohne Satzzeichen)
     const norm = normalizeWord(wordText);
-    
-    // Handelt es sich um reines Satzzeichen?
-    if (norm === "") {
-        token.className = "word-token punctuation";
-    } else {
-        token.className = "word-token";
-        token.dataset.normalized = norm;
-        token.onclick = () => selectWordToken(token);
-    }
-    
+    token.className = (norm === "") ? "word-token punctuation" : "word-token";
+    token.dataset.normalized = norm;
     return token;
 }
 
 function normalizeWord(word) {
-    return word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
+    // Regex ergänzt um Anführungszeichen
+    return word.toLowerCase().replace(/["'.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
 }
 
+// ==========================================================================
+// INTERAKTIONS-LOGIK
+// ==========================================================================
 function selectWordToken(element) {
-    if (sentenceChecked) return; // Nach der Prüfung keine Klicks mehr
+    if (sentenceChecked) return;
 
     const norm = element.dataset.normalized;
     const correctSignals = activeSentence.signalWords.map(w => normalizeWord(w));
 
     if (correctSignals.includes(norm)) {
-        // Richtiges Signalwort angeklickt!
         if (element.classList.contains("selected")) {
             element.classList.remove("selected");
             selectedWords = selectedWords.filter(w => w !== norm);
@@ -1150,59 +1001,16 @@ function selectWordToken(element) {
             selectedWords.push(norm);
         }
     } else {
-        // Falsches Signalwort angeklickt!
         element.classList.add("incorrect-flash");
-        updateGlobalStats(-1); // -1 XP Strafe
-        showFloatingXpFeedback(element, -1);
-        
-        setTimeout(() => {
-            element.classList.remove("incorrect-flash");
-        }, 800);
+        updateGlobalStats(-1);
+        setTimeout(() => element.classList.remove("incorrect-flash"), 800);
     }
 
-    // Aktualisiere verbleibende Wortanzahl im Instruktionsbereich
-    updateDynamicInstructionCount(correctSignals);
     checkSignalWordsSelection();
 }
 
-function updateDynamicInstructionCount(correctSignals) {
-    const remaining = correctSignals.filter(w => !selectedWords.includes(w)).length;
-    const stepSignalEl = document.getElementById("step-signal");
-    if (stepSignalEl) {
-        if (remaining === 1) {
-            stepSignalEl.innerHTML = `<i class="fa-solid fa-magnifying-glass instruction-icon text-cyan"></i>
-                <span><strong>Schritt 1:</strong> Finde und markiere das <strong>Signalwort</strong> im Satz! (1 Wort verbleibend)</span>`;
-        } else {
-            stepSignalEl.innerHTML = `<i class="fa-solid fa-magnifying-glass instruction-icon text-cyan"></i>
-                <span><strong>Schritt 1:</strong> Finde und markiere die <strong>Signalwörter</strong> im Satz! (${remaining} Wörter verbleibend)</span>`;
-        }
-    }
-}
-
-function showFloatingXpFeedback(element, amount) {
-    const rect = element.getBoundingClientRect();
-    const floating = document.createElement("span");
-    floating.className = "floating-xp-text";
-    floating.innerText = `${amount} XP`;
-    
-    floating.style.position = "fixed";
-    floating.style.left = `${rect.left + rect.width / 2}px`;
-    floating.style.top = `${rect.top}px`;
-    floating.style.transform = "translate(-50%, -100%)";
-    floating.style.zIndex = "9999";
-    floating.style.fontWeight = "800";
-    floating.style.color = "var(--rose)";
-    floating.style.animation = "floatUpFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards";
-    
-    document.body.appendChild(floating);
-    setTimeout(() => floating.remove(), 1200);
-}
-
 function checkSignalWordsSelection() {
-    // Normalisierte korrekte Signalwörter
     const correctSignals = activeSentence.signalWords.map(w => normalizeWord(w));
-    
-    // Prüfen, ob alle korrekten Wörter markiert sind (und KEINE falschen)
     const allCorrectSelected = correctSignals.every(w => selectedWords.includes(w));
     const noWrongSelected = selectedWords.every(w => correctSignals.includes(w));
 
@@ -1211,36 +1019,21 @@ function checkSignalWordsSelection() {
     const btnAction = document.getElementById("btn-action");
 
     if (allCorrectSelected && noWrongSelected) {
-        // Lücke freischalten!
         gapContainer.classList.add("unlocked");
         gapInput.disabled = false;
-        gapContainer.querySelector(".lock-overlay").innerHTML = `<i class="fa-solid fa-lock-open text-purple"></i>`;
-        
-        // Instruktionsbox anpassen
-        document.getElementById("instruction-box").style.background = "rgba(139, 92, 246, 0.05)";
+        gapInput.focus(); // AUTOMATISCHER FOKUS
         document.getElementById("step-signal").classList.remove("active");
         document.getElementById("step-gap").classList.add("active");
-
-        // Action-Button für Schritt 2 aktivieren
         btnAction.disabled = false;
         btnAction.innerHTML = `<i class="fa-solid fa-square-check"></i> Antwort prüfen`;
         btnAction.className = "btn btn-accent";
-        
-        // Fokus auf Input
-        gapInput.focus();
     } else {
-        // Wieder sperren
         gapContainer.classList.remove("unlocked");
         gapInput.disabled = true;
-        gapContainer.querySelector(".lock-overlay").innerHTML = `<i class="fa-solid fa-lock"></i>`;
-        
-        document.getElementById("instruction-box").style.background = "rgba(255, 255, 255, 0.02)";
         document.getElementById("step-signal").classList.add("active");
         document.getElementById("step-gap").classList.remove("active");
-
         btnAction.disabled = true;
         btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
-        btnAction.className = "btn btn-primary";
     }
 }
 
@@ -1252,93 +1045,26 @@ function handleSentenceAction() {
     }
 }
 
-function formatMarkdown(text) {
-    if (!text) return "";
-    return text
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.*?)\*/g, "<em>$1</em>");
-}
-
 function checkGapAnswer() {
     const gapInput = document.getElementById("sentence-gap");
-    const userVal = gapInput.value.trim().toLowerCase();
-    
-    // Akzeptierte Schreibweisen normieren (Kleinschreibung, Leerzeichen trimmen)
-    const correctVariants = activeSentence.correctAnswers.map(v => v.trim().toLowerCase());
-    
-    const isCorrect = correctVariants.includes(userVal);
+    const isCorrect = activeSentence.correctAnswers.map(v => v.toLowerCase()).includes(gapInput.value.trim().toLowerCase());
     sentenceChecked = true;
-
-    // Visuals für Lückenfeld anpassen
     gapInput.disabled = true;
-    
-    // Klickbarkeit der Tokens sperren
-    document.querySelectorAll(".word-token").forEach(t => t.style.pointerEvents = "none");
 
     const drawer = document.getElementById("feedback-drawer");
-    const statusText = document.getElementById("feedback-status");
-    const correctAlert = document.getElementById("feedback-correct-answer");
-    const explanation = document.getElementById("feedback-explanation");
-    const tenseTag = document.getElementById("feedback-tense");
-
-    tenseTag.innerText = activeSentence.tense;
+    drawer.style.display = "block";
+    drawer.className = isCorrect ? "feedback-drawer correct-box" : "feedback-drawer incorrect-box";
+    document.getElementById("feedback-status").innerHTML = isCorrect ? "Richtig!" : "Leider falsch!";
+    document.getElementById("feedback-correct-answer").innerText = activeSentence.correctAnswers[0];
+    document.getElementById("feedback-explanation").innerHTML = activeSentence.explanation;
 
     if (isCorrect) {
-        gapInput.classList.add("correct");
-        
-        // Feedback Drawer auf Grün setzen
-        drawer.style.display = "block";
-        drawer.classList.add("correct-box");
-        statusText.innerHTML = `<i class="fa-solid fa-circle-check text-green"></i> <span>Richtig! Großartig.</span>`;
-        correctAlert.innerText = activeSentence.correctAnswers[0];
-        explanation.innerHTML = formatMarkdown(activeSentence.explanation);
-
         sentenceScore++;
-        updateGlobalStats(10); // +10 Punkte
+        updateGlobalStats(10);
     } else {
-        gapInput.classList.add("incorrect");
-
-        // Feedback Drawer auf Rot setzen
-        drawer.style.display = "block";
-        drawer.classList.add("incorrect-box");
-        statusText.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose"></i> <span>Leider nicht ganz richtig!</span>`;
-        correctAlert.innerText = activeSentence.correctAnswers[0];
-        explanation.innerHTML = formatMarkdown(activeSentence.explanation);
-
-        updateGlobalStats(0, true); // Streak bricht
+        updateGlobalStats(0, true);
     }
-
-    // Action Button auf Weiter schalten
-    const btnAction = document.getElementById("btn-action");
-    btnAction.innerHTML = `Weiter <i class="fa-solid fa-arrow-right"></i>`;
-    btnAction.className = "btn btn-primary";
-}
-
-function showSentenceHint() {
-    if (sentenceChecked) return;
-
-    // Finde das korrekte Signalwort
-    const hintWord = activeSentence.signalWords[0];
-    
-    // Finde das Token-Element dazu
-    const tokens = document.querySelectorAll(".word-token");
-    tokens.forEach(token => {
-        if (token.dataset.normalized === normalizeWord(hintWord)) {
-            // Lass das Signalwort kurz aufleuchten (Animation)
-            token.style.transform = "scale(1.2)";
-            token.style.borderColor = "var(--yellow)";
-            token.style.boxShadow = "0 0 10px rgba(234, 179, 8, 0.4)";
-            
-            setTimeout(() => {
-                token.style.transform = "";
-                token.style.borderColor = "";
-                token.style.boxShadow = "";
-            }, 1500);
-        }
-    });
-
-    // Kleines Punkteabzug als 'Tipp-Kosten' (optional, nur unaufdringlich)
-    updateGlobalStats(0);
+    document.getElementById("btn-action").innerHTML = `Weiter <i class="fa-solid fa-arrow-right"></i>`;
 }
 
 function nextSentence() {
@@ -1350,175 +1076,188 @@ function nextSentence() {
     }
 }
 
-// [Duplikat entfernt, die korrekte Version befindet sich oben]
-
 // ==========================================================================
-// 7. SIDEBAR WIDGET: UNREGELMÄSSIGE VERBEN (LOGIK)
+// 5. TABS & STATISTIK-LOGIK
 // ==========================================================================
-function initWidgetVerb() {
-    loadWidgetVerb();
+function switchTab(tabName) {
+    document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById(`btn-tab-${tabName}`).classList.add("active");
+    document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+    document.getElementById(`tab-${tabName}`).classList.add("active");
 }
 
-function loadWidgetVerb() {
-    // Wähle ein zufälliges Verb aus der unregelmäßigen Verben-Datenbank
-    widgetCurrentVerb = verbData[Math.floor(Math.random() * verbData.length)];
-    
-    // Deutsches Wort anzeigen
-    document.getElementById("verb-german-target").innerText = widgetCurrentVerb.de;
+function scrollToTense(tenseId) {
+    switchTab('grammar');
+    document.querySelectorAll(".timeline-node").forEach(node => {
+        node.classList.remove("active");
+        if (node.getAttribute("onclick").includes(tenseId)) node.classList.add("active");
+    });
+    const element = document.getElementById(`grammar-${tenseId}`);
+    if (element) {
+        setTimeout(() => element.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+}
 
-    // Formular-Felder zurücksetzen
-    const fields = ["inf", "sp", "pp"];
-    fields.forEach(f => {
+function updateGlobalStats(pointsDiff, resetStreak = false) {
+    globalPoints = Math.max(0, globalPoints + pointsDiff);
+    if (resetStreak) {
+        globalStreak = 0;
+    } else if (pointsDiff > 0) {
+        globalStreak++;
+    }
+    document.getElementById("global-points").innerText = globalPoints;
+    document.getElementById("global-streak").innerText = globalStreak;
+    localStorage.setItem("gh_points", globalPoints);
+    localStorage.setItem("gh_streak", globalStreak);
+}
+
+function loadStats() {
+    globalPoints = parseInt(localStorage.getItem("gh_points")) || 0;
+    globalStreak = parseInt(localStorage.getItem("gh_streak")) || 0;
+    verbsStreak = parseInt(localStorage.getItem("gh_verbs_streak")) || 0;
+    document.getElementById("global-points").innerText = globalPoints;
+    document.getElementById("global-streak").innerText = globalStreak;
+    document.getElementById("verbs-streak").innerText = verbsStreak;
+}
+
+// ==========================================================================
+// 6. HILFSFUNKTIONEN (Feedback & UI)
+// ==========================================================================
+function updateDynamicInstructionCount(correctSignals) {
+    const remaining = correctSignals.filter(w => !selectedWords.includes(w)).length;
+    const el = document.getElementById("step-signal");
+    if (el) {
+        el.innerHTML = `<i class="fa-solid fa-magnifying-glass instruction-icon text-cyan"></i>
+            <span><strong>Schritt 1:</strong> Finde und markiere die <strong>Signalwörter</strong>! (${remaining} verbleibend)</span>`;
+    }
+}
+
+function showFloatingXpFeedback(element, amount) {
+    const rect = element.getBoundingClientRect();
+    const floating = document.createElement("span");
+    floating.className = "floating-xp-text";
+    floating.innerText = `${amount} XP`;
+    floating.style.position = "fixed";
+    floating.style.left = `${rect.left + rect.width / 2}px`;
+    floating.style.top = `${rect.top}px`;
+    floating.style.transform = "translate(-50%, -100%)";
+    floating.style.zIndex = "9999";
+    floating.style.fontWeight = "800";
+    floating.style.color = "var(--rose)";
+    floating.style.animation = "floatUpFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards";
+    document.body.appendChild(floating);
+    setTimeout(() => floating.remove(), 1200);
+}
+
+function formatMarkdown(text) {
+    if (!text) return "";
+    return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>");
+}
+
+function showSentenceHint() {
+    if (sentenceChecked) return;
+    const hintWord = activeSentence.signalWords[0];
+    document.querySelectorAll(".word-token").forEach(token => {
+        if (token.dataset.normalized === normalizeWord(hintWord)) {
+            token.style.transform = "scale(1.2)";
+            token.style.borderColor = "var(--yellow)";
+            setTimeout(() => token.style.transform = "", 1500);
+        }
+    });
+}
+
+function showRoundResults() {
+    const container = document.getElementById("sentence-area");
+    container.innerHTML = `
+        <div class="round-summary" style="text-align: center; padding: 20px;">
+            <i class="fa-solid fa-trophy text-yellow" style="font-size: 3em; margin-bottom: 15px;"></i>
+            <h3>Runde ${totalRoundsPlayed} beendet!</h3>
+            <p style="font-size: 1.2em;">Du hast <strong>${sentenceScore} von 10 Sätzen</strong> richtig.</p>
+            <button class="btn btn-accent" style="margin-top: 20px;" onclick="initTrainerRound()">
+                ${masterSentencePool.length > 0 ? "Nächste Runde" : "Neu starten"}
+            </button>
+        </div>
+    `;
+}
+
+// ==========================================================================
+// 7. WIDGET: UNREGELMÄSSIGE VERBEN
+// ==========================================================================
+function initWidgetVerb() { loadWidgetVerb(); }
+
+function loadWidgetVerb() {
+    widgetCurrentVerb = verbData[Math.floor(Math.random() * verbData.length)];
+    document.getElementById("verb-german-target").innerText = widgetCurrentVerb.de;
+    ["inf", "sp", "pp"].forEach(f => {
         const input = document.getElementById(`widget-${f}`);
         input.value = "";
         input.disabled = false;
-        
-        // Statusklassen entfernen
-        const wrapper = input.parentElement;
-        wrapper.className = "input-wrapper";
-        
-        // Tipps verbergen
+        input.parentElement.className = "input-wrapper";
         document.getElementById(`hint-widget-${f}`).style.display = "none";
     });
-
-    // Button zurücksetzen
-    const checkBtn = document.getElementById("btn-widget-check");
-    checkBtn.innerHTML = "Prüfen";
-    checkBtn.className = "btn btn-accent btn-full";
+    document.getElementById("btn-widget-check").innerHTML = "Prüfen";
     widgetChecked = false;
 }
 
 function checkWidgetVerbs() {
-    const checkBtn = document.getElementById("btn-widget-check");
+    if (widgetChecked) { loadWidgetVerb(); return; }
     
-    if (widgetChecked) {
-        // Nächstes Verb laden
-        loadWidgetVerb();
-        return;
+    const fields = { inf: "inf", sp: "sp", pp: "pp" };
+    let allCorrect = true;
+
+    for (let key in fields) {
+        const input = document.getElementById(`widget-${key}`);
+        const val = input.value.trim().toLowerCase();
+        const correct = widgetCurrentVerb[key].toLowerCase().split("/").map(v => v.trim());
+        const isOk = correct.includes(val);
+        
+        input.disabled = true;
+        input.parentElement.classList.add(isOk ? "success" : "error");
+        if (!isOk) {
+            const hint = document.getElementById(`hint-widget-${key}`);
+            hint.innerText = `Richtig: ${widgetCurrentVerb[key]}`;
+            hint.style.display = "block";
+            allCorrect = false;
+        }
     }
 
-    const valInf = document.getElementById("widget-inf").value.trim().toLowerCase();
-    const valSp = document.getElementById("widget-sp").value.trim().toLowerCase();
-    const valPp = document.getElementById("widget-pp").value.trim().toLowerCase();
-
-    // Akzeptierte Varianten aufsplitten (z.B. was/were)
-    const correctInf = widgetCurrentVerb.inf.toLowerCase().split("/").map(v => v.trim());
-    const correctSp = widgetCurrentVerb.sp.toLowerCase().split("/").map(v => v.trim());
-    const correctPp = widgetCurrentVerb.pp.toLowerCase().split("/").map(v => v.trim());
-
-    // Validieren
-    const isInfOk = correctInf.includes(valInf);
-    const isSpOk = correctSp.includes(valSp);
-    const isPpOk = correctPp.includes(valPp);
-
-    // Visuals anpassen
-    const styleInput = (id, isOk, correctVal) => {
-        const input = document.getElementById(id);
-        const wrapper = input.parentElement;
-        const hint = document.getElementById(`hint-${id}`);
-        input.disabled = true;
-
-        if (isOk) {
-            wrapper.classList.add("success");
-        } else {
-            wrapper.classList.add("error");
-            hint.innerText = `Richtig: ${correctVal}`;
-            hint.style.display = "block";
-        }
-    };
-
-    styleInput("widget-inf", isInfOk, widgetCurrentVerb.inf);
-    styleInput("widget-sp", isSpOk, widgetCurrentVerb.sp);
-    styleInput("widget-pp", isPpOk, widgetCurrentVerb.pp);
-
-    const allCorrect = isInfOk && isSpOk && isPpOk;
     widgetChecked = true;
-
+    const btn = document.getElementById("btn-widget-check");
     if (allCorrect) {
-        // Streak hochzählen
         verbsStreak++;
-        updateGlobalStats(15); // +15 Punkte für unregelmäßiges Verb
-        
-        // Widget-Streak im UI aktualisieren
+        updateGlobalStats(15);
         document.getElementById("verbs-streak").innerText = verbsStreak;
         localStorage.setItem("gh_verbs_streak", verbsStreak);
-        
-        // Erfolgs-Button
-        checkBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
-        checkBtn.className = "btn btn-green btn-full";
-
-        // Kleiner Animationseffekt auf dem deutschen Wort
-        const wordEl = document.getElementById("verb-german-target");
-        wordEl.style.transform = "scale(1.05)";
-        wordEl.style.borderColor = "var(--emerald)";
-        setTimeout(() => wordEl.style.transform = "", 300);
+        btn.innerHTML = "Richtig! Weiter";
+        btn.className = "btn btn-emerald btn-full";
     } else {
-        // Streak zurücksetzen
         verbsStreak = 0;
-        document.getElementById("verbs-streak").innerText = verbsStreak;
-        localStorage.setItem("gh_verbs_streak", verbsStreak);
-
-        // Fehler-Button
-        checkBtn.innerHTML = `Nächstes Verb <i class="fa-solid fa-arrow-right"></i>`;
-        checkBtn.className = "btn btn-primary btn-full";
+        document.getElementById("verbs-streak").innerText = 0;
+        btn.innerHTML = "Nächstes Verb";
     }
 }
 
 // ==========================================================================
-// 8. GRAMMATIK ERKLÄRUNGEN (DYNAMISCHES RENDERN)
+// 8. GRAMMATIK BIBLIOTHEK RENDER
 // ==========================================================================
 function renderGrammarCards() {
     const container = document.getElementById("grammar-cards-container");
-    container.innerHTML = "";
-
     for (const key in grammarLibrary) {
         const tense = grammarLibrary[key];
-        
         const card = document.createElement("div");
         card.className = "card glass-card grammar-card";
         card.id = `grammar-${key}`;
-
-        // Signalwörter Chips generieren
-        const chipsHtml = tense.signals.map(s => `<span class="signal-chip">${s}</span>`).join("");
-
-        // Beispielsätze generieren
-        const examplesHtml = tense.examples.map(ex => `
-            <li>
-                <strong>${ex.en}</strong>
-                <span class="example-translation">${ex.de}</span>
-            </li>
-        `).join("");
-
         card.innerHTML = `
-            <div class="grammar-card-header">
-                <h3>${tense.title}</h3>
-                <span class="subtitle-tag">${tense.title}</span>
-            </div>
-            
-            <div class="grammar-formula">
-                <strong>Bildung:</strong> ${tense.formula}
-            </div>
-
-            <div class="grammar-section">
-                <h4><i class="fa-solid fa-circle-info"></i> Verwendung</h4>
-                <p>${formatMarkdown(tense.use)}</p>
-            </div>
-
-            <div class="grammar-section">
-                <h4><i class="fa-solid fa-key"></i> Signalwörter</h4>
-                <div class="signal-word-chips">
-                    ${chipsHtml}
-                </div>
-            </div>
-
-            <div class="grammar-section">
-                <h4><i class="fa-solid fa-quote-left"></i> Beispielsätze</h4>
-                <ul class="example-list">
-                    ${examplesHtml}
-                </ul>
-            </div>
+            <div class="grammar-card-header"><h3>${tense.title}</h3></div>
+            <div class="grammar-formula"><strong>Bildung:</strong> ${tense.formula}</div>
+            <div class="grammar-section"><h4>Verwendung</h4><p>${formatMarkdown(tense.use)}</p></div>
+            <div class="grammar-section"><h4>Signalwörter</h4><div class="signal-word-chips">
+                ${tense.signals.map(s => `<span class="signal-chip">${s}</span>`).join("")}
+            </div></div>
+            <div class="grammar-section"><h4>Beispiele</h4><ul class="example-list">
+                ${tense.examples.map(ex => `<li><strong>${ex.en}</strong><span class="example-translation">${ex.de}</span></li>`).join("")}
+            </ul></div>
         `;
-
         container.appendChild(card);
     }
 }
