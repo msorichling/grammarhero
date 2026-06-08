@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeltest: Irregular Verbs (7. Klasse)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdfdfd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            border-top: 5px solid #e74c3c;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        .progress {
+            font-size: 0.9em;
+            color: #95a5a6;
+            margin-bottom: 20px;
+        }
+        .german-word {
+            font-size: 2em;
+            font-weight: bold;
+            color: #c0392b;
+            margin: 20px 0;
+            display: block;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #34495e;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .field-row {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .prefix {
+            margin-right: 8px;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1.1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        input.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .correction {
+            font-size: 0.85em;
+            color: #dc3545;
+            margin-top: 4px;
+            font-weight: bold;
+            display: none;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        button.next-btn {
+            background-color: #2ecc71;
+        }
+        button.next-btn:hover {
+            background-color: #27ae60;
+        }
+        #result-screen {
+            display: none;
+        }
+        .hint {
+            font-size: 0.8em;
+            color: #e67e22;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Irregular Verbs</h1>
+    <h3 class="subtitle">Klasse 7</h3>
+    <div class="progress" id="progress">Starte Test...</div>
+    
+    <div id="question-screen">
+        <span class="german-word" id="de-word">---</span>
+
+        <div class="input-group">
+            <label>Infinitive</label>
+            <div class="field-row">
+                <span class="prefix">(to)</span>
+                <input type="text" id="inf-input" autocomplete="off" autofocus>
+            </div>
+            <div id="inf-corr" class="correction"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Simple Past</label>
+            <input type="text" id="sp-input" autocomplete="off">
+            <div id="sp-corr" class="correction"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Past Participle</label>
+            <input type="text" id="pp-input" autocomplete="off">
+            <div id="pp-corr" class="correction"></div>
+        </div>
+
+        <button id="main-btn" onclick="handleButtonClick()">Prüfen</button>
+        <p class="hint">Achtung: Groß- und Kleinschreibung beachten!</p>
+    </div>
+
+    <div id="result-screen">
+        <h2>Geschafft!</h2>
+        <p id="final-score" style="font-size: 1.5em; font-weight: bold;"></p>
+        <p id="summary-text"></p>
+        <button onclick="location.reload()">Nochmal üben</button>
+    </div>
+</div>
+
+<script>
+    const verbData = [
+        { de: "sein", inf: "be", sp: "was/were", pp: "been" },
+        { de: "schlagen, besiegen", inf: "beat", sp: "beat", pp: "beaten" },
+        { de: "werden", inf: "become", sp: "became", pp: "become" },
+        { de: "beißen", inf: "bite", sp: "bit", pp: "bitten" },
+        { de: "pusten, blasen; wehen", inf: "blow", sp: "blew", pp: "blown" },
+        { de: "brechen", inf: "break", sp: "broke", pp: "broken" },
+        { de: "bringen, mitbringen", inf: "bring", sp: "brought", pp: "brought" },
+        { de: "bauen", inf: "build", sp: "built", pp: "built" },
+        { de: "brennen, verbrennen", inf: "burn", sp: "burnt", pp: "burnt" },
+        { de: "kaufen", inf: "buy", sp: "bought", pp: "bought" },
+        { de: "fangen; erwischen", inf: "catch", sp: "caught", pp: "caught" },
+        { de: "wählen, auswählen", inf: "choose", sp: "chose", pp: "chosen" },
+        { de: "kommen", inf: "come", sp: "came", pp: "come" },
+        { de: "kosten", inf: "cost", sp: "cost", pp: "cost" },
+        { de: "schneiden; mähen", inf: "cut", sp: "cut", pp: "cut" },
+        { de: "tun, machen", inf: "do", sp: "did", pp: "done" },
+        { de: "graben", inf: "dig", sp: "dug", pp: "dug" },
+        { de: "zeichnen", inf: "draw", sp: "drew", pp: "drawn" },
+        { de: "trinken", inf: "drink", sp: "drank", pp: "drunk" },
+        { de: "fahren", inf: "drive", sp: "drove", pp: "driven" },
+        { de: "essen", inf: "eat", sp: "ate", pp: "eaten" },
+        { de: "fallen", inf: "fall", sp: "fell", pp: "fallen" },
+        { de: "füttern", inf: "feed", sp: "fed", pp: "fed" },
+        { de: "fühlen", inf: "feel", sp: "felt", pp: "felt" },
+        { de: "kämpfen, bekämpfen", inf: "fight", sp: "fought", pp: "fought" },
+        { de: "finden", inf: "find", sp: "found", pp: "found" },
+        { de: "fliegen", inf: "fly", sp: "flew", pp: "flown" },
+        { de: "vergessen", inf: "forget", sp: "forgot", pp: "forgotten" },
+        { de: "gefrieren; erstarren", inf: "freeze", sp: "froze", pp: "frozen" },
+        { de: "bekommen; holen", inf: "get", sp: "got", pp: "got" },
+        { de: "geben", inf: "give", sp: "gave", pp: "given" },
+        { de: "gehen, fahren", inf: "go", sp: "went", pp: "gone" },
+        { de: "wachsen", inf: "grow", sp: "grew", pp: "grown" },
+        { de: "hängen", inf: "hang", sp: "hung", pp: "hung" },
+        { de: "haben", inf: "have", sp: "had", pp: "had" },
+        { de: "hören", inf: "hear", sp: "heard", pp: "heard" },
+        { de: "verstecken", inf: "hide", sp: "hid", pp: "hidden" },
+        { de: "treffen, schlagen", inf: "hit", sp: "hit", pp: "hit" },
+        { de: "halten", inf: "hold", sp: "held", pp: "held" },
+        { de: "verletzen; wehtun", inf: "hurt", sp: "hurt", pp: "hurt" },
+        { de: "behalten", inf: "keep", sp: "kept", pp: "kept" },
+        { de: "knien", inf: "kneel", sp: "knelt", pp: "knelt" },
+        { de: "wissen; kennen", inf: "know", sp: "knew", pp: "known" },
+        { de: "verlassen", inf: "leave", sp: "left", pp: "left" },
+        { de: "leihen", inf: "lend", sp: "lent", pp: "lent" },
+        { de: "lassen", inf: "let", sp: "let", pp: "let" },
+        { de: "verlieren", inf: "lose", sp: "lost", pp: "lost" },
+        { de: "machen, herstellen", inf: "make", sp: "made", pp: "made" },
+        { de: "bedeuten", inf: "mean", sp: "meant", pp: "meant" },
+        { de: "treffen", inf: "meet", sp: "met", pp: "met" },
+        { de: "bezahlen", inf: "pay", sp: "paid", pp: "paid" },
+        { de: "legen, stellen", inf: "put", sp: "put", pp: "put" },
+        { de: "lesen", inf: "read", sp: "read", pp: "read" },
+        { de: "reiten; fahren", inf: "ride", sp: "rode", pp: "ridden" },
+        { de: "läuten, klingeln", inf: "ring", sp: "rang", pp: "rung" },
+        { de: "rennen, laufen", inf: "run", sp: "ran", pp: "run" },
+        { de: "sagen", inf: "say", sp: "said", pp: "said" },
+        { de: "sehen", inf: "see", sp: "saw", pp: "seen" },
+        { de: "verkaufen", inf: "sell", sp: "sold", pp: "sold" },
+        { de: "senden, schicken", inf: "send", sp: "sent", pp: "sent" },
+        { de: "stellen, legen", inf: "set", sp: "set", pp: "set" },
+        { de: "nähen", inf: "sew", sp: "sewed", pp: "sewn" },
+        { de: "schütteln", inf: "shake", sp: "shook", pp: "shaken" },
+        { de: "zeigen", inf: "show", sp: "showed", pp: "shown" },
+        { de: "singen", inf: "sing", sp: "sang", pp: "sung" },
+        { de: "sitzen", inf: "sit", sp: "sat", pp: "sat" },
+        { de: "schlafen", inf: "sleep", sp: "slept", pp: "slept" },
+        { de: "sprechen", inf: "speak", sp: "spoke", pp: "spoken" },
+        { de: "ausgeben, verbringen", inf: "spend", sp: "spent", pp: "spent" },
+        { de: "drehen", inf: "spin", sp: "spun", pp: "spun" },
+        { de: "verbreiten", inf: "spread", sp: "spread", pp: "spread" },
+        { de: "stehen", inf: "stand", sp: "stood", pp: "stood" },
+        { de: "stehlen", inf: "steal", sp: "stole", pp: "stolen" },
+        { de: "kleben", inf: "stick", sp: "stuck", pp: "stuck" },
+        { de: "schwimmen", inf: "swim", sp: "swam", pp: "swum" },
+        { de: "nehmen; bringen", inf: "take", sp: "took", pp: "taken" },
+        { de: "lehren, unterrichten", inf: "teach", sp: "taught", pp: "taught" },
+        { de: "sagen, erzählen", inf: "tell", sp: "told", pp: "told" },
+        { de: "denken, glauben", inf: "think", sp: "thought", pp: "thought" },
+        { de: "werfen", inf: "throw", sp: "threw", pp: "thrown" },
+        { de: "verstehen", inf: "understand", sp: "understood", pp: "understood" },
+        { de: "aufwachen", inf: "wake up", sp: "woke up", pp: "woken up" },
+        { de: "tragen (Kleidung)", inf: "wear", sp: "wore", pp: "worn" },
+        { de: "gewinnen", inf: "win", sp: "won", pp: "won" },
+        { de: "schreiben", inf: "write", sp: "wrote", pp: "written" }
+    ];
+
+    let shuffledVerbs = [...verbData].sort(() => Math.random() - 0.5);
+    let currentIndex = 0;
+    let score = 0;
+    let isCheckingMode = true;
+
+    const mainBtn = document.getElementById('main-btn');
+    const inputs = {
+        inf: document.getElementById('inf-input'),
+        sp: document.getElementById('sp-input'),
+        pp: document.getElementById('pp-input')
+    };
+    const corrections = {
+        inf: document.getElementById('inf-corr'),
+        sp: document.getElementById('sp-corr'),
+        pp: document.getElementById('pp-corr')
+    };
+
+    function loadVerb() {
+        if (currentIndex < shuffledVerbs.length) {
+            const verb = shuffledVerbs[currentIndex];
+            document.getElementById('de-word').innerText = verb.de;
+            document.getElementById('progress').innerText = `Verb ${currentIndex + 1} von ${shuffledVerbs.length}`;
+            
+            for (let key in inputs) {
+                inputs[key].value = "";
+                inputs[key].className = "";
+                inputs[key].disabled = false;
+                corrections[key].style.display = "none";
+            }
+            mainBtn.innerText = "Prüfen";
+            mainBtn.className = "";
+            isCheckingMode = true;
+            inputs.inf.focus();
+        } else {
+            showResult();
+        }
+    }
+
+    function handleButtonClick() {
+        if (isCheckingMode) {
+            checkAnswer();
+        } else {
+            currentIndex++;
+            loadVerb();
+        }
+    }
+
+    function checkAnswer() {
+        const verb = shuffledVerbs[currentIndex];
+        let allCorrect = true;
+
+        const check = (key, correctValue) => {
+            const userVal = inputs[key].value.trim();
+            const variants = correctValue.split('/').map(v => v.trim());
+            
+            if (variants.includes(userVal)) {
+                inputs[key].className = "correct";
+            } else {
+                inputs[key].className = "incorrect";
+                corrections[key].innerText = `Richtig: ${correctValue}`;
+                corrections[key].style.display = "block";
+                allCorrect = false;
+            }
+            inputs[key].disabled = true;
+        };
+
+        check('inf', verb.inf);
+        check('sp', verb.sp);
+        check('pp', verb.pp);
+
+        if (allCorrect) score++;
+
+        mainBtn.innerText = "Nächstes Verb";
+        mainBtn.className = "next-btn";
+        isCheckingMode = false;
+    }
+
+    window.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleButtonClick();
+    });
+
+    function showResult() {
+        document.getElementById('question-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('final-score').innerText = `${score} von ${shuffledVerbs.length} richtig!`;
+        
+        const percent = (score / shuffledVerbs.length) * 100;
+        let msg = "";
+        if (percent === 100) msg = "Spitze! Ein perfektes Ergebnis! 🏆";
+        else if (percent > 80) msg = "Super! Du kennst dich richtig gut aus. ⭐";
+        else if (percent > 50) msg = "Schon ganz gut, übe weiter so! 📚";
+        else msg = "Kopf hoch! Mit ein bisschen mehr Übung klappt das bald besser. 💪";
+        
+        document.getElementById('summary-text').innerText = msg;
+    }
+
+    loadVerb();
+</script>
+
+</body>
+</html>

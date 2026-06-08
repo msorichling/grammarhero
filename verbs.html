@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irregular Verbs Trainer - Startseite</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Der gewünschte blau-grüne Farbverlauf */
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #1d976c 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .class-btn {
+            display: block;
+            padding: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Individuelle Farben für die Klassenstufen */
+        .btn-7 { background-color: #e74c3c; } /* Rot */
+        .btn-8 { background-color: #f39c12; } /* Orange */
+        .btn-9 { background-color: #3498db; } /* Blau */
+        .btn-10 { background-color: #8e44ad; } /* Lila */
+
+        .class-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            filter: brightness(1.1);
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Verb-Trainer</h1>
+    <p>Wähle deine Jahrgangsstufe aus, um mit dem Training der unregelmäßigen Verben zu beginnen.</p>
+    
+    <div class="button-grid">
+        <a href="irregular_verbs_7.html" class="class-btn btn-7">Klasse 7</a>
+        <a href="irregular_verbs_8.html" class="class-btn btn-8">Klasse 8</a>
+        <a href="irregular_verbs_9.html" class="class-btn btn-9">Klasse 9</a>
+        <a href="irregular_verbs_10.html" class="class-btn btn-10">Klasse 10</a>
+    </div>
+
+    <div class="footer">
+        © 2026 Irregular Verbs Training - ByLKI Unterstützung
+    </div>
+</div>
