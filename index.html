@@ -4,23 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrammarHero 10 - Englisch Grammatik & Verb Trainer</title>
-    <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Animierte Hintergrund-Blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
 
     <div class="app-container">
-        <!-- Header -->
         <header class="app-header">
             <div class="logo">
                 <i class="fa-solid fa-graduation-cap logo-icon"></i>
@@ -48,19 +44,16 @@
             </div>
         </header>
 
-        <!-- Hauptinhalt -->
         <main class="app-main">
             
-            <!-- TABS 1: TRAINER ARENA -->
             <section id="tab-trainer" class="tab-content active">
                 <div class="trainer-layout">
                     
-                    <!-- LÜCKENTEXT TRAINER (Links / Mitte) -->
                     <div class="card glass-card main-trainer-card">
                         <div class="card-header">
                             <div class="title-group">
                                 <span class="subtitle-tag" id="current-tense-badge">Simple Present</span>
-                                <h2>Satz-Trainer (Zeiten & Signalwörter)</h2>
+                                <h2>Satz-Trainer</h2>
                             </div>
                             <div class="progress-container">
                                 <span class="progress-text" id="sentence-progress">Satz 1 von 10</span>
@@ -71,46 +64,37 @@
                         </div>
 
                         <div class="card-body">
-                            <!-- Instruktionen -->
                             <div class="instruction-box" id="instruction-box">
                                 <div class="instruction-step active" id="step-signal">
                                     <i class="fa-solid fa-magnifying-glass instruction-icon text-cyan"></i>
-                                    <span><strong>Schritt 1:</strong> Finde und markiere das <strong>Signalwort</strong> im Satz durch Anklicken!</span>
+                                    <span><strong>Schritt 1:</strong> Finde und markiere das <strong>Signalwort</strong>!</span>
                                 </div>
                                 <div class="instruction-step" id="step-gap">
                                     <i class="fa-solid fa-keyboard instruction-icon text-purple"></i>
-                                    <span><strong>Schritt 2:</strong> Hervorragend! Fülle nun die Lücke mit der korrekten Verbform aus.</span>
+                                    <span><strong>Schritt 2:</strong> Hervorragend! Fülle nun die Lücke aus.</span>
                                 </div>
                             </div>
 
-                            <!-- Der interaktive Satzbereich -->
-                            <div class="sentence-display-area" id="sentence-area">
-                                <!-- Wird dynamisch in script.js gerendert -->
-                            </div>
+                            <div class="sentence-display-area" id="sentence-area" role="group" aria-label="Satz-Aufgabenbereich">
+                                </div>
 
-                            <!-- Feedback Drawer -->
-                            <div class="feedback-drawer" id="feedback-drawer">
+                            <div class="feedback-drawer" id="feedback-drawer" aria-live="polite">
                                 <div class="feedback-header">
-                                    <div class="feedback-status" id="feedback-status">
-                                        <i class="fa-solid fa-circle-check text-green"></i>
-                                        <span>Richtig! Sehr gut gemacht.</span>
-                                    </div>
-                                    <span class="tense-tag" id="feedback-tense">Simple Past</span>
+                                    <div class="feedback-status" id="feedback-status"></div>
+                                    <span class="tense-tag" id="feedback-tense"></span>
                                 </div>
                                 <div class="feedback-body">
                                     <div class="correct-form-alert">
-                                        <span>Korrekt wäre: </span><strong id="feedback-correct-answer">went</strong>
+                                        <span>Korrekt wäre: </span><strong id="feedback-correct-answer"></strong>
                                     </div>
-                                    <p class="explanation-text" id="feedback-explanation">
-                                        Hier steht eine Erklärung...
-                                    </p>
+                                    <p class="explanation-text" id="feedback-explanation"></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-footer">
                             <button class="btn btn-secondary" id="btn-hint" onclick="showSentenceHint()">
-                                <i class="fa-solid fa-lightbulb"></i> Tipp geben
+                                <i class="fa-solid fa-lightbulb"></i> Tipp
                             </button>
                             <button class="btn btn-primary" id="btn-action" onclick="handleSentenceAction()" disabled>
                                 <i class="fa-solid fa-lock"></i> Bitte Signalwort wählen
@@ -118,10 +102,7 @@
                         </div>
                     </div>
 
-                    <!-- SIDEBAR (Rechts) -->
                     <div class="trainer-sidebar">
-                        
-                        <!-- WIDGET: UNREGELMÄSSIGE VERBEN -->
                         <div class="card glass-card widget-verbs">
                             <div class="widget-header">
                                 <h3><i class="fa-solid fa-bolt text-purple"></i> Irregular Verbs</h3>
@@ -130,121 +111,23 @@
                                 </div>
                             </div>
                             <div class="widget-body">
-                                <p class="widget-desc">Gib die 3 Stammformen für das deutsche Verb ein:</p>
+                                <p class="widget-desc">Gib die 3 Stammformen ein:</p>
                                 <div class="verb-target-word" id="verb-german-target">---</div>
-
                                 <form id="verbs-widget-form" onsubmit="event.preventDefault(); checkWidgetVerbs();">
-                                    <div class="input-field-group">
-                                        <label for="widget-inf"><span class="badge-mini">1. Form</span> Infinitive</label>
-                                        <div class="input-wrapper">
-                                            <span class="input-prefix">to</span>
-                                            <input type="text" id="widget-inf" autocomplete="off" placeholder="write" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-inf">Richtig: write</div>
-                                    </div>
-
-                                    <div class="input-field-group">
-                                        <label for="widget-sp"><span class="badge-mini">2. Form</span> Simple Past</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" id="widget-sp" autocomplete="off" placeholder="wrote" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-sp">Richtig: wrote</div>
-                                    </div>
-
-                                    <div class="input-field-group">
-                                        <label for="widget-pp"><span class="badge-mini">3. Form</span> Past Participle</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" id="widget-pp" autocomplete="off" placeholder="written" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-pp">Richtig: written</div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-accent btn-full" id="btn-widget-check">
-                                        Prüfen
-                                    </button>
+                                    <button type="submit" class="btn btn-accent btn-full" id="btn-widget-check">Prüfen</button>
                                 </form>
                             </div>
                         </div>
-
-                        <!-- WIDGET: SPEZIAL HINWEIS / ZEITEN QUICK REF -->
-                        <div class="card glass-card widget-quick-ref">
-                            <h4><i class="fa-solid fa-star text-yellow"></i> Signalwörter im Blick</h4>
-                            <ul class="quick-ref-list">
-                                <li><span class="ref-tense">Simple Present:</span> always, usually, every...</li>
-                                <li><span class="ref-tense">Pres. Progressive:</span> now, at the moment, look!</li>
-                                <li><span class="ref-tense">Simple Past:</span> yesterday, ... ago, last...</li>
-                                <li><span class="ref-tense">Past Progressive:</span> while, as long as</li>
-                                <li><span class="ref-tense">Present Perfect:</span> just, already, yet, since, for</li>
-                                <li><span class="ref-tense">Past Perfect:</span> after, before, by the time</li>
-                            </ul>
-                        </div>
                     </div>
-
                 </div>
             </section>
 
-            <!-- TABS 2: GRAMMATIK ERKLÄRUNGEN -->
             <section id="tab-grammar" class="tab-content">
-                <div class="grammar-dashboard-header">
-                    <h2>Die 8 Zeiten im bayerischen Realschul-Lehrplan (Klasse 10)</h2>
-                    <p>Hier findest du anschauliche Vergleiche, Zeitstrahlen und alle wichtigen Regeln auf einen Blick.</p>
-                </div>
-
-                <div class="grammar-timeline-card card glass-card">
-                    <h3><i class="fa-solid fa-timeline text-cyan"></i> Die englische Zeitenlandschaft (Chronologischer Zeitstrahl)</h3>
-                    <div class="timeline-visual">
-                        <div class="timeline-line"></div>
-                        <div class="timeline-nodes">
-                            <div class="timeline-node" onclick="scrollToTense('past-perfect')">
-                                <div class="node-dot"></div>
-                                <span class="node-title">Past Perfect</span>
-                                <span class="node-desc">Vor-Vergangenheit</span>
-                            </div>
-                            <div class="timeline-node" onclick="scrollToTense('simple-past')">
-                                <div class="node-dot"></div>
-                                <span class="node-title">Simple Past</span>
-                                <span class="node-desc">Vergangenheit</span>
-                            </div>
-                            <div class="timeline-node" onclick="scrollToTense('present-perfect')">
-                                <div class="node-dot"></div>
-                                <span class="node-title">Pres. Perfect</span>
-                                <span class="node-desc">Brücke zur Gegenwart</span>
-                            </div>
-                            <div class="timeline-node active" onclick="scrollToTense('simple-present')">
-                                <div class="node-dot"></div>
-                                <span class="node-title">Simple Present</span>
-                                <span class="node-desc">Gegenwart / Gewohnheit</span>
-                            </div>
-                            <div class="timeline-node" onclick="scrollToTense('will-future')">
-                                <div class="node-dot"></div>
-                                <span class="node-title">Will-Future</span>
-                                <span class="node-desc">Zukunft (Vorhersage)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Zeiten Grid -->
-                <div class="grammar-grid" id="grammar-cards-container">
-                    <!-- Wird dynamisch oder strukturiert in CSS/HTML gefüllt -->
-                </div>
-            </section>
+                </section>
 
         </main>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p>Entwickelt für die 10. Klasse der bayerischen Realschule • © 2026 GrammarHero</p>
-        </footer>
     </div>
 
-    <!-- Einbindung der Logik -->
     <script src="script.js"></script>
 </body>
 </html>
