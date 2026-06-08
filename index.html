@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="sentence-display-area" id="sentence-area" role="group" aria-label="Satz-Aufgabenbereich">
-                                </div>
+                            </div>
 
                             <div class="feedback-drawer" id="feedback-drawer" aria-live="polite">
                                 <div class="feedback-header">
@@ -114,6 +114,9 @@
                                 <p class="widget-desc">Gib die 3 Stammformen ein:</p>
                                 <div class="verb-target-word" id="verb-german-target">---</div>
                                 <form id="verbs-widget-form" onsubmit="event.preventDefault(); checkWidgetVerbs();">
+                                    <div class="input-wrapper"><input type="text" id="widget-inf" autocomplete="off" placeholder="Infinitive" required></div>
+                                    <div class="input-wrapper"><input type="text" id="widget-sp" autocomplete="off" placeholder="Simple Past" required></div>
+                                    <div class="input-wrapper"><input type="text" id="widget-pp" autocomplete="off" placeholder="Past Participle" required></div>
                                     <button type="submit" class="btn btn-accent btn-full" id="btn-widget-check">Prüfen</button>
                                 </form>
                             </div>
@@ -123,7 +126,7 @@
             </section>
 
             <section id="tab-grammar" class="tab-content">
-                </section>
+            </section>
 
         </main>
     </div>
