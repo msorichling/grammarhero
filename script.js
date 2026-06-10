@@ -689,7 +689,7 @@ const sentenceBank = [
         text: "They _____ to Asia next month, if they get vacation.",
         infinitive: "probably / travel",
         correctAnswers: ["will probably travel"],
-        signalWords: ["probably", "next", "month"],
+        signalWords: ["next", "month"],
         tense: "Will-Future",
         explanation: "'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future** -> **will probably travel**."
     },
