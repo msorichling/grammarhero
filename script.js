@@ -450,10 +450,10 @@ const sentenceBank = [
 
     // --- PRESENT PERFECT (10 Sätze) ---
     {
-        text: "I _____ my homework, so I can go out now.",
-        infinitive: "already / finish",
-        correctAnswers: ["have already finished"],
-        signalWords: ["already"],
+        text: "I have already _____ my homework, so I can go out now.",
+        infinitive: "finish",
+        correctAnswers: ["finished"],
+        signalWords: [],
         tense: "Present Perfect",
         explanation: "Das Signalwort 'already' (bereits) verweist auf das **Present Perfect** (*have/has + 3. Form*). Das Ergebnis der Handlung ist wichtig für die Gegenwart. Bei 'I' nutzen wir 'have' -> **have already finished**."
     },
@@ -475,9 +475,9 @@ const sentenceBank = [
     },
     {
         text: "You _____ to London several times.",
-        infinitive: "ever / be",
-        correctAnswers: ["have ever been", "have been"],
-        signalWords: ["ever"],
+        infinitive: "be",
+        correctAnswers: ["have been"],
+        signalWords: ["several", "times"],
         tense: "Present Perfect",
         explanation: "Die Frage oder Feststellung von Erfahrungen im Leben ('ever' / 'several times') steht im **Present Perfect**. Bei 'You' nutzen wir 'have' + unregelmäßige 3. Form von be (been) -> **have ever been**."
     },
@@ -491,9 +491,9 @@ const sentenceBank = [
     },
     {
         text: "They _____ at the train station just now.",
-        infinitive: "just / arrive",
-        correctAnswers: ["have just arrived"],
-        signalWords: ["just"],
+        infinitive: "arrive",
+        correctAnswers: ["have arrived"],
+        signalWords: ["just", "now"],
         tense: "Present Perfect",
         explanation: "Das Signalwort 'just' (gerade eben) zeigt eine unmittelbar abgeschlossene Handlung mit starkem Gegenwartsbezug -> **Present Perfect**. 'They' benötigt 'have' -> **have just arrived**."
     },
@@ -501,14 +501,14 @@ const sentenceBank = [
         text: "I _____ such a beautiful sunset before.",
         infinitive: "never / see",
         correctAnswers: ["have never seen"],
-        signalWords: ["never"],
+        signalWords: ["before"],
         tense: "Present Perfect",
-        explanation: "'never' in Verbindung mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
+        explanation: "'never' in Verbindung mit'before', in dem Fall mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
     },
     {
         text: "She _____ a new smartphone recently.",
-        infinitive: "recently / buy",
-        correctAnswers: ["has recently bought", "has bought recently"],
+        infinitive: "buy",
+        correctAnswers: ["has bought", "has recently"],
         signalWords: ["recently"],
         tense: "Present Perfect",
         explanation: "Das Signalwort 'recently' (vor Kurzem) verlangt das **Present Perfect**. 'She' benötigt 'has' und die 3. Form von buy (bought) -> **has recently bought**."
@@ -522,10 +522,10 @@ const sentenceBank = [
         explanation: "Der Zeitraum ('since breakfast') reicht bis in die Gegenwart -> **Present Perfect**. 'We' verlangt 'have not' und das unregelmäßige Partizip 'eaten' -> **have not eaten**."
     },
     {
-        text: "He _____ that exciting adventure book already.",
+        text: "He _____ that exciting adventure book.",
         infinitive: "already / read",
         correctAnswers: ["has already read"],
-        signalWords: ["already"],
+        signalWords: [],
         tense: "Present Perfect",
         explanation: "'already' verweist auf das **Present Perfect**. 'He' benötigt 'has'. Die 3. Form von read wird 'read' geschrieben, aber wie das deutsche 'rot' ausgesprochen -> **has already read**."
     },
