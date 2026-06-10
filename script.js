@@ -625,9 +625,9 @@ const sentenceBank = [
         text: "We _____ London next summer, but we haven't booked anything yet.",
         infinitive: "probably / visit",
         correctAnswers: ["will probably visit"],
-        signalWords: ["probably", "next"],
+        signalWords: ["next"],
         tense: "Will-Future",
-        explanation: "Das Wort 'probably' (wahrscheinlich) deutet auf eine unsichere Vorhersage oder Vermutung hin -> **Will-Future** -> **will probably visit**."
+        explanation: "Das Wort 'probably' (wahrscheinlich) mit 'next' deutet auf eine unsichere Vorhersage oder Vermutung hin -> **Will-Future** -> **will probably visit**."
     },
     {
         text: "In the future, robots _____ all the dangerous work.",
