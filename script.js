@@ -778,7 +778,7 @@ const sentenceBank = [
 ];
 
 // ==========================================================================
-// 3. GRAMMATIK INFORMATIONEN FÜR DIE ERKLÄRUNGEN (DYNAMISCHES RENDERN)
+// 3. GRAMMATIK INFORMATIONEN FÜR DIE ERAKLÄRUNGEN (DYNAMISCHES RENDERN)
 // ==========================================================================
 const grammarLibrary = {
     "simple-present": {
@@ -1416,7 +1416,7 @@ function checkWidgetVerbs() {
         document.getElementById("verbs-streak").innerText = verbsStreak;
         localStorage.setItem("gh_verbs_streak", verbsStreak);
         
-        btn-widget-check.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
+        checkBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
         checkBtn.className = "btn btn-green btn-full";
 
         const wordEl = document.getElementById("verb-german-target");
