@@ -503,16 +503,16 @@ const sentenceBank = [
         correctAnswers: ["have never seen"],
         signalWords: ["before"],
         tense: "Present Perfect",
-        explanation: "'never' in Verbindung mit'before', in dem Fall mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
+        explanation: "'never' in Verbindung mit 'before', in dem Fall mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
     },
     {
-    text: "She _____ a new smartphone.",
-    infinitive: "recently / buy", 
-    correctAnswers: ["has recently bought"],
-    signalWords: [], 
-    tense: "Present Perfect",
-    explanation: "'recently' (vor Kurzem) steht idiomatisch meist mitten im Present Perfect-Verbkomplex -> **has recently bought**."
-}
+        text: "She _____ a new smartphone.",
+        infinitive: "recently / buy", 
+        correctAnswers: ["has recently bought"],
+        signalWords: [], 
+        tense: "Present Perfect",
+        explanation: "'recently' (vor Kurzem) steht idiomatisch meist mitten im Present Perfect-Verbkomplex -> **has recently bought**."
+    },
     {
         text: "We _____ anything since breakfast.",
         infinitive: "not / eat",
@@ -522,13 +522,13 @@ const sentenceBank = [
         explanation: "Der Zeitraum ('since breakfast') reicht bis in die Gegenwart -> **Present Perfect**. 'We' verlangt 'have not' und das unregelmäßige Partizip 'eaten' -> **have not eaten**."
     },
     {
-    text: "He _____ that exciting adventure book.",
-    infinitive: "already / read",
-    correctAnswers: ["has already read"],
-    signalWords: [], 
-    tense: "Present Perfect",
-    explanation: "'already' (bereits) verweist auf das **Present Perfect**. Das Adverb steht im Englischen idiomatisch zwischen 'has' und der 3. Verbform -> **has already read**."
-},
+        text: "He _____ that exciting adventure book.",
+        infinitive: "already / read",
+        correctAnswers: ["has already read"],
+        signalWords: [], 
+        tense: "Present Perfect",
+        explanation: "'already' (bereits) verweist auf das **Present Perfect**. Das Adverb steht im Englischen idiomatisch zwischen 'has' und der 3. Verbform -> **has already read**."
+    },
 
     // --- PAST PERFECT (10 Sätze) ---
     {
@@ -685,14 +685,14 @@ const sentenceBank = [
         tense: "Will-Future",
         explanation: "Wünsche und Hoffnungen ('I hope' - ich hoffe) über zukünftiges Wetter stehen im **Will-Future** -> **will be**."
     },
-   {
-    text: "They _____ to Asia next month, if they get vacation.",
-    infinitive: "probably / travel", 
-    correctAnswers: ["will probably travel"],
-    signalWords: ["next", "month"],
-    tense: "Will-Future",
-    explanation: "Das Wort 'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future**. Es steht als Adverb zwischen 'will' und dem Infinitiv -> **will probably travel**."
-},
+    {
+        text: "They _____ to Asia next month, if they get vacation.",
+        infinitive: "probably / travel", 
+        correctAnswers: ["will probably travel"],
+        signalWords: ["next", "month"],
+        tense: "Will-Future",
+        explanation: "Das Wort 'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future**. Es steht als Adverb zwischen 'will' und dem Infinitiv -> **will probably travel**."
+    },
 
     // --- GOING TO FUTURE (10 Sätze) ---
     {
@@ -915,12 +915,10 @@ function resetMasterSentencePool() {
 }
 
 function initTrainerRound() {
-    // Falls der Pool leer ist (alle 80 Sätze gespielt), von vorne beginnen
     if (masterSentencePool.length === 0) {
         resetMasterSentencePool();
     }
     
-    // Die nächsten 10 Sätze aus dem Master-Pool entnehmen
     currentRoundSentences = masterSentencePool.splice(0, 10);
     currentSentenceIndex = 0;
     sentenceScore = 0;
@@ -964,10 +962,8 @@ function renderSentenceWithTokens() {
     const container = document.getElementById("sentence-area");
     container.innerHTML = "";
 
-    // Satz an der Lücke "_____" aufsplitten
     const parts = activeSentence.text.split("_____");
     
-    // Saubere Extraktion des Infinitivs
     let displayInfinitive = activeSentence.infinitive;
     let extraTokenWord = "";
 
@@ -983,21 +979,14 @@ function renderSentenceWithTokens() {
         if(word.length > 0) container.appendChild(createTokenElement(word));
     });
 
-    // === HIER WAR DER FEHLER (LÖSUNG B) ===
-    // Wir löschen den alten Code, der hier fälschlicherweise ein extra klickbares Token 
-    // für "probably" oder "already" mitten in den Satz gebaut hat.
-
     // 2. Das Lücken-Eingabefeld (Gap-Input)
     const gapWrapper = document.createElement("div");
     gapWrapper.className = "gap-input-container";
     gapWrapper.id = "gap-container";
 
-    // Das Hinweis-Tag für die Schüler
     const infTag = document.createElement("span");
     infTag.className = "verb-infinitive-tag";
     
-    // KORREKTUR: Wenn ein Wort wie "probably" existiert, schreiben wir es 
-    // als Arbeitsauftrag mit in die Klammer (z.B. "to travel + probably")
     if (extraTokenWord && extraTokenWord !== "not") {
         infTag.innerText = `to ${displayInfinitive} (+ ${extraTokenWord})`;
     } else {
@@ -1050,24 +1039,22 @@ function showRoundResults() {
     btnAction.disabled = true;
     btnAction.innerHTML = `<i class="fa-solid fa-circle-check"></i> Runde abgeschlossen`;
     btnAction.className = "btn btn-secondary";
-}// ==========================================================================
+}
+
+// ==========================================================================
 // 5. TABS & STATISTIK-LOGIK
 // ==========================================================================
 function switchTab(tabName) {
-    // Buttons toggeln
     document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
     document.getElementById(`btn-tab-${tabName}`).classList.add("active");
     
-    // Inhalt toggeln
     document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
     document.getElementById(`tab-${tabName}`).classList.add("active");
 }
 
 function scrollToTense(tenseId) {
-    // Falls in Trainer-Tab, wechsle zu Grammatik
     switchTab('grammar');
     
-    // Node-Status anpassen
     document.querySelectorAll(".timeline-node").forEach(node => {
         node.classList.remove("active");
         if (node.getAttribute("onclick").includes(tenseId)) {
@@ -1075,7 +1062,6 @@ function scrollToTense(tenseId) {
         }
     });
 
-    // Scrolle sanft zur gewählten Zeitkarte
     const element = document.getElementById(`grammar-${tenseId}`);
     if (element) {
         setTimeout(() => {
@@ -1096,7 +1082,6 @@ function updateGlobalStats(pointsDiff, resetStreak = false) {
     document.getElementById("global-points").innerText = globalPoints;
     document.getElementById("global-streak").innerText = globalStreak;
     
-    // Speichern
     localStorage.setItem("gh_points", globalPoints);
     localStorage.setItem("gh_streak", globalStreak);
 }
@@ -1111,16 +1096,12 @@ function loadStats() {
     document.getElementById("verbs-streak").innerText = verbsStreak;
 }
 
-// [Duplikate entfernt, die korrekten Versionen befinden sich oben]
-
 function createTokenElement(wordText) {
     const token = document.createElement("span");
     token.innerText = wordText;
     
-    // Normalisiere das Wort für den Check (ohne Satzzeichen)
     const norm = normalizeWord(wordText);
     
-    // Handelt es sich um reines Satzzeichen?
     if (norm === "") {
         token.className = "word-token punctuation";
     } else {
@@ -1137,13 +1118,12 @@ function normalizeWord(word) {
 }
 
 function selectWordToken(element) {
-    if (sentenceChecked) return; // Nach der Prüfung keine Klicks mehr
+    if (sentenceChecked) return;
 
     const norm = element.dataset.normalized;
     const correctSignals = activeSentence.signalWords.map(w => normalizeWord(w));
 
     if (correctSignals.includes(norm)) {
-        // Richtiges Signalwort angeklickt!
         if (element.classList.contains("selected")) {
             element.classList.remove("selected");
             selectedWords = selectedWords.filter(w => w !== norm);
@@ -1152,9 +1132,8 @@ function selectWordToken(element) {
             selectedWords.push(norm);
         }
     } else {
-        // Falsches Signalwort angeklickt!
         element.classList.add("incorrect-flash");
-        updateGlobalStats(-1); // -1 XP Strafe
+        updateGlobalStats(-1);
         showFloatingXpFeedback(element, -1);
         
         setTimeout(() => {
@@ -1162,7 +1141,6 @@ function selectWordToken(element) {
         }, 800);
     }
 
-    // Aktualisiere verbleibende Wortanzahl im Instruktionsbereich
     updateDynamicInstructionCount(correctSignals);
     checkSignalWordsSelection();
 }
@@ -1201,10 +1179,8 @@ function showFloatingXpFeedback(element, amount) {
 }
 
 function checkSignalWordsSelection() {
-    // Normalisierte korrekte Signalwörter
     const correctSignals = activeSentence.signalWords.map(w => normalizeWord(w));
     
-    // Prüfen, ob alle korrekten Wörter markiert sind (und KEINE falschen)
     const allCorrectSelected = correctSignals.every(w => selectedWords.includes(w));
     const noWrongSelected = selectedWords.every(w => correctSignals.includes(w));
 
@@ -1213,25 +1189,20 @@ function checkSignalWordsSelection() {
     const btnAction = document.getElementById("btn-action");
 
     if (allCorrectSelected && noWrongSelected) {
-        // Lücke freischalten!
         gapContainer.classList.add("unlocked");
         gapInput.disabled = false;
         gapContainer.querySelector(".lock-overlay").innerHTML = `<i class="fa-solid fa-lock-open text-purple"></i>`;
         
-        // Instruktionsbox anpassen
         document.getElementById("instruction-box").style.background = "rgba(139, 92, 246, 0.05)";
         document.getElementById("step-signal").classList.remove("active");
         document.getElementById("step-gap").classList.add("active");
 
-        // Action-Button für Schritt 2 aktivieren
         btnAction.disabled = false;
         btnAction.innerHTML = `<i class="fa-solid fa-square-check"></i> Antwort prüfen`;
         btnAction.className = "btn btn-accent";
         
-        // Fokus auf Input
         gapInput.focus();
     } else {
-        // Wieder sperren
         gapContainer.classList.remove("unlocked");
         gapInput.disabled = true;
         gapContainer.querySelector(".lock-overlay").innerHTML = `<i class="fa-solid fa-lock"></i>`;
@@ -1254,6 +1225,7 @@ function handleSentenceAction() {
     }
 }
 
+// Hilfsfunktion zur Formatierung von fettem/kursivem Text in den Erklärungen
 function formatMarkdown(text) {
     if (!text) return "";
     return text
@@ -1265,16 +1237,12 @@ function checkGapAnswer() {
     const gapInput = document.getElementById("sentence-gap");
     const userVal = gapInput.value.trim().toLowerCase();
     
-    // Akzeptierte Schreibweisen normieren (Kleinschreibung, Leerzeichen trimmen)
     const correctVariants = activeSentence.correctAnswers.map(v => v.trim().toLowerCase());
     
     const isCorrect = correctVariants.includes(userVal);
     sentenceChecked = true;
 
-    // Visuals für Lückenfeld anpassen
     gapInput.disabled = true;
-    
-    // Klickbarkeit der Tokens sperren
     document.querySelectorAll(".word-token").forEach(t => t.style.pointerEvents = "none");
 
     const drawer = document.getElementById("feedback-drawer");
@@ -1288,7 +1256,6 @@ function checkGapAnswer() {
     if (isCorrect) {
         gapInput.classList.add("correct");
         
-        // Feedback Drawer auf Grün setzen
         drawer.style.display = "block";
         drawer.classList.add("correct-box");
         statusText.innerHTML = `<i class="fa-solid fa-circle-check text-green"></i> <span>Richtig! Großartig.</span>`;
@@ -1296,21 +1263,19 @@ function checkGapAnswer() {
         explanation.innerHTML = formatMarkdown(activeSentence.explanation);
 
         sentenceScore++;
-        updateGlobalStats(10); // +10 Punkte
+        updateGlobalStats(10);
     } else {
         gapInput.classList.add("incorrect");
 
-        // Feedback Drawer auf Rot setzen
         drawer.style.display = "block";
         drawer.classList.add("incorrect-box");
         statusText.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose"></i> <span>Leider nicht ganz richtig!</span>`;
         correctAlert.innerText = activeSentence.correctAnswers[0];
         explanation.innerHTML = formatMarkdown(activeSentence.explanation);
 
-        updateGlobalStats(0, true); // Streak bricht
+        updateGlobalStats(0, true);
     }
 
-    // Action Button auf Weiter schalten
     const btnAction = document.getElementById("btn-action");
     btnAction.innerHTML = `Weiter <i class="fa-solid fa-arrow-right"></i>`;
     btnAction.className = "btn btn-primary";
@@ -1319,14 +1284,12 @@ function checkGapAnswer() {
 function showSentenceHint() {
     if (sentenceChecked) return;
 
-    // Finde das korrekte Signalwort
     const hintWord = activeSentence.signalWords[0];
+    if (!hintWord) return; // Falls kein Signalwort vorhanden
     
-    // Finde das Token-Element dazu
     const tokens = document.querySelectorAll(".word-token");
     tokens.forEach(token => {
         if (token.dataset.normalized === normalizeWord(hintWord)) {
-            // Lass das Signalwort kurz aufleuchten (Animation)
             token.style.transform = "scale(1.2)";
             token.style.borderColor = "var(--yellow)";
             token.style.boxShadow = "0 0 10px rgba(234, 179, 8, 0.4)";
@@ -1339,7 +1302,6 @@ function showSentenceHint() {
         }
     });
 
-    // Kleines Punkteabzug als 'Tipp-Kosten' (optional, nur unaufdringlich)
     updateGlobalStats(0);
 }
 
@@ -1352,8 +1314,6 @@ function nextSentence() {
     }
 }
 
-// [Duplikat entfernt, die korrekte Version befindet sich oben]
-
 // ==========================================================================
 // 7. SIDEBAR WIDGET: UNREGELMÄSSIGE VERBEN (LOGIK)
 // ==========================================================================
@@ -1362,28 +1322,21 @@ function initWidgetVerb() {
 }
 
 function loadWidgetVerb() {
-    // Wähle ein zufälliges Verb aus der unregelmäßigen Verben-Datenbank
     widgetCurrentVerb = verbData[Math.floor(Math.random() * verbData.length)];
-    
-    // Deutsches Wort anzeigen
     document.getElementById("verb-german-target").innerText = widgetCurrentVerb.de;
 
-    // Formular-Felder zurücksetzen
     const fields = ["inf", "sp", "pp"];
     fields.forEach(f => {
         const input = document.getElementById(`widget-${f}`);
         input.value = "";
         input.disabled = false;
         
-        // Statusklassen entfernen
         const wrapper = input.parentElement;
         wrapper.className = "input-wrapper";
         
-        // Tipps verbergen
         document.getElementById(`hint-widget-${f}`).style.display = "none";
     });
 
-    // Button zurücksetzen
     const checkBtn = document.getElementById("btn-widget-check");
     checkBtn.innerHTML = "Prüfen";
     checkBtn.className = "btn btn-accent btn-full";
@@ -1394,7 +1347,6 @@ function checkWidgetVerbs() {
     const checkBtn = document.getElementById("btn-widget-check");
     
     if (widgetChecked) {
-        // Nächstes Verb laden
         loadWidgetVerb();
         return;
     }
@@ -1403,17 +1355,14 @@ function checkWidgetVerbs() {
     const valSp = document.getElementById("widget-sp").value.trim().toLowerCase();
     const valPp = document.getElementById("widget-pp").value.trim().toLowerCase();
 
-    // Akzeptierte Varianten aufsplitten (z.B. was/were)
     const correctInf = widgetCurrentVerb.inf.toLowerCase().split("/").map(v => v.trim());
     const correctSp = widgetCurrentVerb.sp.toLowerCase().split("/").map(v => v.trim());
     const correctPp = widgetCurrentVerb.pp.toLowerCase().split("/").map(v => v.trim());
 
-    // Validieren
     const isInfOk = correctInf.includes(valInf);
     const isSpOk = correctSp.includes(valSp);
     const isPpOk = correctPp.includes(valPp);
 
-    // Visuals anpassen
     const styleInput = (id, isOk, correctVal) => {
         const input = document.getElementById(id);
         const wrapper = input.parentElement;
@@ -1437,30 +1386,24 @@ function checkWidgetVerbs() {
     widgetChecked = true;
 
     if (allCorrect) {
-        // Streak hochzählen
         verbsStreak++;
-        updateGlobalStats(15); // +15 Punkte für unregelmäßiges Verb
+        updateGlobalStats(15);
         
-        // Widget-Streak im UI aktualisieren
         document.getElementById("verbs-streak").innerText = verbsStreak;
         localStorage.setItem("gh_verbs_streak", verbsStreak);
         
-        // Erfolgs-Button
         checkBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
         checkBtn.className = "btn btn-green btn-full";
 
-        // Kleiner Animationseffekt auf dem deutschen Wort
         const wordEl = document.getElementById("verb-german-target");
         wordEl.style.transform = "scale(1.05)";
         wordEl.style.borderColor = "var(--emerald)";
         setTimeout(() => wordEl.style.transform = "", 300);
     } else {
-        // Streak zurücksetzen
         verbsStreak = 0;
         document.getElementById("verbs-streak").innerText = verbsStreak;
         localStorage.setItem("gh_verbs_streak", verbsStreak);
 
-        // Fehler-Button
         checkBtn.innerHTML = `Nächstes Verb <i class="fa-solid fa-arrow-right"></i>`;
         checkBtn.className = "btn btn-primary btn-full";
     }
@@ -1480,10 +1423,8 @@ function renderGrammarCards() {
         card.className = "card glass-card grammar-card";
         card.id = `grammar-${key}`;
 
-        // Signalwörter Chips generieren
         const chipsHtml = tense.signals.map(s => `<span class="signal-chip">${s}</span>`).join("");
 
-        // Beispielsätze generieren
         const examplesHtml = tense.examples.map(ex => `
             <li>
                 <strong>${ex.en}</strong>
