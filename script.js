@@ -928,7 +928,7 @@ function initTrainerRound() {
 }
 
 // ==========================================================================
-// INTERAKTIVER SATZ-TRAINER (KORRIGIERTES RENDERING)
+// INTERAKTIVER SATZ-TRAINER (KORRIGIERTES RENDERING & AUTOMATISCHER ÜBERSPRUNG)
 // ==========================================================================
 function loadSentence() {
     activeSentence = currentRoundSentences[currentSentenceIndex];
@@ -939,21 +939,46 @@ function loadSentence() {
     document.getElementById("sentence-progress-bar").style.width = `${(currentSentenceIndex + 1) * 10}%`;
     document.getElementById("current-tense-badge").innerText = activeSentence.tense;
     
-    document.getElementById("instruction-box").style.background = "rgba(255, 255, 255, 0.02)";
-    document.getElementById("step-signal").classList.add("active");
-    document.getElementById("step-gap").classList.remove("active");
-    
     const btnAction = document.getElementById("btn-action");
-    btnAction.disabled = true;
-    btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
-    btnAction.className = "btn btn-primary";
-
     const drawer = document.getElementById("feedback-drawer");
     drawer.style.display = "none";
     drawer.className = "feedback-drawer";
 
+    // Zuerst den Satz rendern
     renderSentenceWithTokens();
-    if (activeSentence && activeSentence.signalWords) {
+
+    // INTELLIGENTE WEICHE (LÖSUNG B): Wenn der Satz kein Signalwort hat, überspringe Schritt 1 direkt!
+    if (!activeSentence.signalWords || activeSentence.signalWords.length === 0) {
+        const gapContainer = document.getElementById("gap-container");
+        const gapInput = document.getElementById("sentence-gap");
+        
+        gapContainer.classList.add("unlocked");
+        gapInput.disabled = false;
+        gapContainer.querySelector(".lock-overlay").innerHTML = `<i class="fa-solid fa-lock-open text-purple"></i>`;
+        
+        document.getElementById("instruction-box").style.background = "rgba(139, 92, 246, 0.05)";
+        document.getElementById("step-signal").classList.remove("active");
+        
+        const stepGapEl = document.getElementById("step-gap");
+        stepGapEl.classList.add("active");
+        stepGapEl.innerHTML = `<i class="fa-solid fa-keyboard instruction-icon text-purple"></i>
+            <span><strong>Schritt 2:</strong> Setze das Verb in der richtigen Zeitform ein! (Kein Signalwort nötig)</span>`;
+
+        btnAction.disabled = false;
+        btnAction.innerHTML = `<i class="fa-solid fa-square-check"></i> Antwort prüfen`;
+        btnAction.className = "btn btn-accent";
+        
+        gapInput.focus();
+    } else {
+        // Normaler zweistufiger Ablauf mit Signalwort-Suche
+        document.getElementById("instruction-box").style.background = "rgba(255, 255, 255, 0.02)";
+        document.getElementById("step-signal").classList.add("active");
+        document.getElementById("step-gap").classList.remove("active");
+        
+        btnAction.disabled = true;
+        btnAction.innerHTML = `<i class="fa-solid fa-lock"></i> Bitte Signalwort wählen`;
+        btnAction.className = "btn btn-primary";
+
         updateDynamicInstructionCount(activeSentence.signalWords.map(w => normalizeWord(w)));
     }
 }
@@ -1225,7 +1250,6 @@ function handleSentenceAction() {
     }
 }
 
-// Hilfsfunktion zur Formatierung von fettem/kursivem Text in den Erklärungen
 function formatMarkdown(text) {
     if (!text) return "";
     return text
@@ -1285,7 +1309,7 @@ function showSentenceHint() {
     if (sentenceChecked) return;
 
     const hintWord = activeSentence.signalWords[0];
-    if (!hintWord) return; // Falls kein Signalwort vorhanden
+    if (!hintWord) return;
     
     const tokens = document.querySelectorAll(".word-token");
     tokens.forEach(token => {
@@ -1392,7 +1416,7 @@ function checkWidgetVerbs() {
         document.getElementById("verbs-streak").innerText = verbsStreak;
         localStorage.setItem("gh_verbs_streak", verbsStreak);
         
-        checkBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
+        btn-widget-check.innerHTML = `<i class="fa-solid fa-circle-check"></i> Richtig! Weiter`;
         checkBtn.className = "btn btn-green btn-full";
 
         const wordEl = document.getElementById("verb-german-target");
