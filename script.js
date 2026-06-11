@@ -506,13 +506,13 @@ const sentenceBank = [
         explanation: "'never' in Verbindung mit'before', in dem Fall mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
     },
     {
-        text: "She _____ a new smartphone recently.",
-        infinitive: "buy",
-        correctAnswers: ["has bought", "has recently"],
-        signalWords: ["recently"],
-        tense: "Present Perfect",
-        explanation: "Das Signalwort 'recently' (vor Kurzem) verlangt das **Present Perfect**. 'She' benötigt 'has' und die 3. Form von buy (bought) -> **has recently bought**."
-    },
+    text: "She _____ a new smartphone.",
+    infinitive: "recently / buy", 
+    correctAnswers: ["has recently bought"],
+    signalWords: [], 
+    tense: "Present Perfect",
+    explanation: "'recently' (vor Kurzem) steht idiomatisch meist mitten im Present Perfect-Verbkomplex -> **has recently bought**."
+}
     {
         text: "We _____ anything since breakfast.",
         infinitive: "not / eat",
@@ -522,13 +522,13 @@ const sentenceBank = [
         explanation: "Der Zeitraum ('since breakfast') reicht bis in die Gegenwart -> **Present Perfect**. 'We' verlangt 'have not' und das unregelmäßige Partizip 'eaten' -> **have not eaten**."
     },
     {
-        text: "He _____ that exciting adventure book.",
-        infinitive: "already / read",
-        correctAnswers: ["has already read"],
-        signalWords: [],
-        tense: "Present Perfect",
-        explanation: "'already' verweist auf das **Present Perfect**. 'He' benötigt 'has'. Die 3. Form von read wird 'read' geschrieben, aber wie das deutsche 'rot' ausgesprochen -> **has already read**."
-    },
+    text: "He _____ that exciting adventure book.",
+    infinitive: "already / read",
+    correctAnswers: ["has already read"],
+    signalWords: [], 
+    tense: "Present Perfect",
+    explanation: "'already' (bereits) verweist auf das **Present Perfect**. Das Adverb steht im Englischen idiomatisch zwischen 'has' und der 3. Verbform -> **has already read**."
+},
 
     // --- PAST PERFECT (10 Sätze) ---
     {
@@ -685,14 +685,14 @@ const sentenceBank = [
         tense: "Will-Future",
         explanation: "Wünsche und Hoffnungen ('I hope' - ich hoffe) über zukünftiges Wetter stehen im **Will-Future** -> **will be**."
     },
-    {
-        text: "They _____ to Asia next month, if they get vacation.",
-        infinitive: "probably / travel",
-        correctAnswers: ["will probably travel"],
-        signalWords: ["next", "month"],
-        tense: "Will-Future",
-        explanation: "'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future** -> **will probably travel**."
-    },
+   {
+    text: "They _____ to Asia next month, if they get vacation.",
+    infinitive: "probably / travel", 
+    correctAnswers: ["will probably travel"],
+    signalWords: ["next", "month"],
+    tense: "Will-Future",
+    explanation: "Das Wort 'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future**. Es steht als Adverb zwischen 'will' und dem Infinitiv -> **will probably travel**."
+},
 
     // --- GOING TO FUTURE (10 Sätze) ---
     {
@@ -967,16 +967,13 @@ function renderSentenceWithTokens() {
     // Satz an der Lücke "_____" aufsplitten
     const parts = activeSentence.text.split("_____");
     
-    // --- KORREKTUR: Saubere Extraktion des Infinitivs ---
-    // Falls "already / finish" drin steht, isolieren wir das reine Verb ("finish")
+    // Saubere Extraktion des Infinitivs
     let displayInfinitive = activeSentence.infinitive;
     let extraTokenWord = "";
 
     if (activeSentence.infinitive.includes("/")) {
         const infParts = activeSentence.infinitive.split("/");
-        // Das letzte Element ist in der Regel das Hauptverb (z.B. "finish" oder "eat")
         displayInfinitive = infParts[infParts.length - 1].trim();
-        // Das erste Element ist das störende Signalwort/Zusatzwort (z.B. "already" oder "not")
         extraTokenWord = infParts[0].trim();
     }
 
@@ -986,21 +983,26 @@ function renderSentenceWithTokens() {
         if(word.length > 0) container.appendChild(createTokenElement(word));
     });
 
-    // --- KORREKTUR: Dynamisches Zusatz-Token einfügen, falls es im Tipp versteckt war ---
-    // Wenn ein extra Wort (wie 'already') existiert und nicht 'not' lautet, erstellen wir einen klickbaren Chip direkt vor der Lücke
-    if (extraTokenWord && extraTokenWord !== "not") {
-        container.appendChild(createTokenElement(extraTokenWord));
-    }
+    // === HIER WAR DER FEHLER (LÖSUNG B) ===
+    // Wir löschen den alten Code, der hier fälschlicherweise ein extra klickbares Token 
+    // für "probably" oder "already" mitten in den Satz gebaut hat.
 
     // 2. Das Lücken-Eingabefeld (Gap-Input)
     const gapWrapper = document.createElement("div");
     gapWrapper.className = "gap-input-container";
     gapWrapper.id = "gap-container";
 
-    // Reiner Infinitiv-Tipp (z.B. "to finish")
+    // Das Hinweis-Tag für die Schüler
     const infTag = document.createElement("span");
     infTag.className = "verb-infinitive-tag";
-    infTag.innerText = `to ${displayInfinitive}`;
+    
+    // KORREKTUR: Wenn ein Wort wie "probably" existiert, schreiben wir es 
+    // als Arbeitsauftrag mit in die Klammer (z.B. "to travel + probably")
+    if (extraTokenWord && extraTokenWord !== "not") {
+        infTag.innerText = `to ${displayInfinitive} (+ ${extraTokenWord})`;
+    } else {
+        infTag.innerText = `to ${displayInfinitive}`;
+    }
     gapWrapper.appendChild(infTag);
 
     const lockOverlay = document.createElement("span");
