@@ -1,0 +1,82 @@
+{
+  "simple-present": {
+    "title": "Simple Present",
+    "formula": "Infinitive / Verb + -s (bei he/she/it)",
+    "use": "Regelmäßige Handlungen in der Gegenwart, Gewohnheiten, Fahrpläne und allgemeine Wahrheiten.",
+    "signals": ["always", "usually", "often", "sometimes", "never", "every day", "on Mondays", "rarely"],
+    "examples": [
+      { "en": "He plays tennis every Saturday.", "de": "Er spielt jeden Samstag Tennis." },
+      { "en": "The train leaves at 8:00 AM.", "de": "Der Zug fährt um 8:00 Uhr ab." }
+    ]
+  },
+  "present-progressive": {
+    "title": "Present Progressive",
+    "formula": "am / is / are + Verb-ing",
+    "use": "Aktivitäten, die im Moment des Sprechens stattfinden, oder vorübergehende Zustände.",
+    "signals": ["now", "at the moment", "Look!", "Listen!", "right now", "today"],
+    "examples": [
+      { "en": "Look! It is raining outside.", "de": "Schau! Es regnet draußen." },
+      { "en": "I am writing an English test now.", "de": "Ich schreibe jetzt einen Englischtest." }
+    ]
+  },
+  "simple-past": {
+    "title": "Simple Past",
+    "formula": "Verb + -ed (regelmäßig) / 2. Form (unregelmäßig)",
+    "use": "Einmalige oder regelmäßige Aktionen, die in der Vergangenheit abgeschlossen wurden und keinen Bezug zur Gegenwart haben.",
+    "signals": ["yesterday", "last week", "in 2018", "two days ago", "when I was young"],
+    "examples": [
+      { "en": "We went to Rome last summer.", "de": "Wir sind letzten Sommer nach Rom gefahren." },
+      { "en": "She finished school in 2021.", "de": "Sie hat die Schule 2021 beendet." }
+    ]
+  },
+  "past-progressive": {
+    "title": "Past Progressive",
+    "formula": "was / were + Verb-ing",
+    "use": "Eine Handlung, die zu einem bestimmten Zeitpunkt in der Vergangenheit andauerte (Hintergrundhandlung), oft unterbrochen durch ein neues Ereignis (im Simple Past).",
+    "signals": ["while", "as long as", "when (bei Unterbrechungen)"],
+    "examples": [
+      { "en": "While I was reading, the phone rang.", "de": "Während ich las, klingelte das Telefon." },
+      { "en": "They were sleeping when the fire alarm started.", "de": "Sie schliefen, als der Feueralarm losging." }
+    ]
+  },
+  "present-perfect": {
+    "title": "Present Perfect",
+    "formula": "have / has + Verb-ed (regelmäßig) / 3. Form (unregelmäßig)",
+    "use": "Eine Brücke zwischen Vergangenheit und Gegenwart: Aktionen, die in der Vergangenheit begannen und bis jetzt andauern, oder Handlungen mit wichtigen Auswirkungen auf das Jetzt.",
+    "signals": ["just", "already", "yet", "ever", "never", "since (Zeitpunkt)", "for (Zeitspanne)", "recently"],
+    "examples": [
+      { "en": "I have already finished my homework.", "de": "Ich habe meine Hausaufgaben bereits fertig (Ergebnis zählt jetzt)." },
+      { "en": "We have lived here since 2018.", "de": "Wir wohnen hier seit 2018 (und wohnen immer noch hier)." }
+    ]
+  },
+  "past-perfect": {
+    "title": "Past Perfect",
+    "formula": "had + Verb-ed (regelmäßig) / 3. Form (unregelmäßig)",
+    "use": "Die Vor-Vergangenheit. Beschreibt eine Aktion, die zeitlich vor einer anderen vergangenen Aktion (im Simple Past) abgeschlossen war.",
+    "signals": ["after", "before", "by the time", "because (bei Vorzeitigkeit)"],
+    "examples": [
+      { "en": "After they had eaten, they went for a walk.", "de": "Nachdem sie gegessen hatten, gingen sie spazieren." },
+      { "en": "By the time he arrived, the train had left.", "de": "Als er ankam, war der Zug abgefahren." }
+    ]
+  },
+  "will-future": {
+    "title": "Will-Future",
+    "formula": "will + Infinitive",
+    "use": "Unabwendbare Geschehnisse, Vermutungen, Hoffnungen, Versprechungen oder spontane Entschlüsse in der Zukunft.",
+    "signals": ["I think", "probably", "in the future", "Maybe", "I promise", "I hope", "tomorrow"],
+    "examples": [
+      { "en": "I think it will rain tomorrow.", "de": "Ich glaube, es wird morgen regnen." },
+      { "en": "Maybe they will win the game.", "de": "Vielleicht werden sie das Spiel gewinnen." }
+    ]
+  },
+  "going-to-future": {
+    "title": "Going-to-Future",
+    "formula": "am / is / are + going to + Infinitive",
+    "use": "Feste Pläne, Absichten und Vorhaben für die Zukunft sowie logische Vorhersagen aufgrund von Anzeichen in der Gegenwart.",
+    "signals": ["sichtbare Anzeichen", "feste Absichten", "booked", "planned", "tonight", "next year"],
+    "examples": [
+      { "en": "Look at those clouds! It is going to rain.", "de": "Schau dir diese Wolken an! Es wird gleich regnen." },
+      { "en": "We are going to study in Munich next year.", "de": "Wir haben vor, nächstes Jahr in München zu studieren." }
+    ]
+  }
+}

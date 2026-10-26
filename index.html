@@ -28,22 +28,27 @@
             </div>
             
             <nav class="app-nav">
-                <button class="nav-btn active" id="btn-tab-trainer" onclick="switchTab('trainer')">
-                    <i class="fa-solid fa-gamepad"></i> Übungs-Arena
+                <button class="nav-btn active" id="btn-tab-trainer" type="button">
+                    <i class="fa-solid fa-gamepad"></i> <span>Übungs-Arena</span>
                 </button>
-                <button class="nav-btn" id="btn-tab-grammar" onclick="switchTab('grammar')">
-                    <i class="fa-solid fa-book-open"></i> Grammatik-Bibliothek
+                <button class="nav-btn" id="btn-tab-verbs" type="button">
+                    <i class="fa-solid fa-bolt"></i> <span>Unregelmäßige Verben</span>
+                </button>
+                <button class="nav-btn" id="btn-tab-grammar" type="button">
+                    <i class="fa-solid fa-book-open"></i> <span>Grammatik-Bibliothek</span>
                 </button>
             </nav>
 
             <div class="header-stats">
-                <div class="stat-badge">
+                <div class="stat-badge" title="Aktuelle Serie">
                     <i class="fa-solid fa-fire text-orange"></i>
-                    <span>Streak: <strong id="global-streak">0</strong></span>
+                    <span class="stat-label">Streak</span>
+                    <strong id="global-streak">0</strong>
                 </div>
-                <div class="stat-badge">
+                <div class="stat-badge" title="Gesamtpunkte">
                     <i class="fa-solid fa-star text-yellow"></i>
-                    <span>Punkte: <strong id="global-points">0</strong></span>
+                    <span class="stat-label">Punkte</span>
+                    <strong id="global-points">0</strong>
                 </div>
             </div>
         </header>
@@ -51,11 +56,11 @@
         <!-- Hauptinhalt -->
         <main class="app-main">
             
-            <!-- TABS 1: TRAINER ARENA -->
+            <!-- TAB 1: TRAINER ARENA (Bereinigt & 100dvh Scroll-Stopp auf Mobile) -->
             <section id="tab-trainer" class="tab-content active">
                 <div class="trainer-layout">
                     
-                    <!-- LÜCKENTEXT TRAINER (Links / Mitte) -->
+                    <!-- LÜCKENTEXT TRAINER -->
                     <div class="card glass-card main-trainer-card">
                         <div class="card-header">
                             <div class="title-group">
@@ -83,9 +88,9 @@
                                 </div>
                             </div>
 
-                            <!-- Der interaktive Satzbereich -->
+                            <!-- Der interaktive Satzbereich (zentriert im Blickfeld) -->
                             <div class="sentence-display-area" id="sentence-area">
-                                <!-- Wird dynamisch in script.js gerendert -->
+                                <!-- Wird dynamisch in modules/trainer-engine.js gerendert -->
                             </div>
 
                             <!-- Feedback Drawer -->
@@ -109,87 +114,112 @@
                         </div>
 
                         <div class="card-footer">
-                            <button class="btn btn-secondary" id="btn-hint" onclick="showSentenceHint()">
+                            <button class="btn btn-secondary" id="btn-hint" type="button">
                                 <i class="fa-solid fa-lightbulb"></i> Tipp geben
                             </button>
-                            <button class="btn btn-primary" id="btn-action" onclick="handleSentenceAction()" disabled>
+                            <button class="btn btn-primary" id="btn-action" type="button" disabled>
                                 <i class="fa-solid fa-lock"></i> Bitte Signalwort wählen
                             </button>
                         </div>
                     </div>
 
-                    <!-- SIDEBAR (Rechts) -->
-                    <div class="trainer-sidebar">
-                        
-                        <!-- WIDGET: UNREGELMÄSSIGE VERBEN -->
-                        <div class="card glass-card widget-verbs">
-                            <div class="widget-header">
-                                <h3><i class="fa-solid fa-bolt text-purple"></i> Irregular Verbs</h3>
-                                <div class="widget-streak" title="Unregelmäßige Verben Streak">
-                                    <i class="fa-solid fa-fire text-orange"></i> <span id="verbs-streak">0</span>
-                                </div>
-                            </div>
-                            <div class="widget-body">
-                                <p class="widget-desc">Gib die 3 Stammformen für das deutsche Verb ein:</p>
-                                <div class="verb-target-word" id="verb-german-target">---</div>
+                </div>
 
-                                <form id="verbs-widget-form" onsubmit="event.preventDefault(); checkWidgetVerbs();">
-                                    <div class="input-field-group">
-                                        <label for="widget-inf"><span class="badge-mini">1. Form</span> Infinitive</label>
-                                        <div class="input-wrapper">
-                                            <span class="input-prefix">to</span>
-                                            <input type="text" id="widget-inf" autocomplete="off" placeholder="write" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-inf">Richtig: write</div>
-                                    </div>
-
-                                    <div class="input-field-group">
-                                        <label for="widget-sp"><span class="badge-mini">2. Form</span> Simple Past</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" id="widget-sp" autocomplete="off" placeholder="wrote" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-sp">Richtig: wrote</div>
-                                    </div>
-
-                                    <div class="input-field-group">
-                                        <label for="widget-pp"><span class="badge-mini">3. Form</span> Past Participle</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" id="widget-pp" autocomplete="off" placeholder="written" required>
-                                            <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
-                                            <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
-                                        </div>
-                                        <div class="correct-hint" id="hint-widget-pp">Richtig: written</div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-accent btn-full" id="btn-widget-check">
-                                        Prüfen
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- WIDGET: SPEZIAL HINWEIS / ZEITEN QUICK REF -->
-                        <div class="card glass-card widget-quick-ref">
-                            <h4><i class="fa-solid fa-star text-yellow"></i> Signalwörter im Blick</h4>
-                            <ul class="quick-ref-list">
-                                <li><span class="ref-tense">Simple Present:</span> always, usually, every...</li>
-                                <li><span class="ref-tense">Pres. Progressive:</span> now, at the moment, look!</li>
-                                <li><span class="ref-tense">Simple Past:</span> yesterday, ... ago, last...</li>
-                                <li><span class="ref-tense">Past Progressive:</span> while, as long as</li>
-                                <li><span class="ref-tense">Present Perfect:</span> just, already, yet, since, for</li>
-                                <li><span class="ref-tense">Past Perfect:</span> after, before, by the time</li>
-                            </ul>
-                        </div>
+                <!-- Mobile-First Sticky/Fixed Eingabeleiste (aktiv in Schritt 2 auf Smartphones <= 768px) -->
+                <div class="mobile-input-bar" id="mobile-input-bar" aria-hidden="true">
+                    <div class="mobile-input-meta">
+                        <span class="mobile-step-pill"><i class="fa-solid fa-keyboard"></i> Schritt 2: Verbform eingeben</span>
+                        <span class="mobile-verb-target" id="mobile-verb-hint">to play</span>
                     </div>
-
+                    <div class="mobile-input-controls">
+                        <input
+                            type="text"
+                            id="mobile-gap-input"
+                            class="mobile-gap-field"
+                            placeholder="Verbform eingeben..."
+                            autocomplete="off"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            spellcheck="false"
+                            enterkeyhint="done"
+                            disabled
+                        >
+                        <button type="button" class="btn btn-accent mobile-check-btn" id="btn-mobile-check" disabled>
+                            <i class="fa-solid fa-check"></i> Prüfen
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            <!-- TABS 2: GRAMMATIK ERKLÄRUNGEN -->
+            <!-- TAB 2: UNREGELMÄSSIGE VERBEN -->
+            <section id="tab-verbs" class="tab-content">
+                <div class="verbs-tab-layout">
+                    <!-- Klassenstufen-Auswahl (Pill-Buttons) -->
+                    <div class="verbs-filter-bar" role="group" aria-label="Klassenstufe wählen">
+                        <button type="button" class="verb-grade-btn active" data-grade="all">Alle</button>
+                        <button type="button" class="verb-grade-btn" data-grade="7">Klasse 7</button>
+                        <button type="button" class="verb-grade-btn" data-grade="8">Klasse 8</button>
+                        <button type="button" class="verb-grade-btn" data-grade="9">Klasse 9</button>
+                        <button type="button" class="verb-grade-btn" data-grade="10">Klasse 10</button>
+                    </div>
+
+                    <!-- WIDGET: UNREGELMÄSSIGE VERBEN -->
+                    <div class="card glass-card widget-verbs">
+                        <div class="widget-header">
+                            <div class="widget-title-group">
+                                <h3><i class="fa-solid fa-bolt text-purple"></i> Irregular Verbs</h3>
+                                <span class="verbs-pool-badge" id="verbs-pool-count">Alle Klassen (108 Verben)</span>
+                            </div>
+                            <div class="widget-streak" title="Unregelmäßige Verben Streak">
+                                <i class="fa-solid fa-fire text-orange"></i> <span id="verbs-streak">0</span>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <p class="widget-desc">Gib die 3 Stammformen für das deutsche Verb ein:</p>
+                            <div class="verb-target-word" id="verb-german-target">---</div>
+
+                            <form id="verbs-widget-form">
+                                <div class="input-field-group">
+                                    <label for="widget-inf"><span class="badge-mini">1. Form</span> Infinitive</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-prefix">to</span>
+                                        <input type="text" id="widget-inf" autocomplete="off" placeholder="write" required>
+                                        <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
+                                        <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
+                                    </div>
+                                    <div class="correct-hint" id="hint-widget-inf">Richtig: write</div>
+                                </div>
+
+                                <div class="input-field-group">
+                                    <label for="widget-sp"><span class="badge-mini">2. Form</span> Simple Past</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="widget-sp" autocomplete="off" placeholder="wrote" required>
+                                        <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
+                                        <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
+                                    </div>
+                                    <div class="correct-hint" id="hint-widget-sp">Richtig: wrote</div>
+                                </div>
+
+                                <div class="input-field-group">
+                                    <label for="widget-pp"><span class="badge-mini">3. Form</span> Past Participle</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="widget-pp" autocomplete="off" placeholder="written" required>
+                                        <i class="fa-solid fa-circle-check input-status-icon success-icon"></i>
+                                        <i class="fa-solid fa-circle-xmark input-status-icon error-icon"></i>
+                                    </div>
+                                    <div class="correct-hint" id="hint-widget-pp">Richtig: written</div>
+                                </div>
+
+                                <button type="submit" class="btn btn-accent btn-full" id="btn-widget-check">
+                                    Prüfen
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: GRAMMATIK ERKLÄRUNGEN -->
             <section id="tab-grammar" class="tab-content">
                 <div class="grammar-dashboard-header">
                     <h2>Die 8 Zeiten im bayerischen Realschul-Lehrplan (Klasse 10)</h2>
@@ -201,27 +231,27 @@
                     <div class="timeline-visual">
                         <div class="timeline-line"></div>
                         <div class="timeline-nodes">
-                            <div class="timeline-node" onclick="scrollToTense('past-perfect')">
+                            <div class="timeline-node" data-tense="past-perfect">
                                 <div class="node-dot"></div>
                                 <span class="node-title">Past Perfect</span>
                                 <span class="node-desc">Vor-Vergangenheit</span>
                             </div>
-                            <div class="timeline-node" onclick="scrollToTense('simple-past')">
+                            <div class="timeline-node" data-tense="simple-past">
                                 <div class="node-dot"></div>
                                 <span class="node-title">Simple Past</span>
                                 <span class="node-desc">Vergangenheit</span>
                             </div>
-                            <div class="timeline-node" onclick="scrollToTense('present-perfect')">
+                            <div class="timeline-node" data-tense="present-perfect">
                                 <div class="node-dot"></div>
                                 <span class="node-title">Pres. Perfect</span>
                                 <span class="node-desc">Brücke zur Gegenwart</span>
                             </div>
-                            <div class="timeline-node active" onclick="scrollToTense('simple-present')">
+                            <div class="timeline-node active" data-tense="simple-present">
                                 <div class="node-dot"></div>
                                 <span class="node-title">Simple Present</span>
                                 <span class="node-desc">Gegenwart / Gewohnheit</span>
                             </div>
-                            <div class="timeline-node" onclick="scrollToTense('will-future')">
+                            <div class="timeline-node" data-tense="will-future">
                                 <div class="node-dot"></div>
                                 <span class="node-title">Will-Future</span>
                                 <span class="node-desc">Zukunft (Vorhersage)</span>
@@ -232,7 +262,7 @@
 
                 <!-- Zeiten Grid -->
                 <div class="grammar-grid" id="grammar-cards-container">
-                    <!-- Wird dynamisch oder strukturiert in CSS/HTML gefüllt -->
+                    <!-- Wird dynamisch über modules/grammar-view.js gefüllt -->
                 </div>
             </section>
 
@@ -244,7 +274,7 @@
         </footer>
     </div>
 
-    <!-- Einbindung der Logik -->
-    <script src="script.js"></script>
+    <!-- Einbindung der modularen ES-Logik -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
