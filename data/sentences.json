@@ -3,7 +3,7 @@
     "text": "She always _____ tennis on Saturdays.",
     "infinitive": "play",
     "correctAnswers": ["plays"],
-    "signalWords": ["always", "on", "Saturdays"],
+    "signalWords": ["always"],
     "tense": "Simple Present",
     "explanation": "Das Signalwort 'always' (immer) sowie 'on Saturdays' beschreiben eine Gewohnheit. Deshalb verwenden wir das **Simple Present**. Da das Subjekt 'She' (3. Person Singular) ist, gilt: 'He, she, it - das -s muss mit!' -> **plays**."
   },
@@ -51,7 +51,7 @@
     "text": "We rarely _____ to the cinema on Tuesdays.",
     "infinitive": "go",
     "correctAnswers": ["go"],
-    "signalWords": ["rarely", "on", "Tuesdays"],
+    "signalWords": ["rarely"],
     "tense": "Simple Present",
     "explanation": "'rarely' (selten) und Wochentage im Plural ('on Tuesdays') zeigen Regelmäßigkeit (**Simple Present**). Für 'We' bleibt das Verb unverändert -> **go**."
   },
@@ -91,7 +91,7 @@
     "text": "They _____ their house in 2015.",
     "infinitive": "build",
     "correctAnswers": ["built"],
-    "signalWords": ["in", "2015"],
+    "signalWords": ["2015"],
     "tense": "Simple Past",
     "explanation": "Eine konkrete Jahreszahl in der Vergangenheit ('in 2015') verlangt das **Simple Past**. Die 2. Form von 'build' ist unregelmäßig -> **built**."
   },
@@ -107,7 +107,7 @@
     "text": "She _____ her keys three days ago.",
     "infinitive": "lose",
     "correctAnswers": ["lost"],
-    "signalWords": ["three", "days", "ago"],
+    "signalWords": ["ago"],
     "tense": "Simple Past",
     "explanation": "Das Signalwort 'ago' (vor...) verlangt zwingend das **Simple Past**. Das unregelmäßige Verb 'lose' hat als 2. Form **lost**."
   },
@@ -115,7 +115,7 @@
     "text": "When I was young, we _____ in a small village.",
     "infinitive": "live",
     "correctAnswers": ["lived"],
-    "signalWords": ["When", "I", "was", "young"],
+    "signalWords": ["When", "was"],
     "tense": "Simple Past",
     "explanation": "Der Nebensatz 'When I was young' setzt den Rahmen in der Vergangenheit fest -> **Simple Past**. 'live' ist ein regelmäßiges Verb und erhält das Suffix '-d' -> **lived**."
   },
@@ -139,7 +139,7 @@
     "text": "My sister _____ her school in 2021.",
     "infinitive": "finish",
     "correctAnswers": ["finished"],
-    "signalWords": ["in", "2021"],
+    "signalWords": ["2021"],
     "tense": "Simple Past",
     "explanation": "Abgeschlossenes Ereignis ('in 2021') im **Simple Past**. 'finish' ist regelmäßig und bekommt '-ed' -> **finished**."
   },
@@ -162,7 +162,7 @@
   {
     "text": "Look! The cat _____ up that high tree.",
     "infinitive": "climb",
-    "correctAnswers": ["is climbing"],
+    "correctAnswers": ["is climbing", "'s climbing"],
     "signalWords": ["Look"],
     "tense": "Present Progressive",
     "explanation": "Das Signalwort 'Look!' (Schau!) zeigt, dass die Aktion jetzt im Moment stattfindet -> **Present Progressive** (*be + Verb-ing*). 'The cat' (it) braucht 'is' -> **is climbing**."
@@ -170,7 +170,7 @@
   {
     "text": "Listen! Someone _____ in the bathroom.",
     "infinitive": "sing",
-    "correctAnswers": ["is singing"],
+    "correctAnswers": ["is singing", "'s singing"],
     "signalWords": ["Listen"],
     "tense": "Present Progressive",
     "explanation": "Das Ausrufewort 'Listen!' (Hör mal!) signalisiert das **Present Progressive** für eine aktuelle Handlung. 'Someone' (Einzahl) verlangt 'is' -> **is singing**."
@@ -178,15 +178,15 @@
   {
     "text": "I _____ a letter to my pen pal at the moment.",
     "infinitive": "write",
-    "correctAnswers": ["am writing"],
-    "signalWords": ["at", "the", "moment"],
+    "correctAnswers": ["am writing", "'m writing"],
+    "signalWords": ["moment"],
     "tense": "Present Progressive",
     "explanation": "'at the moment' (im Moment) fordert das **Present Progressive**. Bei 'I' nutzen wir 'am'. Achtung bei der Rechtschreibung: Das stumme '-e' bei 'write' entfällt vor '-ing' -> **am writing**."
   },
   {
     "text": "They _____ for their final exams now.",
     "infinitive": "study",
-    "correctAnswers": ["are studying"],
+    "correctAnswers": ["are studying", "'re studying"],
     "signalWords": ["now"],
     "tense": "Present Progressive",
     "explanation": "Das Signalwort 'now' (jetzt) fordert das **Present Progressive**. 'They' verlangt 'are' -> **are studying**."
@@ -194,7 +194,7 @@
   {
     "text": "My dad _____ the car in the garden right now.",
     "infinitive": "wash",
-    "correctAnswers": ["is washing"],
+    "correctAnswers": ["is washing", "'s washing"],
     "signalWords": ["right", "now"],
     "tense": "Present Progressive",
     "explanation": "'right now' (genau jetzt) verweist auf das **Present Progressive**. Für 'My dad' (he) nutzen wir 'is' -> **is washing**."
@@ -202,7 +202,7 @@
   {
     "text": "Look! It _____ heavily outside.",
     "infinitive": "rain",
-    "correctAnswers": ["is raining"],
+    "correctAnswers": ["is raining", "'s raining"],
     "signalWords": ["Look"],
     "tense": "Present Progressive",
     "explanation": "'Look!' signalisiert das **Present Progressive**. Das unpersönliche Pronomen 'It' erfordert 'is' -> **is raining**."
@@ -210,15 +210,15 @@
   {
     "text": "At the moment, we _____ the classroom for the party.",
     "infinitive": "prepare",
-    "correctAnswers": ["are preparing"],
-    "signalWords": ["At", "the", "moment"],
+    "correctAnswers": ["are preparing", "'re preparing"],
+    "signalWords": ["moment"],
     "tense": "Present Progressive",
     "explanation": "'At the moment' steht für das **Present Progressive**. 'We' erfordert 'are' und bei 'prepare' fällt das stumme '-e' weg -> **are preparing**."
   },
   {
     "text": "She _____ a beautiful blue dress today.",
     "infinitive": "wear",
-    "correctAnswers": ["is wearing"],
+    "correctAnswers": ["is wearing", "'s wearing"],
     "signalWords": ["today"],
     "tense": "Present Progressive",
     "explanation": "'today' (heute) beschreibt hier einen vorübergehenden Zustand im Gegensatz zur Gewohnheit -> **Present Progressive**. 'She' verlangt 'is' -> **is wearing**."
@@ -226,7 +226,7 @@
   {
     "text": "Listen! The phone _____ in the living room.",
     "infinitive": "ring",
-    "correctAnswers": ["is ringing"],
+    "correctAnswers": ["is ringing", "'s ringing"],
     "signalWords": ["Listen"],
     "tense": "Present Progressive",
     "explanation": "'Listen!' zeigt eine laufende Aktion im Moment des Sprechens (**Present Progressive**). Das Subjekt 'The phone' (it) benötigt 'is' -> **is ringing**."
@@ -234,7 +234,7 @@
   {
     "text": "We _____ our favourite TV show right now.",
     "infinitive": "watch",
-    "correctAnswers": ["are watching"],
+    "correctAnswers": ["are watching", "'re watching"],
     "signalWords": ["right", "now"],
     "tense": "Present Progressive",
     "explanation": "'right now' ist das Signalwort des **Present Progressive**. Für das Subjekt 'We' setzen wir 'are' ein -> **are watching**."
@@ -291,7 +291,7 @@
     "text": "As long as she _____ , everybody was listening.",
     "infinitive": "sing",
     "correctAnswers": ["was singing"],
-    "signalWords": ["as", "long", "as"],
+    "signalWords": ["long"],
     "tense": "Past Progressive",
     "explanation": "Das Signalwort 'as long as' (solange) zeigt, dass eine Handlung über einen Zeitraum hinweg andauerte -> **Past Progressive**. 'She' benötigt 'was' -> **was singing**."
   },
@@ -323,9 +323,9 @@
     "text": "I have already _____ my homework, so I can go out now.",
     "infinitive": "finish",
     "correctAnswers": ["finished"],
-    "signalWords": [],
+    "signalWords": ["already"],
     "tense": "Present Perfect",
-    "explanation": "Das Signalwort 'already' (bereits) verweist auf das **Present Perfect** (*have/has + 3. Form*). Das Ergebnis der Handlung ist wichtig für die Gegenwart. Bei 'I' nutzen wir 'have' -> **have already finished**."
+    "explanation": "Das Signalwort 'already' (bereits) verweist auf das **Present Perfect** (*have/has + 3. Form*). Das Ergebnis der Handlung ist wichtig für die Gegenwart. Da 'have already' schon im Satz steht, fehlt nur das Partizip -> **finished**."
   },
   {
     "text": "She _____ her room yet, it's still a mess.",
@@ -338,7 +338,7 @@
   {
     "text": "We _____ in Munich since 2018.",
     "infinitive": "live",
-    "correctAnswers": ["have lived"],
+    "correctAnswers": ["have lived", "'ve lived"],
     "signalWords": ["since"],
     "tense": "Present Perfect",
     "explanation": "Das Signalwort 'since' (seit einem Zeitpunkt) drückt aus, dass die Handlung 2018 begann und immer noch anhält -> **Present Perfect**. 'We' erfordert 'have' -> **have lived**."
@@ -346,15 +346,15 @@
   {
     "text": "You _____ to London several times.",
     "infinitive": "be",
-    "correctAnswers": ["have been"],
+    "correctAnswers": ["have been", "'ve been"],
     "signalWords": ["several", "times"],
     "tense": "Present Perfect",
-    "explanation": "Die Frage oder Feststellung von Erfahrungen im Leben ('ever' / 'several times') steht im **Present Perfect**. Bei 'You' nutzen wir 'have' + unregelmäßige 3. Form von be (been) -> **have ever been**."
+    "explanation": "Die Feststellung von Erfahrungen im Leben bis heute ('several times') steht im **Present Perfect**. Bei 'You' nutzen wir 'have' + unregelmäßige 3. Form von be (been) -> **have been**."
   },
   {
     "text": "He _____ at this school for five years.",
     "infinitive": "work",
-    "correctAnswers": ["has worked"],
+    "correctAnswers": ["has worked", "'s worked"],
     "signalWords": ["for"],
     "tense": "Present Perfect",
     "explanation": "Das Signalwort 'for' (seit einem Zeitraum) zeigt an, dass er seit 5 Jahren hier arbeitet und dies immer noch tut -> **Present Perfect**. 'He' benötigt 'has' -> **has worked**."
@@ -362,23 +362,23 @@
   {
     "text": "They _____ at the train station just now.",
     "infinitive": "arrive",
-    "correctAnswers": ["have arrived"],
-    "signalWords": ["just", "now"],
+    "correctAnswers": ["have arrived", "'ve arrived"],
+    "signalWords": ["just"],
     "tense": "Present Perfect",
-    "explanation": "Das Signalwort 'just' (gerade eben) zeigt eine unmittelbar abgeschlossene Handlung mit starkem Gegenwartsbezug -> **Present Perfect**. 'They' benötigt 'have' -> **have just arrived**."
+    "explanation": "Das Signalwort 'just' (gerade eben) zeigt eine unmittelbar abgeschlossene Handlung mit starkem Gegenwartsbezug -> **Present Perfect**. 'They' benötigt 'have' -> **have arrived**."
   },
   {
     "text": "I _____ such a beautiful sunset before.",
     "infinitive": "never / see",
-    "correctAnswers": ["have never seen"],
+    "correctAnswers": ["have never seen", "'ve never seen"],
     "signalWords": ["before"],
     "tense": "Present Perfect",
-    "explanation": "'never' in Verbindung mit 'before', in dem Fall mit Lebenserfahrung bis zur Gegenwart fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
+    "explanation": "'never' in Verbindung mit 'before' (Lebenserfahrung bis zur Gegenwart) fordert das **Present Perfect**. 'I' verlangt 'have' + 3. Spalte von see (seen) -> **have never seen**."
   },
   {
     "text": "She _____ a new smartphone.",
     "infinitive": "recently / buy",
-    "correctAnswers": ["has recently bought"],
+    "correctAnswers": ["has recently bought", "'s recently bought"],
     "signalWords": [],
     "tense": "Present Perfect",
     "explanation": "'recently' (vor Kurzem) steht idiomatisch meist mitten im Present Perfect-Verbkomplex -> **has recently bought**."
@@ -394,7 +394,7 @@
   {
     "text": "He _____ that exciting adventure book.",
     "infinitive": "already / read",
-    "correctAnswers": ["has already read"],
+    "correctAnswers": ["has already read", "'s already read"],
     "signalWords": [],
     "tense": "Present Perfect",
     "explanation": "'already' (bereits) verweist auf das **Present Perfect**. Das Adverb steht im Englischen idiomatisch zwischen 'has' und der 3. Verbform -> **has already read**."
@@ -402,7 +402,7 @@
   {
     "text": "After they _____ their dinner, they went for a walk.",
     "infinitive": "eat",
-    "correctAnswers": ["had eaten"],
+    "correctAnswers": ["had eaten", "'d eaten"],
     "signalWords": ["After"],
     "tense": "Past Perfect",
     "explanation": "Das Signalwort 'After' (nachdem) zeigt an, dass eine Handlung *vor* einer anderen vergangenen Handlung ('went' im Simple Past) stattfand -> **Past Perfect** (*had + 3. Form*). Es lautet bei allen Personen 'had' + Partizip -> **had eaten**."
@@ -410,23 +410,23 @@
   {
     "text": "By the time the police arrived, the bank robber _____ .",
     "infinitive": "escape",
-    "correctAnswers": ["had escaped"],
-    "signalWords": ["by", "the", "time"],
+    "correctAnswers": ["had escaped", "'d escaped"],
+    "signalWords": ["By", "time"],
     "tense": "Past Perfect",
     "explanation": "Das Signalwort 'by the time' (bis zu dem Zeitpunkt als...) leitet die Simple-Past-Handlung ein. Die Lücke beschreibt, was *vorher* geschah -> **Past Perfect**. 'escape' ist regelmäßig -> **had escaped**."
   },
   {
     "text": "She was very tired because she _____ all night.",
     "infinitive": "study",
-    "correctAnswers": ["had studied"],
+    "correctAnswers": ["had studied", "'d studied"],
     "signalWords": ["because"],
     "tense": "Past Perfect",
-    "explanation": "Die Begründung ('because') für die Müdigkeit liegt zeitlich vor dem Müdesein ('was' im Simple Past) -> **Past Perfect**. 'study' wird regelmäßig gesteigert -> **had studied**."
+    "explanation": "Die Begründung ('because') für die Müdigkeit liegt zeitlich vor dem Müdesein ('was' im Simple Past) -> **Past Perfect**. 'study' ist regelmäßig -> **had studied**."
   },
   {
     "text": "Before he went to bed, he _____ all the doors.",
     "infinitive": "lock",
-    "correctAnswers": ["had locked"],
+    "correctAnswers": ["had locked", "'d locked"],
     "signalWords": ["Before"],
     "tense": "Past Perfect",
     "explanation": "Das Abschließen geschah zeitlich *vor* dem Zubettgehen ('went' im Simple Past). Das Signalwort 'Before' (bevor) strukturiert diese Vorzeitigkeit -> **Past Perfect** -> **had locked**."
@@ -434,7 +434,7 @@
   {
     "text": "After my dad _____ the computer, we could use it again.",
     "infinitive": "repair",
-    "correctAnswers": ["had repaired"],
+    "correctAnswers": ["had repaired", "'d repaired"],
     "signalWords": ["After"],
     "tense": "Past Perfect",
     "explanation": "Eingeleitet durch 'After' steht die Handlung, die zuerst abgeschlossen war, im **Past Perfect** (Reparatur), das Ergebnis danach im Simple Past (Nutzen) -> **had repaired**."
@@ -442,7 +442,7 @@
   {
     "text": "They went home after they _____ their training.",
     "infinitive": "finish",
-    "correctAnswers": ["had finished"],
+    "correctAnswers": ["had finished", "'d finished"],
     "signalWords": ["after"],
     "tense": "Past Perfect",
     "explanation": "Die Vorzeitigkeit einer Handlung im Nebensatz mit 'after' erfordert das **Past Perfect**. Das reguläre Verb 'finish' wird zu **had finished**."
@@ -450,15 +450,15 @@
   {
     "text": "By the time I woke up, my mother _____ breakfast.",
     "infinitive": "already / make",
-    "correctAnswers": ["had already made"],
-    "signalWords": ["by", "the", "time"],
+    "correctAnswers": ["had already made", "'d already made"],
+    "signalWords": ["By", "time"],
     "tense": "Past Perfect",
     "explanation": "Das Frühstückmachen geschah zeitlich *vor* dem Aufwachen. 'by the time' signalisiert die Vorzeitigkeit -> **Past Perfect** -> **had already made**."
   },
   {
     "text": "She was happy because she _____ the first prize.",
     "infinitive": "win",
-    "correctAnswers": ["had won"],
+    "correctAnswers": ["had won", "'d won"],
     "signalWords": ["because"],
     "tense": "Past Perfect",
     "explanation": "Der Gewinn geschah *vor* der Freude in der Vergangenheit -> **Past Perfect**. Die 3. unregelmäßige Form von win lautet won -> **had won**."
@@ -466,7 +466,7 @@
   {
     "text": "After we _____ the tickets, we entered the cinema.",
     "infinitive": "buy",
-    "correctAnswers": ["had bought"],
+    "correctAnswers": ["had bought", "'d bought"],
     "signalWords": ["After"],
     "tense": "Past Perfect",
     "explanation": "'After' leitet die zeitlich weiter zurückliegende Handlung im **Past Perfect** ein. Die 3. Form von buy lautet bought -> **had bought**."
@@ -474,39 +474,39 @@
   {
     "text": "He _____ when I arrived at his house.",
     "infinitive": "already / leave",
-    "correctAnswers": ["had already left"],
-    "signalWords": ["already"],
+    "correctAnswers": ["had already left", "'d already left"],
+    "signalWords": ["when"],
     "tense": "Past Perfect",
-    "explanation": "Er war schon weg, *bevor* ich ankam ('arrived'). Die Vorzeitigkeit in Kombination mit 'already' erfordert das **Past Perfect** -> **had already left**."
+    "explanation": "Er war schon weg, *bevor* ich ankam ('when I arrived'). Die Vorzeitigkeit in Kombination mit 'already' erfordert das **Past Perfect** -> **had already left**."
   },
   {
     "text": "I think it _____ tomorrow.",
     "infinitive": "rain",
-    "correctAnswers": ["will rain"],
-    "signalWords": ["I", "think", "tomorrow"],
+    "correctAnswers": ["will rain", "'ll rain"],
+    "signalWords": ["think", "tomorrow"],
     "tense": "Will-Future",
     "explanation": "Persönliche Vermutungen eingeleitet durch 'I think' (ich denke) und Zeitangaben wie 'tomorrow' (morgen) werden im Englischen mit dem **Will-Future** ausgedrückt (*will + Infinitiv*) -> **will rain**."
   },
   {
     "text": "We _____ London next summer, but we haven't booked anything yet.",
     "infinitive": "probably / visit",
-    "correctAnswers": ["will probably visit"],
-    "signalWords": ["next"],
+    "correctAnswers": ["will probably visit", "'ll probably visit"],
+    "signalWords": ["next", "summer"],
     "tense": "Will-Future",
-    "explanation": "Das Wort 'probably' (wahrscheinlich) mit 'next' deutet auf eine unsichere Vorhersage oder Vermutung hin -> **Will-Future** -> **will probably visit**."
+    "explanation": "Das Wort 'probably' (wahrscheinlich) mit 'next summer' deutet auf eine unsichere Vorhersage oder Vermutung hin -> **Will-Future** -> **will probably visit**."
   },
   {
     "text": "In the future, robots _____ all the dangerous work.",
     "infinitive": "do",
-    "correctAnswers": ["will do"],
-    "signalWords": ["in", "the", "future"],
+    "correctAnswers": ["will do", "'ll do"],
+    "signalWords": ["future"],
     "tense": "Will-Future",
     "explanation": "Allgemeine Vorhersagen über die Zukunft ohne festen Plan ('in the future') verlangen das **Will-Future** -> **will do**."
   },
   {
     "text": "Maybe they _____ the football match on Saturday.",
     "infinitive": "win",
-    "correctAnswers": ["will win"],
+    "correctAnswers": ["will win", "'ll win"],
     "signalWords": ["Maybe"],
     "tense": "Will-Future",
     "explanation": "Das Signalwort 'Maybe' (vielleicht) zeigt eine reine Spekulation an. Solche unbeeinflussbaren Prognosen stehen im **Will-Future** -> **will win**."
@@ -514,7 +514,7 @@
   {
     "text": "I am sure you _____ your English exam next week.",
     "infinitive": "pass",
-    "correctAnswers": ["will pass"],
+    "correctAnswers": ["will pass", "'ll pass"],
     "signalWords": ["sure", "next", "week"],
     "tense": "Will-Future",
     "explanation": "Versprechungen oder feste Meinungen ('I am sure' - ich bin sicher) werden mit dem **Will-Future** gebildet -> **will pass**."
@@ -522,15 +522,15 @@
   {
     "text": "I think people _____ on Mars one day.",
     "infinitive": "live",
-    "correctAnswers": ["will live"],
-    "signalWords": ["I", "think"],
+    "correctAnswers": ["will live", "'ll live"],
+    "signalWords": ["think"],
     "tense": "Will-Future",
     "explanation": "Eine persönliche Meinung ('I think') über ein mögliches Ereignis in ferner Zukunft verlangt das **Will-Future** -> **will live**."
   },
   {
     "text": "I promise I _____ you tomorrow with your project.",
     "infinitive": "help",
-    "correctAnswers": ["will help"],
+    "correctAnswers": ["will help", "'ll help"],
     "signalWords": ["promise", "tomorrow"],
     "tense": "Will-Future",
     "explanation": "Das Signalwort 'I promise' (ich verspreche) erfordert immer das **Will-Future**, da es ein Versprechen ist -> **will help**."
@@ -538,7 +538,7 @@
   {
     "text": "Maybe my parents _____ a new car next year.",
     "infinitive": "buy",
-    "correctAnswers": ["will buy"],
+    "correctAnswers": ["will buy", "'ll buy"],
     "signalWords": ["Maybe", "next", "year"],
     "tense": "Will-Future",
     "explanation": "Das Wort 'Maybe' (vielleicht) steht für Spekulation und fordert das **Will-Future** -> **will buy**."
@@ -546,7 +546,7 @@
   {
     "text": "I hope the weather _____ fine tomorrow.",
     "infinitive": "be",
-    "correctAnswers": ["will be"],
+    "correctAnswers": ["will be", "'ll be"],
     "signalWords": ["hope", "tomorrow"],
     "tense": "Will-Future",
     "explanation": "Wünsche und Hoffnungen ('I hope' - ich hoffe) über zukünftiges Wetter stehen im **Will-Future** -> **will be**."
@@ -554,7 +554,7 @@
   {
     "text": "They _____ to Asia next month, if they get vacation.",
     "infinitive": "probably / travel",
-    "correctAnswers": ["will probably travel"],
+    "correctAnswers": ["will probably travel", "'ll probably travel"],
     "signalWords": ["next", "month"],
     "tense": "Will-Future",
     "explanation": "Das Wort 'probably' (wahrscheinlich) deutet auf eine Vermutung hin und verlangt das **Will-Future**. Es steht als Adverb zwischen 'will' und dem Infinitiv -> **will probably travel**."
@@ -562,81 +562,81 @@
   {
     "text": "Look at those black clouds! It _____ soon.",
     "infinitive": "rain",
-    "correctAnswers": ["is going to rain"],
-    "signalWords": ["Look", "black", "clouds"],
+    "correctAnswers": ["is going to rain", "'s going to rain"],
+    "signalWords": ["Look", "clouds"],
     "tense": "Going-to-Future",
     "explanation": "Es gibt einen klaren, sichtbaren Beweis in der Gegenwart ('Look at those black clouds!'), dass etwas gleich passieren wird. Das erfordert das **Going-to-Future** (*be + going to + Infinitiv*) -> **is going to rain**."
   },
   {
     "text": "We _____ to Rome next week because we have already booked the flight.",
     "infinitive": "fly",
-    "correctAnswers": ["are going to fly"],
-    "signalWords": ["booked", "flight"],
+    "correctAnswers": ["are going to fly", "'re going to fly"],
+    "signalWords": ["next", "week", "booked"],
     "tense": "Going-to-Future",
-    "explanation": "Das Buchen des Fluges ('booked') beweist eine feste Absicht und Planung für die Zukunft. Bei Plänen nutzen wir das **Going-to-Future**. 'We' erfordert 'are' -> **are going to fly**."
+    "explanation": "Das Buchen des Fluges ('booked') beweist eine feste Absicht und Planung für nächste Woche ('next week'). Bei Plänen nutzen wir das **Going-to-Future**. 'We' erfordert 'are' -> **are going to fly**."
   },
   {
     "text": "She _____ medicine next year; it has always been her dream.",
     "infinitive": "study",
-    "correctAnswers": ["is going to study"],
-    "signalWords": ["dream", "next", "year"],
+    "correctAnswers": ["is going to study", "'s going to study"],
+    "signalWords": ["next", "year"],
     "tense": "Going-to-Future",
-    "explanation": "Ein fester Lebensplan ('her dream', 'next year') wird im Englischen mit dem **Going-to-Future** ausgedrückt. Für 'She' gilt 'is' -> **is going to study**."
+    "explanation": "Ein fester Lebensplan ('next year') wird im Englischen mit dem **Going-to-Future** ausgedrückt. Für 'She' gilt 'is' -> **is going to study**."
   },
   {
     "text": "Look! The glass is very close to the edge. It _____ off the table.",
     "infinitive": "fall",
-    "correctAnswers": ["is going to fall"],
-    "signalWords": ["Look", "close", "edge"],
+    "correctAnswers": ["is going to fall", "'s going to fall"],
+    "signalWords": ["Look"],
     "tense": "Going-to-Future",
-    "explanation": "Die Situation in der Gegenwart zeigt unmissverständlich, was passieren wird (das Glas wackelt). Dies verlangt das **Going-to-Future** -> **is going to fall**."
+    "explanation": "Die Situation in der Gegenwart ('Look!') zeigt unmissverständlich, was passieren wird (das Glas steht am Rand). Dies verlangt das **Going-to-Future** -> **is going to fall**."
   },
   {
     "text": "I _____ my grandparents tonight; I have already promised them.",
     "infinitive": "visit",
-    "correctAnswers": ["am going to visit"],
-    "signalWords": ["tonight", "promised"],
+    "correctAnswers": ["am going to visit", "'m going to visit"],
+    "signalWords": ["tonight"],
     "tense": "Going-to-Future",
-    "explanation": "Ein festes Vorhaben für heute Abend ('tonight'), das bereits verabredet ist ('promised'). Pläne erfordern das **Going-to-Future**. Bei 'I' steht 'am' -> **am going to visit**."
+    "explanation": "Ein festes Vorhaben für heute Abend ('tonight'), das bereits verabredet ist. Pläne erfordern das **Going-to-Future**. Bei 'I' steht 'am' -> **am going to visit**."
   },
   {
     "text": "He _____ a new computer next week; he has saved enough money.",
     "infinitive": "buy",
-    "correctAnswers": ["is going to buy"],
-    "signalWords": ["saved", "money", "next", "week"],
+    "correctAnswers": ["is going to buy", "'s going to buy"],
+    "signalWords": ["next", "week"],
     "tense": "Going-to-Future",
-    "explanation": "Da er extra gespart hat, ist der Kauf fest geplant und vorbereitet -> **Going-to-Future**. 'He' verlangt 'is' -> **is going to buy**."
+    "explanation": "Da er extra gespart hat, ist der Kauf für nächste Woche ('next week') fest geplant und vorbereitet -> **Going-to-Future**. 'He' verlangt 'is' -> **is going to buy**."
   },
   {
     "text": "They _____ a new house next year; the architectural plans are finished.",
     "infinitive": "build",
-    "correctAnswers": ["are going to build"],
-    "signalWords": ["plans", "finished", "next", "year"],
+    "correctAnswers": ["are going to build", "'re going to build"],
+    "signalWords": ["next", "year"],
     "tense": "Going-to-Future",
-    "explanation": "Weil die Pläne fertig sind, handelt es sich um ein konkretes Vorhaben (**Going-to-Future**). 'They' benötigt 'are' -> **are going to build**."
+    "explanation": "Weil die Pläne fertig sind, handelt es sich für nächstes Jahr ('next year') um ein konkretes Vorhaben (**Going-to-Future**). 'They' benötigt 'are' -> **are going to build**."
   },
   {
     "text": "Look! That runner is far ahead. He _____ the race.",
     "infinitive": "win",
-    "correctAnswers": ["is going to win"],
-    "signalWords": ["Look", "far", "ahead"],
+    "correctAnswers": ["is going to win", "'s going to win"],
+    "signalWords": ["Look"],
     "tense": "Going-to-Future",
-    "explanation": "Der Läufer ist weit vorne – ein gegenwärtiges Anzeichen für das sichere Ergebnis. Wir verwenden das **Going-to-Future** -> **is going to win**."
+    "explanation": "Der Läufer ist weit vorne ('Look!') – ein gegenwärtiges Anzeichen für das sichere Ergebnis. Wir verwenden das **Going-to-Future** -> **is going to win**."
   },
   {
     "text": "I _____ a movie tonight with my friends; we bought the tickets.",
     "infinitive": "watch",
-    "correctAnswers": ["am going to watch"],
-    "signalWords": ["tonight", "tickets"],
+    "correctAnswers": ["am going to watch", "'m going to watch"],
+    "signalWords": ["tonight"],
     "tense": "Going-to-Future",
-    "explanation": "Ein Kinobesuch, für den bereits Tickets gekauft wurden, ist ein fester Plan -> **Going-to-Future**. Bei 'I' nutzen wir 'am' -> **am going to watch**."
+    "explanation": "Ein Kinobesuch heute Abend ('tonight'), für den bereits Tickets gekauft wurden, ist ein fester Plan -> **Going-to-Future**. Bei 'I' nutzen wir 'am' -> **am going to watch**."
   },
   {
     "text": "She _____ all her friends to her birthday party next week.",
     "infinitive": "invite",
-    "correctAnswers": ["is going to invite"],
-    "signalWords": ["birthday", "party", "next", "week"],
+    "correctAnswers": ["is going to invite", "'s going to invite"],
+    "signalWords": ["next", "week"],
     "tense": "Going-to-Future",
-    "explanation": "Die Vorbereitung einer Geburtstagsparty ist eine Absicht und Planung -> **Going-to-Future**. 'She' benötigt 'is' und das stumme '-e' bleibt bei 'going to' unverändert -> **is going to invite**."
+    "explanation": "Die Vorbereitung einer Geburtstagsparty nächste Woche ('next week') ist eine feste Absicht und Planung -> **Going-to-Future**. 'She' benötigt 'is' -> **is going to invite**."
   }
 ]
