@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GrammarHero 10 - Irregular Verbs Module (Tab & Grade Filter + Shuffle Pool)
+   GrammarHero 10 - Irregular Verbs Module (Cumulative Grade Filter + Shuffle Pool)
    ========================================================================== */
 
 import { updateGlobalStats, updateVerbsStreak } from "./storage.js";
@@ -18,7 +18,6 @@ let widgetChecked = false;
 export function initVerbsWidget(verbs) {
     verbData = Array.isArray(verbs) ? verbs : [];
     filteredVerbs = [...verbData];
-    refillVerbDeck();
 
     const form = document.getElementById("verbs-widget-form");
     if (form) {
@@ -36,8 +35,10 @@ export function initVerbsWidget(verbs) {
         });
     });
 
-    updateFilterCountBadge();
-    loadWidgetVerb();
+    // Prüfen, ob im HTML bereits ein bestimmter Button als .active markiert ist
+    const initialActiveBtn = document.querySelector(".verb-grade-btn.active");
+    const initialGrade = initialActiveBtn ? (initialActiveBtn.dataset.grade || "all") : "all";
+    setVerbGradeFilter(initialGrade);
 }
 
 /**
@@ -59,7 +60,7 @@ function refillVerbDeck() {
 }
 
 /**
- * Filtert das Verben-Array nach Klassenstufe ('all', '7', '8', '9', '10').
+ * Filtert das Verben-Array kumulativ bis einschließlich der gewählten Klassenstufe ('all', '7', '8', '9', '10').
  * @param {string} grade
  */
 export function setVerbGradeFilter(grade) {
@@ -73,7 +74,8 @@ export function setVerbGradeFilter(grade) {
         filteredVerbs = [...verbData];
     } else {
         const numericGrade = parseInt(currentGradeFilter, 10);
-        filteredVerbs = verbData.filter((v) => Number(v.grade) === numericGrade);
+        // Kumulativer Filter: Alle Verben BIS EINSCHLIESSLICH der gewählten Jahrgangsstufe (<=)
+        filteredVerbs = verbData.filter((v) => Number(v.grade) <= numericGrade);
         if (filteredVerbs.length === 0) {
             filteredVerbs = [...verbData];
         }
@@ -86,7 +88,7 @@ export function setVerbGradeFilter(grade) {
 }
 
 /**
- * Aktualisiert die optionale Anzeige der Anzahl gefilterter Verben im UI.
+ * Aktualisiert die Anzeige der Anzahl gefilterter Verben im UI.
  */
 function updateFilterCountBadge() {
     const countEl = document.getElementById("verbs-pool-count");
@@ -95,7 +97,7 @@ function updateFilterCountBadge() {
     const label =
         currentGradeFilter === "all"
             ? `Alle Klassen (${filteredVerbs.length} Verben)`
-            : `Klasse ${currentGradeFilter} (${filteredVerbs.length} Verben)`;
+            : `Bis Klasse ${currentGradeFilter} (${filteredVerbs.length} Verben)`;
     countEl.innerText = label;
 }
 
@@ -147,7 +149,6 @@ export function loadWidgetVerb() {
 function getAcceptedForms(rawForm) {
     const lower = rawForm.toLowerCase().trim();
     const parts = lower.split("/").map((v) => v.trim());
-    // Erlaubt sowohl Einzelteile ("was", "were") als auch Gesamteingaben ("was/were", "was / were", "was, were")
     return [
         ...parts,
         lower,
