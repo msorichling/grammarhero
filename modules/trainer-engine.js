@@ -13,7 +13,7 @@ let currentSentenceIndex = 0;
 let sentenceScore = 0;
 let totalRoundsPlayed = 0;      // Zähler für die absolvierten Runden
 
-let selectedWords = [];         // Aktuell angeklickte Tokens
+let selectedWords = [];         // Aktuell angeklickte Tokens (normalisiert)
 let activeSentence = null;
 let sentenceChecked = false;
 
@@ -48,6 +48,12 @@ export function initTrainer(sentences) {
     if (mobileInput) {
         mobileInput.addEventListener("input", () => {
             syncGapInputs(mobileInput.value, "mobile");
+        });
+        mobileInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                handleSentenceAction();
+            }
         });
     }
 
@@ -270,7 +276,8 @@ export function loadSentence() {
         }
 
         setMobileInputBarState(false, verbHintLabel);
-        updateDynamicInstructionCount(activeSentence.signalWords.map((w) => normalizeWord(w)));
+        const uniqueSignals = [...new Set(activeSentence.signalWords.map((w) => normalizeWord(w)))];
+        updateDynamicInstructionCount(uniqueSignals);
     }
 }
 
@@ -330,6 +337,12 @@ export function renderSentenceWithTokens() {
     gapInput.addEventListener("input", () => {
         syncGapInputs(gapInput.value, "desktop");
     });
+    gapInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSentenceAction();
+        }
+    });
     gapWrapper.appendChild(gapInput);
 
     // Mobile Lücken-Badge (ruhige Darstellung im Lesebereich auf Smartphones)
@@ -387,22 +400,25 @@ export function normalizeWord(word) {
 }
 
 /**
+ * Synchronisiert `selectedWords` anhand der tatsächlich im DOM markierten Tokens.
+ */
+function syncSelectedWordsFromDom() {
+    const selectedTokens = document.querySelectorAll(".word-token.selected");
+    selectedWords = [...new Set(Array.from(selectedTokens).map((el) => el.dataset.normalized))];
+}
+
+/**
  * Verarbeitet das Anklicken eines Wort-Tokens in Schritt 1.
  */
 export function selectWordToken(element) {
     if (sentenceChecked || !activeSentence) return;
 
     const norm = element.dataset.normalized;
-    const correctSignals = activeSentence.signalWords.map((w) => normalizeWord(w));
+    const correctSignals = [...new Set(activeSentence.signalWords.map((w) => normalizeWord(w)))];
 
     if (correctSignals.includes(norm)) {
-        if (element.classList.contains("selected")) {
-            element.classList.remove("selected");
-            selectedWords = selectedWords.filter((w) => w !== norm);
-        } else {
-            element.classList.add("selected");
-            selectedWords.push(norm);
-        }
+        element.classList.toggle("selected");
+        syncSelectedWordsFromDom();
     } else {
         element.classList.add("incorrect-flash");
         updateGlobalStats(-1);
@@ -462,7 +478,7 @@ function showFloatingXpFeedback(element, amount) {
 export function checkSignalWordsSelection() {
     if (!activeSentence) return;
 
-    const correctSignals = activeSentence.signalWords.map((w) => normalizeWord(w));
+    const correctSignals = [...new Set(activeSentence.signalWords.map((w) => normalizeWord(w)))];
 
     const allCorrectSelected = correctSignals.every((w) => selectedWords.includes(w));
     const noWrongSelected = selectedWords.every((w) => correctSignals.includes(w));
@@ -528,6 +544,21 @@ export function checkSignalWordsSelection() {
 }
 
 /**
+ * Normalisiert Verbformen (Mehrfach-Leerzeichen, typografische Apostrophe und Kurzformen).
+ */
+function normalizeVerbAnswer(str) {
+    return str
+        .trim()
+        .toLowerCase()
+        .replace(/[’‘`´]/g, "'")
+        .replace(/\s+/g, " ")
+        .replace(/\bwon't\b/g, "will not")
+        .replace(/\bshan't\b/g, "shall not")
+        .replace(/\bcan't\b/g, "cannot")
+        .replace(/n't\b/g, " not");
+}
+
+/**
  * Steuert den Haupt-Aktionsbutton (Prüfen -> Weiter).
  */
 export function handleSentenceAction() {
@@ -556,8 +587,8 @@ export function checkGapAnswer() {
         ? mobileInput.value
         : gapInput.value;
 
-    const userVal = rawVal.trim().toLowerCase();
-    const correctVariants = activeSentence.correctAnswers.map((v) => v.trim().toLowerCase());
+    const userVal = normalizeVerbAnswer(rawVal);
+    const correctVariants = activeSentence.correctAnswers.map((v) => normalizeVerbAnswer(v));
 
     const isCorrect = correctVariants.includes(userVal);
     sentenceChecked = true;

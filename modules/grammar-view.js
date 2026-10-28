@@ -45,6 +45,7 @@ export function renderGrammarCards() {
 
     for (const key in grammarLibrary) {
         const tense = grammarLibrary[key];
+        const subtitle = tense.subtitle || `${tense.signals.length} Signalwörter`;
 
         const card = document.createElement("div");
         card.className = "card glass-card grammar-card";
@@ -68,7 +69,7 @@ export function renderGrammarCards() {
         card.innerHTML = `
             <div class="grammar-card-header">
                 <h3>${tense.title}</h3>
-                <span class="subtitle-tag">${tense.title}</span>
+                <span class="subtitle-tag">${subtitle}</span>
             </div>
             
             <div class="grammar-formula">

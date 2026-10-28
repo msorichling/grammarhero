@@ -1,11 +1,12 @@
 /* ==========================================================================
-   GrammarHero 10 - Irregular Verbs Module (Tab & Grade Filter)
+   GrammarHero 10 - Irregular Verbs Module (Tab & Grade Filter + Shuffle Pool)
    ========================================================================== */
 
 import { updateGlobalStats, updateVerbsStreak } from "./storage.js";
 
 let verbData = [];
 let filteredVerbs = [];
+let verbDeck = []; // Shuffle-Pool (Ziehen ohne Zurücklegen)
 let currentGradeFilter = "all";
 let widgetCurrentVerb = null;
 let widgetChecked = false;
@@ -17,6 +18,7 @@ let widgetChecked = false;
 export function initVerbsWidget(verbs) {
     verbData = Array.isArray(verbs) ? verbs : [];
     filteredVerbs = [...verbData];
+    refillVerbDeck();
 
     const form = document.getElementById("verbs-widget-form");
     if (form) {
@@ -36,6 +38,24 @@ export function initVerbsWidget(verbs) {
 
     updateFilterCountBadge();
     loadWidgetVerb();
+}
+
+/**
+ * Mischt den aktuellen Filter-Pool per Fisher-Yates-Shuffle neu durch.
+ */
+function refillVerbDeck() {
+    const source = filteredVerbs.length > 0 ? filteredVerbs : verbData;
+    verbDeck = [...source];
+
+    for (let i = verbDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [verbDeck[i], verbDeck[j]] = [verbDeck[j], verbDeck[i]];
+    }
+
+    // Verhindere beim Neu-Mischen, dass das erste neue Verb identisch mit dem letzten alten ist
+    if (verbDeck.length > 1 && widgetCurrentVerb && verbDeck[0].inf === widgetCurrentVerb.inf) {
+        [verbDeck[0], verbDeck[verbDeck.length - 1]] = [verbDeck[verbDeck.length - 1], verbDeck[0]];
+    }
 }
 
 /**
@@ -59,6 +79,8 @@ export function setVerbGradeFilter(grade) {
         }
     }
 
+    widgetCurrentVerb = null;
+    refillVerbDeck();
     updateFilterCountBadge();
     loadWidgetVerb();
 }
@@ -78,19 +100,16 @@ function updateFilterCountBadge() {
 }
 
 /**
- * Lädt ein zufälliges Verb aus dem aktuell gefilterten Pool und setzt die Eingabefelder zurück.
+ * Zieht das nächste Verb aus dem gemischten Deck (ohne Wiederholungen innerhalb eines Durchlaufs).
  */
 export function loadWidgetVerb() {
-    const pool = filteredVerbs.length > 0 ? filteredVerbs : verbData;
-    if (!pool.length) return;
+    if (!verbData.length) return;
 
-    // Vermeide nach Möglichkeit zweimal direkt hintereinander dasselbe Verb
-    let candidates = pool;
-    if (pool.length > 1 && widgetCurrentVerb) {
-        candidates = pool.filter((v) => v.inf !== widgetCurrentVerb.inf);
+    if (verbDeck.length === 0) {
+        refillVerbDeck();
     }
 
-    widgetCurrentVerb = candidates[Math.floor(Math.random() * candidates.length)];
+    widgetCurrentVerb = verbDeck.shift();
 
     const targetEl = document.getElementById("verb-german-target");
     if (targetEl) {
@@ -123,6 +142,21 @@ export function loadWidgetVerb() {
 }
 
 /**
+ * Erzeugt ein Array gültiger Antwortvarianten (inkl. voller "was/were"-Eingabe).
+ */
+function getAcceptedForms(rawForm) {
+    const lower = rawForm.toLowerCase().trim();
+    const parts = lower.split("/").map((v) => v.trim());
+    // Erlaubt sowohl Einzelteile ("was", "were") als auch Gesamteingaben ("was/were", "was / were", "was, were")
+    return [
+        ...parts,
+        lower,
+        parts.join(" / "),
+        parts.join(", ")
+    ];
+}
+
+/**
  * Prüft die eingegebenen drei Stammformen oder lädt nach erfolgter Prüfung das nächste Verb.
  */
 export function checkWidgetVerbs() {
@@ -141,9 +175,9 @@ export function checkWidgetVerbs() {
     const valSp = document.getElementById("widget-sp").value.trim().toLowerCase();
     const valPp = document.getElementById("widget-pp").value.trim().toLowerCase();
 
-    const correctInf = widgetCurrentVerb.inf.toLowerCase().split("/").map((v) => v.trim());
-    const correctSp = widgetCurrentVerb.sp.toLowerCase().split("/").map((v) => v.trim());
-    const correctPp = widgetCurrentVerb.pp.toLowerCase().split("/").map((v) => v.trim());
+    const correctInf = getAcceptedForms(widgetCurrentVerb.inf);
+    const correctSp = getAcceptedForms(widgetCurrentVerb.sp);
+    const correctPp = getAcceptedForms(widgetCurrentVerb.pp);
 
     const isInfOk = correctInf.includes(valInf);
     const isSpOk = correctSp.includes(valSp);
