@@ -144,16 +144,25 @@ export function loadWidgetVerb() {
 }
 
 /**
- * Erzeugt ein Array gültiger Antwortvarianten (inkl. voller "was/were"-Eingabe).
+ * Erzeugt ein Array gültiger Antwortvarianten (inkl. voller "was/were"-Eingabe und Alternativformen).
  */
 function getAcceptedForms(rawForm) {
     const lower = rawForm.toLowerCase().trim();
-    const parts = lower.split("/").map((v) => v.trim());
+    // Teilt auch bei Schrägstrichen (z.B. burnt/burned oder lit/lighted)
+    const variants = lower.split("/").map((v) => v.trim());
+    let results = [...variants, lower];
+
+    variants.forEach(part => {
+        const subParts = part.split(",").map(p => p.trim());
+        results.push(...subParts);
+    });
+
     return [
-        ...parts,
-        lower,
-        parts.join(" / "),
-        parts.join(", ")
+        ...new Set([
+            ...results,
+            variants.join(" / "),
+            variants.join(", ")
+        ])
     ];
 }
 
